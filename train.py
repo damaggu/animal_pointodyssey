@@ -16,7 +16,7 @@ from utils import log_to_dir
 
 
 ALL_ENVS = {
-    "acrobot-swingup": gym.make("dm_control/acrobot-swingup-v0")
+    "acrobot-swingup": gym.make("dm_control/acrobot-swingup-v0", render_mode="rgb_array")
 }
 
 def parse_args(argparser: argparse.ArgumentParser) -> None:
@@ -42,7 +42,7 @@ def get_video(model: BaseAlgorithm, video_name: str, vid_length: int) -> None:
     
 
 def main(args: argparse.Namespace):
-    env = gym.make("dm_control/acrobot-swingup-v0", render_mode="rgb_array")
+    env = ALL_ENVS[args.env]
     env = NormalizeObservation(FlattenObservation(env))
     env.metadata["render_fps"] = 60
 
@@ -60,8 +60,6 @@ def main(args: argparse.Namespace):
     checkpoint_callback = CheckpointCallback(save_freq=10_000, save_path=os.path.join(curr_dir, args.model_directory), name_prefix="model_", save_replay_buffer=True, save_vecnormalize=True)
 
     model.learn(total_timesteps=args.num_timesteps, progress_bar=True, callback=[eval_callback, checkpoint_callback])
-    # video_env.close_video_recorder()
-    # video_env.close()
     get_video(model, "final_video", vid_length=1_000)
 
 
