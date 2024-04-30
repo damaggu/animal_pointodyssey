@@ -55,14 +55,16 @@
                 </body>
               </body>
               <body name="ShoulderLeft" pos="1.0153232210541319e-07 -0.31160008907318115 0.07149171829223633">
-                <joint axis="0 1 0" name="j3" range="-45 45"/>
-                <joint axis="1 0 0" name="j4" range="-45 45"/>
+
                 <geom type="capsule" name="ShoulderLeft geom" size="0.05" fromto="0 0 0 0.34999996423721313 -0.08436477184295654 -0.31626665592193604"/>
                 <body name="ArmLeft" pos="0.34999996423721313 -0.08436477184295654 -0.31626665592193604">
+                  <joint axis="0 1 0" name="j3" range="-45 45"/>
+                  <joint axis="1 0 0" name="j4" range="-45 45"/>
                   <geom type="capsule" name="ArmLeft geom" size="0.05" fromto="0 0 0 0.03542414307594299 1.1920928955078125e-07 -0.41018325090408325"/>
                   <body name="ArmLeft.001" pos="0.03542414307594299 1.1920928955078125e-07 -0.41018325090408325">
                     <geom type="capsule" name="ArmLeft.001 geom" size="0.05" fromto="0 0 0 0.02759292721748352 -1.1920928955078125e-07 -0.12002027034759521"/>
                     <body name="ArmLeft.002" pos="0.02759292721748352 -1.1920928955078125e-07 -0.12002027034759521">
+                      <joint axis="1 0 0" name="k1" range="-45 45"/>
                       <geom type="capsule" name="ArmLeft.002 geom" size="0.05" fromto="0 0 0 5.960464477539063e-08 0.0 -0.1987273097038269"/>
                       <body name="ArmLeft.003" pos="5.960464477539063e-08 0.0 -0.1987273097038269">
                         <geom type="capsule" name="ArmLeft.003 geom" size="0.05" fromto="0 0 0 -0.04096323251724243 0.10052049160003662 -0.29688477516174316"/>
@@ -78,14 +80,17 @@
                 </body>
               </body>
               <body name="ShoulderRight" pos="1.0153232210541319e-07 -0.31160008907318115 0.07149171829223633">
-                <joint axis="0 1 0" name="j5" range="-45 45"/>
-                <joint axis="1 0 0" name="j6" range="-45 45"/>
+
                 <geom type="capsule" name="ShoulderRight geom" size="0.05" fromto="0 0 0 -0.34894680976867676 -0.08443993330001831 -0.3162282705307007"/>
                 <body name="ArmRight" pos="-0.34894680976867676 -0.08443993330001831 -0.3162282705307007">
+                  <joint axis="0 1 0" name="j5" range="-45 45"/>
+                  <joint axis="1 0 0" name="j6" range="-45 45"/>
                   <geom type="capsule" name="ArmRight geom" size="0.05" fromto="0 0 0 -0.03542408347129822 -2.384185791015625e-07 -0.4101829528808594"/>
                   <body name="ArmRight.001" pos="-0.03542408347129822 -2.384185791015625e-07 -0.4101829528808594">
+
                     <geom type="capsule" name="ArmRight.001 geom" size="0.05" fromto="0 0 0 -0.027592897415161133 1.7881393432617188e-07 -0.12002015113830566"/>
                     <body name="ArmRight.002" pos="-0.027592897415161133 1.7881393432617188e-07 -0.12002015113830566">
+                      <joint axis="1 0 0" name="k2" range="-45 45"/>
                       <geom type="capsule" name="ArmRight.002 geom" size="0.05" fromto="0 0 0 -8.940696716308594e-08 0.0 -0.19872748851776123"/>
                       <body name="ArmRight.003" pos="-8.940696716308594e-08 0.0 -0.19872748851776123">
                         <geom type="capsule" name="ArmRight.003 geom" size="0.05" fromto="0 0 0 0.040963053703308105 0.1005205512046814 -0.296884685754776"/>
@@ -105,15 +110,17 @@
         </body>
       </body>
       <body name="HipLeft" pos="3.085051503148861e-08 -0.09467959403991699 -0.02700936794281006">
-      <joint axis="0 1 0" name="j7" range="-45 45"/>
-      <joint axis="1 0 0" name="j8" range="-45 45"/>
+
         <geom type="capsule" name="HipLeft geom" size="0.05" fromto="0 0 0 0.34999996423721313 -0.13724637031555176 -0.4646819829940796"/>
         <body name="FootLeft" pos="0.34999996423721313 -0.13724637031555176 -0.4646819829940796">
+          <joint axis="0 1 0" name="j7" range="-45 45"/>
+          <joint axis="1 0 0" name="j8" range="-45 45"/>
           <site name="footleft" pos="0 0 0"/>
           <geom type="capsule" name="FootLeft geom" size="0.05" fromto="0 0 0 -0.032048940658569336 0.06055033206939697 -0.40792691707611084"/>
           <body name="FootLeft.001" pos="-0.032048940658569336 0.06055033206939697 -0.40792691707611084">
             <geom type="capsule" name="FootLeft.001 geom" size="0.05" fromto="0 0 0 2.9802322387695312e-08 0.0391806960105896 -0.021956145763397217"/>
             <body name="FootLeft.002" pos="2.9802322387695312e-08 0.0391806960105896 -0.021956145763397217">
+              <joint axis="1 0 0" name="k3" range="-45 45"/>
               <geom type="capsule" name="FootLeft.002 geom" size="0.05" fromto="0 0 0 1.1920928955078125e-07 0.041610658168792725 -0.29528218507766724"/>
               <body name="FootLeft.003" pos="1.1920928955078125e-07 0.041610658168792725 -0.29528218507766724">
                 <geom type="capsule" name="FootLeft.003 geom" size="0.05" fromto="0 0 0 -0.02862563729286194 0.04275554418563843 -0.07143694162368774"/>
@@ -135,16 +142,17 @@
         </body>
       </body>
       <body name="HipRight" pos="3.085051503148861e-08 -0.09467959403991699 -0.02700936794281006">
-      <joint axis="0 1 0" name="j1" range="-45 45"/>
-      <joint axis="1 0 0" name="j2" range="-45 45"/>
+
         <geom type="capsule" name="HipRight geom" size="0.05" fromto="0 0 0 -0.34999993443489075 -0.13724714517593384 -0.46466493606567383"/>
         <body name="FootRight" pos="-0.34999993443489075 -0.13724714517593384 -0.46466493606567383">
-
+          <joint axis="0 1 0" name="j1" range="-45 45"/>
+          <joint axis="1 0 0" name="j2" range="-45 45"/>
           <site name="footright" pos="0 0 0"/>
           <geom type="capsule" name="FootRight geom" size="0.05" fromto="0 0 0 0.032048821449279785 0.06055039167404175 -0.40792691707611084"/>
           <body name="FootRight.001" pos="0.032048821449279785 0.06055039167404175 -0.40792691707611084">
             <geom type="capsule" name="FootRight.001 geom" size="0.05" fromto="0 0 0 1.1920928955078125e-07 0.039180636405944824 -0.02195608615875244"/>
             <body name="FootRight.002" pos="1.1920928955078125e-07 0.039180636405944824 -0.02195608615875244">
+              <joint axis="1 0 0" name="k4" range="-45 45"/>
               <geom type="capsule" name="FootRight.002 geom" size="0.05" fromto="0 0 0 1.4901161193847656e-07 0.0416107177734375 -0.295282244682312"/>
               <body name="FootRight.003" pos="1.4901161193847656e-07 0.0416107177734375 -0.295282244682312">
                 <geom type="capsule" name="FootRight.003 geom" size="0.05" fromto="0 0 0 0.02862563729286194 0.042755842208862305 -0.07143697142601013"/>
