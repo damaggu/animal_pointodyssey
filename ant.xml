@@ -54,14 +54,14 @@
   
   
     <actuator>
-    <motor name="p1" joint="j1" gear="100"/>
-    <motor name="p2" joint="j2" gear="100"/>
-    <motor name="p3" joint="j3" gear="100"/>
-    <motor name="p4" joint="j4" gear="100"/>
-    <motor name="p5" joint="j5" gear="100"/>
-    <motor name="p6" joint="j6" gear="100"/>
-    <motor name="p7" joint="j7" gear="100"/>
-    <motor name="p8" joint="j8" gear="100"/>
+    <motor name="p1" joint="j0" gear="100"/>
+    <motor name="p2" joint="j1" gear="100"/>
+    <motor name="p3" joint="j2" gear="100"/>
+    <motor name="p4" joint="j3" gear="100"/>
+    <motor name="p5" joint="j4" gear="100"/>
+    <motor name="p6" joint="j5" gear="100"/>
+    <motor name="p7" joint="j6" gear="100"/>
+    <motor name="p8" joint="j7" gear="100"/>
   </actuator>
   
 <asset>
