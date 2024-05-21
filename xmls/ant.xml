@@ -1,7 +1,13 @@
 <mujoco>
   <compiler meshdir="./mesh"/>
+  <default>
+    <motor ctrlrange="-1. 1." ctrllimited="true"/>
+    <!-- <joint type="hinge" axis="0 1 0" limited="true" damping=".05" armature=".2"/> -->
+  </default>
+
   <worldbody>
     <geom name="floor" size="0 0 .05" type="plane" material="grid" condim="3"/>
+    <camera name="cam0" pos="-0.5 -7.5 3" xyaxes="1 -0.05 0 0 0.3 1" mode="trackcom"/>
     <body name="root" pos="0 0 2">
     <joint type="free"/>
       <geom type="capsule" name="root geom" size="0.05" fromto="0 0 0 -0.0 0.0 -0.43334996700286865"/>
@@ -54,14 +60,14 @@
   
   
     <actuator>
-    <motor name="p1" joint="j0" gear="100"/>
-    <motor name="p2" joint="j1" gear="100"/>
-    <motor name="p3" joint="j2" gear="100"/>
-    <motor name="p4" joint="j3" gear="100"/>
-    <motor name="p5" joint="j4" gear="100"/>
-    <motor name="p6" joint="j5" gear="100"/>
-    <motor name="p7" joint="j6" gear="100"/>
-    <motor name="p8" joint="j7" gear="100"/>
+    <motor name="p1" joint="j0" gear="150"/>
+    <motor name="p2" joint="j1" gear="150"/>
+    <motor name="p3" joint="j2" gear="150"/>
+    <motor name="p4" joint="j3" gear="150"/>
+    <motor name="p5" joint="j4" gear="150"/>
+    <motor name="p6" joint="j5" gear="150"/>
+    <motor name="p7" joint="j6" gear="150"/>
+    <motor name="p8" joint="j7" gear="150"/>
   </actuator>
   
 <asset>
