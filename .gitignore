@@ -1,5 +1,6 @@
 _test*
 *logs/
+*.code-workspace
 
 
 # From Github

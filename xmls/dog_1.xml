@@ -6,6 +6,8 @@
   </default>
 
   <worldbody>
+    <camera name="cam0" pos="0 -7.5 3" xyaxes="1 0 0 0 0.3 1" mode="trackcom"/>
+    <camera name="back" pos="-6 -1.5 2" xyaxes="0 -1 0 .5 0 2" mode="trackcom"/>
     <geom name="floor" size="0 0 .05" type="plane" material="grid" condim="3"/>
     <body name="Root" pos="0 0 2">
     <joint type="free"/>
