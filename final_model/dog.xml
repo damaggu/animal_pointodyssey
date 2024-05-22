@@ -39,9 +39,9 @@
         </body>
         <body name="Back.001_Dog" pos="-1.0658141036401503e-14 0.050057217478752136 -2.980232949312267e-08" quat="0.99036258459091187 0.13849888741970062 -4.7701037564351623e-10 4.5369357160041091e-09">
           <body name="Back.002_Dog" pos="-3.5527136788005009e-15 0.12968122959136963 6.7332863729063774e-09" quat="0.99957150220870972 -0.029271746054291725 -1.1831433610609565e-08 -5.9826210652147438e-10">
-            <joint name="rx_Back.002_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="0.01" range="-30.000000834826057 30.000000834826057" damping="0.01"/>
-            <joint name="ry_Back.002_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="0.01" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
-            <joint name="rz_Back.002_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="0.01" range="-30.000000834826057 30.000000834826057" damping="0.01"/>
+            <joint name="rx_Back.002_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="1" range="-30.000000834826057 30.000000834826057" damping="0.01"/>
+            <joint name="ry_Back.002_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="1" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
+            <joint name="rz_Back.002_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="1" range="-30.000000834826057 30.000000834826057" damping="0.01"/>
             <body name="Back.003_Dog" pos="-9.7699626167013776e-15 0.26244997978210449 -5.2386894822120667e-08" quat="0.99887073040008545 -0.04751003161072731 1.0723484322738841e-08 -9.1886181996514438e-10">
               <body name="Back.004_Dog" pos="-1.4210854715202004e-14 0.15391296148300171 2.7939679014821195e-08" quat="0.9820854663848877 0.18843616545200348 -6.5686926120633871e-08 -6.936229368648128e-09">
                 <body name="Neck_Dog" pos="-1.4210854715202004e-14 0.16253988444805145 2.2351745343485163e-08" quat="0.9976351261138916 0.068732485175132751 7.4140544370493444e-08 -2.0196244676640163e-09">
@@ -62,18 +62,18 @@
                 </body>
                 <body name="ShoulderRight_Dog" pos="-1.4210854715202004e-14 0.16253988444805145 2.2351745343485163e-08" quat="0.68284082412719727 -0.3033662736415863 0.21409037709236145 -0.62917619943618774">
                   <body name="ArmRight_Dog" pos="1.862645149230957e-08 0.24324259161949158 -4.2840838432312012e-08" quat="0.92766791582107544 -0.365883469581604 -0.0084130512550473213 -0.074099943041801453">
-                    <joint name="rx_ArmRight_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="0.01" range="-9.9999997090929202 30.000000834826057" damping="0.01"/>
-                    <joint name="ry_ArmRight_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="0.01" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
-                    <joint name="rz_ArmRight_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="0.01" range="-60.000001669652114 60.000001669652114" damping="0.01"/>
+                    <joint name="rx_ArmRight_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="1" range="-9.9999997090929202 30.000000834826057" damping="0.01"/>
+                    <joint name="ry_ArmRight_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="1" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
+                    <joint name="rz_ArmRight_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="1" range="-60.000001669652114 60.000001669652114" damping="0.01"/>
                     <body name="ArmRight.001_Dog" pos="-1.7695128917694092e-08 0.20932184159755707 1.862645149230957e-08" quat="0.99755704402923584 0.069699868559837341 -0.00010807572834892198 -0.0046784896403551102">
-                      <joint name="rx_ArmRight.001_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="0.01" range="-19.99999941818584 45.00000125223908" damping="0.01"/>
-                      <joint name="ry_ArmRight.001_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="0.01" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
-                      <joint name="rz_ArmRight.001_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="0.01" range="-60.000001669652114 79.999997672743362" damping="0.01"/>
+                      <joint name="rx_ArmRight.001_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="1" range="-19.99999941818584 45.00000125223908" damping="0.01"/>
+                      <joint name="ry_ArmRight.001_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="1" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
+                      <joint name="rz_ArmRight.001_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="1" range="-60.000001669652114 79.999997672743362" damping="0.01"/>
                       <body name="ArmRight.002_Dog" pos="-3.3993273973464966e-08 0.062612615525722504 -1.3038516044616699e-08" quat="0.99362367391586304 -0.11249101907014847 -0.00027793622575700283 0.0075936946086585522">
                         <body name="ArmRight.003_Dog" pos="-2.942176280384956e-09 0.10103710740804672 -7.5035870850115316e-09" quat="0.98458600044250488 -0.074383199214935303 0.01369912177324295 -0.1577020138502121">
                           <body name="ArmRight.004_Dog" pos="2.1420419216156006e-08 0.16071483492851257 1.257285475730896e-08" quat="0.98288679122924805 0.096679672598838806 -0.0092000663280487061 0.15653108060359955">
                             <body name="ArmRight.005_Dog" pos="-1.8641003407537937e-08 0.14895220100879669 8.149072527885437e-09" quat="0.73899692296981812 0.03008941188454628 0.012665978632867336 0.67291742563247681">
-                              <joint name="rz_ArmRight.005_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="0.01" range="-39.999998836371681 30.000000834826057" damping="0.01"/>
+                              <joint name="rz_ArmRight.005_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="1" range="-39.999998836371681 30.000000834826057" damping="0.01"/>
                               <geom name="Cylinder.001_Brown" class="/" type="mesh" material="Brown" pos="0.13978566229343414 -0.39054191112518311 -0.23907096683979034" quat="0.36243957281112671 -0.54493361711502075 0.46085137128829956 0.59941864013671875" mesh="Cylinder.003_Brown"/>
                             </body>
                             <geom name="Cylinder.008_Brown" class="/" type="mesh" material="Brown" pos="0.39826029539108276 0.11908590048551559 -0.26403605937957764" quat="0.010818927548825741 0.68651211261749268 -0.084341026842594147 -0.722129225730896" mesh="Cylinder.010_Brown"/>
@@ -87,18 +87,18 @@
                 </body>
                 <body name="ShoulderLeft_Dog" pos="2.2586903014598647e-07 0.16253988444805145 2.2351738238057806e-08" quat="0.68284100294113159 -0.3033662736415863 -0.21409030258655548 0.62917602062225342">
                   <body name="ArmLeft_Dog" pos="-5.5879354476928711e-09 0.24324262142181396 -1.4156103134155273e-07" quat="0.92766791582107544 -0.36588343977928162 0.0084131183102726936 0.074099980294704437">
-                    <joint name="rx_ArmLeft_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="0.01" range="-9.9999997090929202 30.000000834826057" damping="0.01"/>
-                    <joint name="ry_ArmLeft_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="0.01" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
-                    <joint name="rz_ArmLeft_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="0.01" range="-60.000001669652114 60.000001669652114" damping="0.01"/>
+                    <joint name="rx_ArmLeft_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="1" range="-9.9999997090929202 30.000000834826057" damping="0.01"/>
+                    <joint name="ry_ArmLeft_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="1" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
+                    <joint name="rz_ArmLeft_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="1" range="-60.000001669652114 60.000001669652114" damping="0.01"/>
                     <body name="ArmLeft.001_Dog" pos="-3.2596290111541748e-08 0.20932181179523468 3.3527612686157227e-08" quat="0.99755704402923584 0.069699868559837341 0.0001080808651749976 0.0046784840524196625">
-                      <joint name="rx_ArmLeft.001_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="0.01" range="-19.99999941818584 45.00000125223908" damping="0.01"/>
-                      <joint name="ry_ArmLeft.001_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="0.01" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
-                      <joint name="rz_ArmLeft.001_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="0.01" range="-60.000001669652114 79.999997672743362" damping="0.01"/>
+                      <joint name="rx_ArmLeft.001_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="1" range="-19.99999941818584 45.00000125223908" damping="0.01"/>
+                      <joint name="ry_ArmLeft.001_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="1" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
+                      <joint name="rz_ArmLeft.001_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="1" range="-60.000001669652114 79.999997672743362" damping="0.01"/>
                       <body name="ArmLeft.002_Dog" pos="-1.3504177331924438e-08 0.062612585723400116 9.3132257461547852e-09" quat="0.99362367391586304 -0.11249101161956787 0.00027793014305643737 -0.0075936992652714252">
                         <body name="ArmLeft.003_Dog" pos="-5.7336508874072933e-09 0.10103718191385269 2.2176038783072727e-09" quat="0.98458600044250488 -0.074383184313774109 -0.013699150644242764 0.15770198404788971">
                           <body name="ArmLeft.004_Dog" pos="-1.4901161193847656e-08 0.16071484982967377 -2.3283064365386963e-09" quat="0.98288679122924805 0.0966796875 0.0092000225558876991 -0.15653105080127716">
                             <body name="ArmLeft.005_Dog" pos="2.5174813345074654e-09 0.14895224571228027 3.9581209421157837e-09" quat="0.73899686336517334 0.030089417472481728 -0.012665859423577785 -0.67291748523712158">
-                              <joint name="rz_ArmLeft.005_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="0.01" range="-39.999998836371681 30.000000834826057" damping="0.01"/>
+                              <joint name="rz_ArmLeft.005_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="1" range="-39.999998836371681 30.000000834826057" damping="0.01"/>
                               <geom name="ArmLeft.005_Brown" class="/" type="mesh" material="Brown" pos="-0.15205880999565125 -0.38021057844161987 -0.18469715118408203" quat="0.40569213032722473 -0.55577927827835083 -0.43454203009605408 -0.58111774921417236" mesh="Cylinder.002_Brown"/>
                             </body>
                             <geom name="Cylinder.009_Brown" class="/" type="mesh" material="Brown" pos="-0.39544430375099182 0.14908723533153534 -0.21448235213756561" quat="0.016915792599320412 -0.67774569988250732 -0.04625275731086731 -0.73364526033401489" mesh="Cylinder.011_Brown"/>
@@ -118,20 +118,20 @@
         </body>
         <body name="HipRight_Dog" pos="-1.0658141036401503e-14 0.050057217478752136 -2.980232949312267e-08" quat="0.77502119541168213 -0.2306799441576004 0.34114810824394226 -0.47931921482086182">
           <body name="FootRight_Dog" pos="-1.862645149230957e-08 0.30388465523719788 -2.6077032089233398e-08" quat="0.91847139596939087 -0.3865152895450592 -0.016086364164948463 -0.082204096019268036">
-            <joint name="rx_FootRight_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="0.01" range="-19.99999941818584 30.000000834826057" damping="0.01"/>
-            <joint name="ry_FootRight_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="0.01" range="-9.9999997090929202 19.99999941818584" damping="0.01"/>
-            <joint name="rz_FootRight_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="0.01" range="-60.000001669652114 79.999997672743362" damping="0.01"/>
+            <joint name="rx_FootRight_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="1" range="-19.99999941818584 30.000000834826057" damping="0.01"/>
+            <joint name="ry_FootRight_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="1" range="-9.9999997090929202 19.99999941818584" damping="0.01"/>
+            <joint name="rz_FootRight_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="1" range="-60.000001669652114 79.999997672743362" damping="0.01"/>
             <body name="FootRight.001_Dog" pos="1.862645149230957e-08 0.21030315756797791 -1.862645149230957e-09" quat="0.89712107181549072 -0.10814328491687775 -0.0088257035240530968 -0.42825332283973694">
               <body name="FootRight.002_Dog" pos="-2.2351741790771484e-08 0.022834798321127892 3.7252902984619141e-09" quat="0.89604842662811279 0.15411078929901123 0.00053236348321661353 0.4163493812084198">
                 <body name="FootRight.003_Dog" pos="3.7252902984619141e-08 0.15161097049713135 -3.7252902984619141e-09" quat="0.96641802787780762 -0.2182590514421463 0.040826909244060516 -0.12935358285903931">
                   <body name="FootRight.004_Dog" pos="-1.4901161193847656e-08 0.044760465621948242 1.4901161193847656e-08" quat="0.99816572666168213 0.057132966816425323 -7.7438147854991257e-05 -0.020026952028274536">
-                    <joint name="rx_FootRight.004_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="0.01" range="-9.9999997090929202 19.99999941818584" damping="0.01"/>
-                    <joint name="ry_FootRight.004_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="0.01" range="-19.99999941818584 9.9999997090929202" damping="0.01"/>
-                    <joint name="rz_FootRight.004_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="0.01" range="-100.0000005060238 9.9999997090929202" damping="0.01"/>
+                    <joint name="rx_FootRight.004_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="1" range="-9.9999997090929202 19.99999941818584" damping="0.01"/>
+                    <joint name="ry_FootRight.004_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="1" range="-19.99999941818584 9.9999997090929202" damping="0.01"/>
+                    <joint name="rz_FootRight.004_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="1" range="-100.0000005060238 9.9999997090929202" damping="0.01"/>
                     <body name="FootRight.005_Dog" pos="2.6077032089233398e-08 0.043279193341732025 1.0244548320770264e-08" quat="0.95833289623260498 0.18451130390167236 -0.034643836319446564 0.21529875695705414">
                       <body name="FootRight.006_Dog" pos="2.0375622966639639e-08 0.1148003414273262 5.1840203241226845e-09" quat="0.99522483348846436 0.033581014722585678 6.1103302869014442e-05 0.091650426387786865">
                         <body name="FootRight.007_Dog" pos="-4.0046870708465576e-08 0.049606744199991226 -1.0113581083714962e-09" quat="0.77274942398071289 0.2186586856842041 -0.00044124052510596812 0.59585779905319214">
-                          <joint name="rz_FootRight.007_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="0.01" range="-30.000000834826057 30.000000834826057" damping="0.01"/>
+                          <joint name="rz_FootRight.007_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="1" range="-30.000000834826057 30.000000834826057" damping="0.01"/>
                           <geom name="Cylinder.002_Brown" class="/" type="mesh" material="Brown" pos="-0.32675755023956299 0.25573250651359558 -0.19931748509407043" quat="0.136004239320755 -0.53936493396759033 0.41037541627883911 0.72262054681777954" mesh="Cylinder.004_Brown"/>
                         </body>
                       </body>
@@ -146,20 +146,20 @@
         </body>
         <body name="HipLeft_Dog" pos="-2.317460570111507e-07 0.050057217478752136 -2.9802315282267955e-08" quat="0.77502143383026123 -0.23068022727966309 -0.341147780418396 0.47931888699531555">
           <body name="FootLeft_Dog" pos="-3.7252902984619141e-09 0.30388462543487549 -6.3329935073852539e-08" quat="0.91847145557403564 -0.38651520013809204 0.016086051240563393 0.082203999161720276">
-            <joint name="rx_FootLeft_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="0.01" range="-19.99999941818584 30.000000834826057" damping="0.01"/>
-            <joint name="ry_FootLeft_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="0.01" range="-9.9999997090929202 19.99999941818584" damping="0.01"/>
-            <joint name="rz_FootLeft_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="0.01" range="-60.000001669652114 79.999997672743362" damping="0.01"/>
+            <joint name="rx_FootLeft_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="1" range="-19.99999941818584 30.000000834826057" damping="0.01"/>
+            <joint name="ry_FootLeft_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="1" range="-9.9999997090929202 19.99999941818584" damping="0.01"/>
+            <joint name="rz_FootLeft_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="1" range="-60.000001669652114 79.999997672743362" damping="0.01"/>
             <body name="FootLeft.001_Dog" pos="-1.4901161193847656e-08 0.21030311286449432 -5.5879354476928711e-09" quat="0.8971211314201355 -0.10814322531223297 0.0088256243616342545 0.42825326323509216">
               <body name="FootLeft.002_Dog" pos="7.4505805969238281e-09 0.022834764793515205 -3.7252902984619141e-09" quat="0.89604842662811279 0.15411069989204407 -0.00053244247101247311 -0.41634941101074219">
                 <body name="FootLeft.003_Dog" pos="-1.862645149230957e-08 0.15161097049713135 4.6566128730773926e-09" quat="0.96641808748245239 -0.21825902163982391 -0.040826689451932907 0.1293535977602005">
                   <body name="FootLeft.004_Dog" pos="3.7252902984619141e-09 0.044760476797819138 3.5390257835388184e-08" quat="0.99816572666168213 0.057132970541715622 7.7070471888873726e-05 0.020026877522468567">
-                    <joint name="rx_FootLeft.004_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="0.01" range="-9.9999997090929202 19.99999941818584" damping="0.01"/>
-                    <joint name="ry_FootLeft.004_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="0.01" range="-19.99999941818584 9.9999997090929202" damping="0.01"/>
-                    <joint name="rz_FootLeft.004_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="0.01" range="-100.0000005060238 9.9999997090929202" damping="0.01"/>
+                    <joint name="rx_FootLeft.004_Dog" class="/" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" stiffness="1" range="-9.9999997090929202 19.99999941818584" damping="0.01"/>
+                    <joint name="ry_FootLeft.004_Dog" class="/" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" stiffness="1" range="-19.99999941818584 9.9999997090929202" damping="0.01"/>
+                    <joint name="rz_FootLeft.004_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="1" range="-100.0000005060238 9.9999997090929202" damping="0.01"/>
                     <body name="FootLeft.005_Dog" pos="7.4505805969238281e-09 0.043279200792312622 -7.4505805969238281e-09" quat="0.95833289623260498 0.1845112144947052 0.034644126892089844 -0.21529872715473175">
                       <body name="FootLeft.006_Dog" pos="-7.9314759204862639e-09 0.1148003414273262 -3.4239633350807708e-10" quat="0.99522483348846436 0.033581014722585678 -6.1101782193873078e-05 -0.091650411486625671">
                         <body name="FootLeft.007_Dog" pos="-4.6566128730773926e-09 0.049606747925281525 -1.6574631445109844e-08" quat="0.77274936437606812 0.21865877509117126 0.00044132734183222055 -0.59585779905319214">
-                          <joint name="rz_FootLeft.007_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="0.01" range="-30.000000834826057 30.000000834826057" damping="0.01"/>
+                          <joint name="rz_FootLeft.007_Dog" class="/" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" stiffness="1" range="-30.000000834826057 30.000000834826057" damping="0.01"/>
                           <geom name="Cylinder.003_Brown" class="/" type="mesh" material="Brown" pos="0.28078079223632812 0.27019375562667847 -0.20298677682876587" quat="0.15574930608272552 -0.56442445516586304 -0.44642212986946106 -0.6766655445098877" mesh="Cylinder.005_Brown"/>
                         </body>
                       </body>
