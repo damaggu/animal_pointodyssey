@@ -1,0 +1,77 @@
+<mujoco>
+  <compiler meshdir="./mesh"/>
+  <default>
+    <motor ctrlrange="-1. 1." ctrllimited="true"/>
+    <!-- <joint type="hinge" axis="0 1 0" limited="true" damping=".05" armature=".2"/> -->
+  </default>
+
+  <worldbody>
+    <geom name="floor" size="0 0 .05" type="plane" material="grid" condim="3"/>
+    <camera name="cam0" pos="-0.5 -7.5 3" xyaxes="1 -0.05 0 0 0.3 1" mode="trackcom"/>
+    <body name="root" pos="0 0 2">
+    <joint type="free"/>
+      <geom type="capsule" name="root geom" size="0.05" fromto="0 0 0 -0.0 0.0 -0.43334996700286865"/>
+      <body name="body1_l" pos="-0.0 0.0 -0.43334996700286865">
+        <geom type="capsule" name="body1_l geom" size="0.05" fromto="0 0 0 0.5378625392913818 0.0 0.0"/>
+        <body name="leg1_l" pos="0.5378625392913818 0.0 0.0">
+          <joint axis="0 0 1" name="j0" range="-45 45"/>
+          <geom type="capsule" name="leg1_l geom" size="0.05" fromto="0 0 0 0.46852874755859375 0.0 0.0"/>
+          <body name="foot1_l" pos="0.46852874755859375 0.0 0.0">
+            <joint axis="0 1 0" name="j4" range="-45 45"/>
+            <geom type="capsule" name="foot1_l geom" size="0.05" fromto="0 0 0 0.5399634838104248 7.254887179897196e-08 -0.5399635434150696"/>
+          </body>
+        </body>
+      </body>
+      <body name="body1_r" pos="-0.0 0.0 -0.43334996700286865">
+        <geom type="capsule" name="body1_r geom" size="0.05" fromto="0 0 0 -0.5378625392913818 0.0 0.0"/>
+        <body name="leg1_r" pos="-0.5378625392913818 0.0 0.0">
+          <joint axis="0 0 1" name="j1" range="-45 45"/>
+          <geom type="capsule" name="leg1_r geom" size="0.05" fromto="0 0 0 -0.46852874755859375 0.0 0.0"/>
+          <body name="foot1_r" pos="-0.46852874755859375 0.0 0.0">
+            <joint axis="0 1 0" name="j5" range="-45 45"/>
+            <geom type="capsule" name="foot1_r geom" size="0.05" fromto="0 0 0 -0.5399634838104248 7.254887179897196e-08 -0.5399635434150696"/>
+          </body>
+        </body>
+      </body>
+      <body name="body1_l.001" pos="-0.0 0.0 -0.43334996700286865">
+        <geom type="capsule" name="body1_l.001 geom" size="0.05" fromto="0 0 0 2.7644951217098424e-08 0.5378625392913818 0.0"/>
+        <body name="leg1_l.001" pos="2.7644951217098424e-08 0.5378625392913818 0.0">
+          <joint axis="0 0 1" name="j2" range="-45 45"/>
+          <geom type="capsule" name="leg1_l.001 geom" size="0.05" fromto="0 0 0 5.960464477539063e-08 0.46852874755859375 0.0"/>
+          <body name="foot1_l.001" pos="5.960464477539063e-08 0.46852874755859375 0.0">
+            <joint axis="1 0 0" name="j6" range="-45 45"/>
+            <geom type="capsule" name="foot1_l.001 geom" size="0.05" fromto="0 0 0 0.0 0.5399634838104248 -0.5399635434150696"/>
+          </body>
+        </body>
+      </body>
+      <body name="body1_r.001" pos="-0.0 0.0 -0.43334996700286865">
+        <geom type="capsule" name="body1_r.001 geom" size="0.05" fromto="0 0 0 -3.19596935582922e-08 -0.5378625392913818 0.0"/>
+        <body name="leg1_r.001" pos="-3.19596935582922e-08 -0.5378625392913818 0.0">
+          <joint axis="0 0 1" name="j3" range="-45 45"/>
+          <geom type="capsule" name="leg1_r.001 geom" size="0.05" fromto="0 0 0 0.0 -0.46852874755859375 0.0"/>
+          <body name="foot1_r.001" pos="0.0 -0.46852874755859375 0.0">
+            <joint axis="1 0 0" name="j7" range="-45 45"/>
+            <geom type="capsule" name="foot1_r.001 geom" size="0.05" fromto="0 0 0 -1.1920928955078125e-07 -0.5399634838104248 -0.5399635434150696"/>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  
+  
+    <actuator>
+    <motor name="p1" joint="j0" gear="150"/>
+    <motor name="p2" joint="j1" gear="150"/>
+    <motor name="p3" joint="j2" gear="150"/>
+    <motor name="p4" joint="j3" gear="150"/>
+    <motor name="p5" joint="j4" gear="150"/>
+    <motor name="p6" joint="j5" gear="150"/>
+    <motor name="p7" joint="j6" gear="150"/>
+    <motor name="p8" joint="j7" gear="150"/>
+  </actuator>
+  
+<asset>
+<texture name="grid" type="2d" builtin="checker" width="512" height="512" rgb1=".1 .2 .3" rgb2=".2 .3 .4"/>
+<material name="grid" texture="grid" texrepeat="1 1" texuniform="true" reflectance=".2"/>
+  </asset>
+</mujoco>
