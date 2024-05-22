@@ -53,7 +53,7 @@
   </worldbody>
   
   
-    <actuator>
+  <actuator>
     <motor name="p1" joint="j0" gear="100"/>
     <motor name="p2" joint="j1" gear="100"/>
     <motor name="p3" joint="j2" gear="100"/>
