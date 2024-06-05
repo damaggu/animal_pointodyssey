@@ -1,0 +1,86 @@
+import itertools
+import os
+from typing import Sequence
+
+from absl import app
+
+from dm_control import mjcf
+from dm_control.mujoco.wrapper.mjbindings import mjlib
+from lxml import etree
+import numpy as np
+
+
+ASSET_RELPATH = 'assets/'
+ASSET_DIR = os.path.dirname(__file__) + '/' + ASSET_RELPATH
+BASE_MODEL = 'mouse_export.xml'
+DEFAULT_MODEL = 'mouse_defaults.xml'
+OUT_DIR = "mouse_model"
+OUT_MODEL = "mouse.xml"
+DEFAULT_GEAR = 100
+DEFAULT_GAINPRM = 5
+
+
+with open(os.path.join(ASSET_DIR, BASE_MODEL), 'r') as f:
+    basetree = etree.XML(f.read(), etree.XMLParser(remove_blank_text=True))
+
+model = mjcf.from_xml_string(etree.tostring(basetree, pretty_print=True),
+                                 model_dir=ASSET_DIR)
+
+model.option.timestep = "0.001"
+model.option.integrator = "implicitfast"
+model.compiler.angle = "degree"
+
+model.default.general.ctrllimited="true"
+model.default.general.ctrlrange="-1 1"
+model.default.general.forcelimited="false"
+model.default.general.gainprm = str(DEFAULT_GAINPRM)
+model.default.tendon.range = "-1 1"
+
+model.tendon.add("fixed", name = "back_x")
+model.tendon.add("fixed", name = "back_z")
+model.tendon.add("fixed", name = "tail_x")
+model.tendon.add("fixed", name = "tail_z")
+
+joints = model.find_all('joint')
+
+for j in joints:
+    if j.name == None:
+        continue
+    j.stiffness = "0.01"
+    j.damping = "0.01"
+    if "rx_Back" in j.name:
+        model.tendon.fixed["back_x"].add("joint", joint=j.name, coef="1")
+    elif "rz_Back" in j.name:
+        model.tendon.fixed["back_z"].add("joint", joint=j.name, coef="1")
+    elif "rx_Tail" in j.name:
+        model.tendon.fixed["tail_x"].add("joint", joint=j.name, coef="1")
+    elif "rz_Tail" in j.name:
+        model.tendon.fixed["tail_z"].add("joint", joint=j.name, coef="1")
+    else:
+        model.actuator.add("motor", name = j.name + "_motor", joint = j.name, gear = str(DEFAULT_GEAR))
+touch_sites = ["L_B_Finger_3_3", "R_B_Finger_3_3", "L_F_Finger_3_3", "R_F_Finger_3_3"]
+bodies = model.find_all('body')
+
+for b in bodies:
+    if b.name == "Head":
+        b.add("site", name = "Head", type = "box", size = "0.002 0.002 0.002")
+    elif b.name in touch_sites:
+        b.add("site", name=b.name, type="box", size="0.004 0.004 0.002")
+        model.sensor.add("touch", name=b.name, site=b.name)
+model.actuator.add("general", name = "back_x_motor", tendon = "back_x", gainprm = str(DEFAULT_GAINPRM))
+model.actuator.add("general", name = "back_z_motor", tendon = "back_z", gainprm = str(DEFAULT_GAINPRM))
+model.actuator.add("general", name = "tail_x_motor", tendon = "tail_x", gainprm = str(DEFAULT_GAINPRM))
+model.actuator.add("general", name = "tail_z_motor", tendon = "tail_z", gainprm = str(DEFAULT_GAINPRM))
+
+head_sensors = ["accelerometer", "velocimeter", "gyro"]
+for s in head_sensors:
+    model.sensor.add(s, name=s, site="Head")
+
+geoms = model.find_all("geom")
+
+for g in geoms:
+    if "Back" in g.name:
+        g.size = "0.15"
+    elif "Finger" in g.name:
+        g.size= "0.05"
+mjcf.export_with_assets(model, OUT_DIR, OUT_MODEL)
