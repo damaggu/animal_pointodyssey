@@ -37,6 +37,7 @@ REGISTERED_ENV_NAMES = {
     "custom-dog": "dog-v0",
     "custom-mouse": "mouse-v0",
     "rodent-escape-bowl": "dm_control/RodentEscapeBowl-v0",
+    "rodent-run-gaps": "dm_control/RodentRunGaps-v0",
 }
 ENV_NAMES = list(REGISTERED_ENV_NAMES.keys()) + ["rodent-bowl-escape-all",]
 
@@ -105,11 +106,11 @@ class RemoveZeroShapeObs(ObservationWrapper):
 
 
 def make_env(name: str, render_mode: str = None, **kwargs) -> gym.Env:
+    if name == "rodent-bowl-escape-all" or name == "rodent-run-gaps":
+        return RemoveZeroShapeObs(gym.make(REGISTERED_ENV_NAMES[args.env], render_mode=render_mode))
+
     if name in REGISTERED_ENV_NAMES:
         return gym.make(REGISTERED_ENV_NAMES[args.env], render_mode=render_mode)
-    
-    if name == "rodent-bowl-escape-all":
-        return DmControlCompatibilityV0(basic_rodent_2020.rodent_escape_bowl(), render_mode=render_mode)
     
     raise NotImplementedError(f"{name} not a implemented env.")
 
@@ -144,13 +145,6 @@ def main(args: argparse.Namespace):
     # env = FlattenObservation(env)
     env.metadata["render_fps"] = FPS
 
-    # obs_space = dict(env.observation_space)
-    # for k in list(obs_space.keys()):
-    #     if obs_space[k].shape == (0,):
-    #         del obs_space[k]
-    # env.observation_space = Dict(obs_space)
-
-
     curr_dir = os.path.join(args.log_directory, args.save_directory)
     media.set_show_save_dir(os.path.join(curr_dir, args.video_directory))
 
@@ -161,7 +155,7 @@ def main(args: argparse.Namespace):
     else:
         policy_kwargs = {"net_arch": {"pi": [300, 200], "qf": [400, 300]}}
         model = stable_baselines3.DDPG(
-            "MlpPolicy",
+            "MultiInputPolicy",
             env,
             learning_rate=args.lr,
             policy_kwargs=policy_kwargs,
