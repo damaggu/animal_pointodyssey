@@ -12,7 +12,6 @@ import sys
 import glob
 import json
 from utils.import_motion import *
-from utils.bones_export import *
 FOCAL_LENGTH = 30
 SENSOR_WIDTH = 50
 RESULOUTION_X = 960
@@ -233,12 +232,43 @@ class Blender_render():
                 aux_view_layer.cycles.pass_crypto_depth = 2
 
     def load_assets(self):
+        file_path = "/home/justin/repos/animal-pointodyssey/assets/blender/mouse.blend"
+        inner_path = 'Collection'
+        object_name = 'Mouse'
 
-
-
-        bpy.ops.ms.import_sequence(directory=os.path.join(self.scratch_dir, 'tmp', 'animal_obj'))
-        print('importing mesh sequence done!')
+        bpy.ops.wm.append(
+            filepath=os.path.join(file_path, inner_path, object_name),
+            directory=os.path.join(file_path, inner_path),
+            filename=object_name
+        )
+        print('importing armature done!')
         self.animal = bpy.context.selected_objects[0]
+
+        posebones = self.animal.pose.bones
+
+        bones = self.animal.data.bones
+
+        traj = np.load('./export/trajectories.npz')
+
+        bpy.ops.anim.keyframe_clear_v3d()
+
+        root_bone = None
+        for b in bones:
+            if b.parent == None:
+                root_bone = b.name
+
+
+        for i in range(0, len(traj[root_bone]), frames_per_key):
+            set_pose(posebones[root_bone], i)
+            frame_n = i // speedup
+            for pb in posebones:
+                pb.keyframe_insert("rotation_quaternion", frame=frame_n)
+                armature.keyframe_insert("location", frame=frame_n)
+        bpy.context.scene.frame_end = len(traj[root_bone]) // speedup
+
+        print("importing motion done!")
+
+
         # scale and rotate the animal
         dimension = np.max(self.animal.dimensions)
         animal_scale = np.random.uniform(1, 1.4) * self.scale_factor * np.random.uniform(1.5, 2) / dimension
@@ -250,20 +280,6 @@ class Blender_render():
         self.animal.location = (0, 0, -z_min * animal_scale)
 
         bpy.ops.object.transform_apply(location=True, rotation=False, scale=False)
-
-        # add random texture to animal
-        print('adding texture')
-        # append materials
-        bpy.ops.wm.append(
-            directory=os.path.join(self.material_path, "Object"),
-            filename="Cube"
-        )
-
-        furry_material = [f for f in bpy.data.materials if 'Animal' in f.name]
-        furry_material = np.random.choice(furry_material)
-
-        self.animal.data.materials.clear()
-        self.animal.data.materials.append(furry_material)
 
         # add physics
         bpy.context.view_layer.objects.active = self.animal
