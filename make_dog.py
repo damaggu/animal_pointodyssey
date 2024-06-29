@@ -48,4 +48,4 @@ model.actuator.add("general", name = "back_x_motor", tendon = "back_x", gainprm 
 model.actuator.add("general", name = "back_z_motor", tendon = "back_z", gainprm = str(DEFAULT_GAINPRM))
 
 
-mjcf.export_with_assets(model, "dog_model", OUT_MODEL)
+mjcf.export_with_assets(model, "assets/mujoco/dog_model", OUT_MODEL)
