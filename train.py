@@ -268,7 +268,7 @@ def main(args: argparse.Namespace):
     else:
         policy_kwargs = {"net_arch": {"pi": [300, 200], "qf": [400, 300]}}
         model = stable_baselines3.DDPG(
-            "MlpPolicy",
+            "MultiInputPolicy",
             env,
             learning_rate=args.lr,
             policy_kwargs=policy_kwargs,
