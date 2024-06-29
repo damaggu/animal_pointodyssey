@@ -54,7 +54,7 @@ class MouseEnv(MujocoEnv, utils.EzPickle):
         )
         self.body_names = [self.model.body(i).name for i in range(self.model.nbody)]
 
-        self.height_bodies = filter(lambda x: "Head" in self.body_names[x] or "Back" in self.body_names[x], range(len(self.body_names)))
+        self.height_bodies = filter(lambda x: "Head" in self.body_names[x], range(len(self.body_names)))
         self.head_id = list(filter(lambda x: "Head" in self.body_names[x], range(len(self.body_names))))[0]
 
     
@@ -107,7 +107,7 @@ class MouseEnv(MujocoEnv, utils.EzPickle):
         vel_reward = vel
         health = self.height_reward()
         ctrl_rew = -abs(0.0005 * self.ctrl_reward(action))
-        return health + ctrl_rew
+        return vel_reward * health + ctrl_rew
 
     def reset_model(self):
         lol = np.zeros_like(self.init_qpos)
