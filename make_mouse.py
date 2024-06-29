@@ -10,14 +10,14 @@ from lxml import etree
 import numpy as np
 
 
-ASSET_RELPATH = 'assets/'
+ASSET_RELPATH = 'assets/mujoco/'
 ASSET_DIR = os.path.dirname(__file__) + '/' + ASSET_RELPATH
 BASE_MODEL = 'mouse_export.xml'
 DEFAULT_MODEL = 'mouse_defaults.xml'
-OUT_DIR = "mouse_model"
+OUT_DIR = "assets/mujoco/"
 OUT_MODEL = "mouse.xml"
-DEFAULT_GEAR = 100
-DEFAULT_GAINPRM = 5
+DEFAULT_GEAR = 30
+DEFAULT_GAINPRM = 10
 
 
 with open(os.path.join(ASSET_DIR, BASE_MODEL), 'r') as f:
@@ -36,8 +36,14 @@ model.default.general.forcelimited="false"
 model.default.general.gainprm = str(DEFAULT_GAINPRM)
 model.default.tendon.range = "-1 1"
 
+model.worldbody.add("camera", name="cam0", pos="5 -17 7", xyaxes="1 0.25 0 0 0.3 1", mode="trackcom")
+
+
+
 model.tendon.add("fixed", name = "back_x")
+model.tendon.add("fixed", name = "back_y")
 model.tendon.add("fixed", name = "back_z")
+
 model.tendon.add("fixed", name = "tail_x")
 model.tendon.add("fixed", name = "tail_z")
 
@@ -50,6 +56,8 @@ for j in joints:
     j.damping = "0.01"
     if "rx_Back" in j.name:
         model.tendon.fixed["back_x"].add("joint", joint=j.name, coef="1")
+    elif "ry_Back" in j.name:
+        model.tendon.fixed["back_y"].add("joint", joint=j.name, coef="1")
     elif "rz_Back" in j.name:
         model.tendon.fixed["back_z"].add("joint", joint=j.name, coef="1")
     elif "rx_Tail" in j.name:
@@ -58,19 +66,34 @@ for j in joints:
         model.tendon.fixed["tail_z"].add("joint", joint=j.name, coef="1")
     else:
         model.actuator.add("motor", name = j.name + "_motor", joint = j.name, gear = str(DEFAULT_GEAR))
-touch_sites = ["L_B_Finger_3_3", "R_B_Finger_3_3", "L_F_Finger_3_3", "R_F_Finger_3_3"]
-bodies = model.find_all('body')
 
-for b in bodies:
-    if b.name == "Head":
-        b.add("site", name = "Head", type = "box", size = "0.002 0.002 0.002")
-    elif b.name in touch_sites:
-        b.add("site", name=b.name, type="box", size="0.004 0.004 0.002")
-        model.sensor.add("touch", name=b.name, site=b.name)
 model.actuator.add("general", name = "back_x_motor", tendon = "back_x", gainprm = str(DEFAULT_GAINPRM))
 model.actuator.add("general", name = "back_z_motor", tendon = "back_z", gainprm = str(DEFAULT_GAINPRM))
 model.actuator.add("general", name = "tail_x_motor", tendon = "tail_x", gainprm = str(DEFAULT_GAINPRM))
 model.actuator.add("general", name = "tail_z_motor", tendon = "tail_z", gainprm = str(DEFAULT_GAINPRM))
+model.actuator.add("general", name = "back_y_motor", tendon = "back_y", gainprm = str(DEFAULT_GAINPRM))
+touch_sites = ["L_B_Finger_3_3", "R_B_Finger_3_3", "L_F_Finger_3_3", "R_F_Finger_3_3"]
+
+bodies = model.find_all('body')
+parts_to_remove = ["Finger", "Ear", "Rib", "Jaw"]
+to_remove = []
+for b in bodies:
+    for p in parts_to_remove:
+        if p in b.name:
+            to_remove.append(b.name)
+for bn in to_remove:
+    b = model.find("body", bn)
+    if b is not None:
+        b.remove()
+
+bodies = model.find_all('body')
+for b in bodies:
+    if "Head" in b.name:
+        b.add("site", name = "Head", type = "box", size = "0.002 0.002 0.002")
+    elif b.name in touch_sites:
+        b.add("site", name=b.name, type="box", size="0.004 0.004 0.002")
+        model.sensor.add("touch", name=b.name, site=b.name)
+
 
 head_sensors = ["accelerometer", "velocimeter", "gyro"]
 for s in head_sensors:
@@ -79,8 +102,15 @@ for s in head_sensors:
 geoms = model.find_all("geom")
 
 for g in geoms:
+
     if "Back" in g.name:
-        g.size = "0.15"
+        g.size = "0.04"
     elif "Finger" in g.name:
-        g.size= "0.05"
+        g.size= "0.02"
+    elif "floor" not in g.name:
+        g.size = "0.04"
+        g.density = "100"
+
+
+
 mjcf.export_with_assets(model, OUT_DIR, OUT_MODEL)

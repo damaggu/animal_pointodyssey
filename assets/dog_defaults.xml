@@ -1,9 +1,0 @@
-<mujoco model="dog">
-
-
-  <default>
-
-  </default>
-
-  <worldbody/>
-</mujoco>

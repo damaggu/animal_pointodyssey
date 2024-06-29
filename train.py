@@ -1,4 +1,5 @@
 import gymnasium as gym
+
 from gymnasium.wrappers import FlattenObservation, NormalizeObservation
 import stable_baselines3
 import sb3_contrib
@@ -6,6 +7,12 @@ from stable_baselines3.common.base_class import BaseAlgorithm
 from stable_baselines3.common.vec_env import VecVideoRecorder, SubprocVecEnv
 from stable_baselines3.common.logger import configure
 from stable_baselines3.common.callbacks import CheckpointCallback, EvalCallback
+
+
+from gymnasium.wrappers.monitoring import video_recorder
+from stable_baselines3.common.vec_env.base_vec_env import VecEnv, VecEnvObs, VecEnvStepReturn, VecEnvWrapper
+from stable_baselines3.common.vec_env.dummy_vec_env import DummyVecEnv
+
 from gymnasium.spaces.dict import Dict
 from gymnasium import spaces
 from gymnasium import ObservationWrapper, Env
@@ -20,7 +27,7 @@ import numpy as np
 import os
 import argparse
 import datetime
-
+from typing import Callable
 import envs
 from utils import log_to_dir
 
@@ -103,8 +110,111 @@ class RemoveZeroShapeObs(ObservationWrapper):
                 observation[k] = observation[k].reshape(-1)
         return observation
 
+class VecTrajRecorder(VecEnvWrapper):
+    def __init__(
+        self,
+        venv: VecEnv,
+        traj_folder: str,
+        record_traj_trigger: Callable[[int], bool],
+        traj_length: int = 200,
+        name_prefix: str = "trajectory",
+    ):
+        VecEnvWrapper.__init__(self, venv)
+
+        self.env = venv
+        # Temp variable to retrieve metadata
+        temp_env = venv
+
+        # Unwrap to retrieve metadata dict
+        # that will be used by gym recorder
+        while isinstance(temp_env, VecEnvWrapper):
+            temp_env = temp_env.venv
+
+        if isinstance(temp_env, DummyVecEnv) or isinstance(temp_env, SubprocVecEnv):
+            metadata = temp_env.get_attr("metadata")[0]
+        else:
+            metadata = temp_env.metadata
+
+        self.env.metadata = metadata
+
+        self.record_traj_trigger = record_traj_trigger
+        self.traj_folder = os.path.abspath(traj_folder)
+        # Create output folder if needed
+        os.makedirs(self.traj_folder, exist_ok=True)
+
+        self.name_prefix = name_prefix
+        self.step_id = 0
+        self.traj_length = traj_length
+
+        self.recording = False
+        self.recorded_frames = 0
+        self.quats = []
+        self.posl = []
+        self.data = self.env.get_attr("data")[0]
+        self.model = self.env.get_attr("model")[0]
+        self.body_names = [self.model.body(i).name for i in range(self.model.nbody)]
+
+    def reset(self) -> VecEnvObs:
+        obs = self.venv.reset()
+        self.start_traj_recorder()
+        return obs
+
+    def capture_state(self):
+        quat, pos = self.data.xquat, self.data.xpos
+        self.quats.append(quat.copy())
+        self.posl.append(pos.copy())
+
+    def start_traj_recorder(self) -> None:
+        self.close_traj_recorder()
+
+        traj_name = f"{self.name_prefix}-step-{self.step_id}-{self.traj_length}.npz"
+        base_path = os.path.join(self.traj_folder, traj_name)
+        self.path = base_path
+        self.capture_state()
+        self.recorded_frames = 1
+        self.recording = True
+
+    def _record_enabled(self) -> bool:
+        return self.record_traj_trigger(self.step_id)
+
+    def step_wait(self) -> VecEnvStepReturn:
+        obs, rews, dones, infos = self.venv.step_wait()
+
+        self.step_id += 1
+        if self.recording:
+            self.capture_state()
+            self.recorded_frames += 1
+            if self.recorded_frames > self.traj_length:
+                print(f"Saving trajectory to {self.path}")
+                self.close_traj_recorder()
+        elif self._record_enabled():
+            self.start_traj_recorder()
+
+        return obs, rews, dones, infos
 
 
+    def close_traj_recorder(self) -> None:
+        self.recording = False
+        self.recorded_frames = 1
+        if len(self.quats) <= 1:
+            return
+        quats = self.quats[:-1]
+        posl = self.posl[:-1]
+        quats = np.stack(quats)
+        posl = np.stack(posl)
+        assert len(self.body_names) == quats.shape[1]
+        final_traj = {name: np.concatenate((posl[:, i], quats[:, i]), axis=1) for i, name in enumerate(self.body_names)}
+        np.savez_compressed(self.path, **final_traj)
+        self.quats = []
+        self.posl = []
+
+
+    def close(self) -> None:
+        VecEnvWrapper.close(self)
+        self.close_traj_recorder()
+
+    def __del__(self):
+        self.close_traj_recorder()
 def make_env(name: str, render_mode: str = None, **kwargs) -> gym.Env:
     if name == "rodent-bowl-escape-all" or name == "rodent-run-gaps":
         return RemoveZeroShapeObs(gym.make(REGISTERED_ENV_NAMES[args.env], render_mode=render_mode))
@@ -120,11 +230,14 @@ def parse_args(argparser: argparse.ArgumentParser) -> None:
     argparser.add_argument("--save-directory", type=str)
     argparser.add_argument("--model-directory", type=str, default="models")
     argparser.add_argument("--video-directory", type=str, default="videos")
+    argparser.add_argument("--traj-directory", type=str, default="trajectories")
+    argparser.add_argument("--record-traj", action='store_const', const=True, default=False)
     argparser.add_argument(
         "--env", type=str, default=list(REGISTERED_ENV_NAMES.keys())[0], choices=ENV_NAMES
     )
     argparser.add_argument("--checkpoint", type=str, default=None)
     argparser.add_argument("--num-timesteps", type=int, default=100_000)
+    argparser.add_argument("--eval-freq", type=int, default=100_000)
     argparser.add_argument("--lr", type=float, default=0.0003)
 
 
@@ -155,7 +268,7 @@ def main(args: argparse.Namespace):
     else:
         policy_kwargs = {"net_arch": {"pi": [300, 200], "qf": [400, 300]}}
         model = stable_baselines3.DDPG(
-            "MultiInputPolicy",
+            "MlpPolicy",
             env,
             learning_rate=args.lr,
             policy_kwargs=policy_kwargs,
@@ -171,12 +284,20 @@ def main(args: argparse.Namespace):
         record_video_trigger=lambda x: x % 10_000 < 1_000,
         video_length=1_000,
     )
+    print(args.record_traj)
+    if args.record_traj:
+        video_env = VecTrajRecorder(
+            video_env,
+            traj_folder=os.path.join(curr_dir, args.traj_directory),
+            record_traj_trigger=lambda x: x % 10_000 < 1_000,
+            traj_length=1_000,
+        )
 
     eval_callback = EvalCallback(
         video_env,
         best_model_save_path=os.path.join(curr_dir, args.model_directory),
         log_path=curr_dir,
-        eval_freq=100_000,
+        eval_freq=args.eval_freq,
         deterministic=True,
     )
     checkpoint_callback = CheckpointCallback(

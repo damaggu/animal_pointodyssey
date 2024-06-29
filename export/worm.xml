@@ -1,0 +1,57 @@
+<mujoco>
+  <compiler meshdir="./mesh"/>
+  <worldbody>
+      <geom name="floor" size="0 0 .05" type="plane" material="grid" condim="3"/>
+    <body name="Bone" pos="0.0 0.0 1.0" quat="1.0 0.0 0.0 0.0">
+    <joint type="hinge" name="rx_Bone" axis="1 0 0" range="-9.99999970909292 9.99999970909292"/>
+    <joint type="hinge" name="ry_Bone" axis="0 1 0" range="-9.99999970909292 9.99999970909292"/>
+    <joint type="hinge" name="rz_Bone" axis="0 0 1" range="-9.99999970909292 9.99999970909292"/>
+    <geom type="capsule" name="Bone_geom" size="0.05" fromto="0 0 0 0.0 0.7870888710021973 0.0"/>
+      <body name="Bone.004" pos="0.0 0.7870888710021973 0.0" quat="1.0 0.0 0.0 0.0">
+      <joint type="hinge" name="rx_Bone.004" axis="1 0 0" range="-9.99999970909292 9.99999970909292"/>
+      <joint type="hinge" name="ry_Bone.004" axis="0 1 0" range="-9.99999970909292 9.99999970909292"/>
+      <joint type="hinge" name="rz_Bone.004" axis="0 0 1" range="-9.99999970909292 9.99999970909292"/>
+      <geom type="capsule" name="Bone.004_geom" size="0.05" fromto="0 0 0 0.0 0.7870892286300659 0.0"/>
+        <body name="Bone.002" pos="0.0 0.7870892286300659 0.0" quat="1.0 0.0 0.0 0.0">
+        <joint type="hinge" name="rx_Bone.002" axis="1 0 0" range="-9.99999970909292 9.99999970909292"/>
+        <joint type="hinge" name="ry_Bone.002" axis="0 1 0" range="-9.99999970909292 9.99999970909292"/>
+        <joint type="hinge" name="rz_Bone.002" axis="0 0 1" range="-9.99999970909292 9.99999970909292"/>
+        <geom type="capsule" name="Bone.002_geom" size="0.05" fromto="0 0 0 0.0 0.7870889902114868 0.0"/>
+          <body name="Bone.006" pos="0.0 0.7870889902114868 0.0" quat="1.0 0.0 0.0 0.0">
+          <joint type="hinge" name="rx_Bone.006" axis="1 0 0" range="-9.99999970909292 9.99999970909292"/>
+          <joint type="hinge" name="ry_Bone.006" axis="0 1 0" range="-9.99999970909292 9.99999970909292"/>
+          <joint type="hinge" name="rz_Bone.006" axis="0 0 1" range="-9.99999970909292 9.99999970909292"/>
+          <geom type="capsule" name="Bone.006_geom" size="0.05" fromto="0 0 0 0.0 0.7870891094207764 0.0"/>
+            <body name="Bone.001" pos="0.0 0.7870891094207764 0.0" quat="1.0 0.0 0.0 0.0">
+            <joint type="hinge" name="rx_Bone.001" axis="1 0 0" range="-9.99999970909292 9.99999970909292"/>
+            <joint type="hinge" name="ry_Bone.001" axis="0 1 0" range="-9.99999970909292 9.99999970909292"/>
+            <joint type="hinge" name="rz_Bone.001" axis="0 0 1" range="-9.99999970909292 9.99999970909292"/>
+            <geom type="capsule" name="Bone.001_geom" size="0.05" fromto="0 0 0 0.0 0.7870891094207764 0.0"/>
+              <body name="Bone.005" pos="0.0 0.7870891094207764 0.0" quat="1.0 0.0 0.0 0.0">
+              <joint type="hinge" name="rx_Bone.005" axis="1 0 0" range="-9.99999970909292 9.99999970909292"/>
+              <joint type="hinge" name="ry_Bone.005" axis="0 1 0" range="-9.99999970909292 9.99999970909292"/>
+              <joint type="hinge" name="rz_Bone.005" axis="0 0 1" range="-9.99999970909292 9.99999970909292"/>
+              <geom type="capsule" name="Bone.005_geom" size="0.05" fromto="0 0 0 0.0 0.7870888710021973 0.0"/>
+                <body name="Bone.003" pos="0.0 0.7870888710021973 0.0" quat="1.0 0.0 0.0 0.0">
+                <joint type="hinge" name="rx_Bone.003" axis="1 0 0" range="-9.99999970909292 9.99999970909292"/>
+                <joint type="hinge" name="ry_Bone.003" axis="0 1 0" range="-9.99999970909292 9.99999970909292"/>
+                <joint type="hinge" name="rz_Bone.003" axis="0 0 1" range="-9.99999970909292 9.99999970909292"/>
+                <geom type="capsule" name="Bone.003_geom" size="0.05" fromto="0 0 0 0.0 0.7870888710021973 0.0"/>
+                  <body name="Bone.007" pos="0.0 0.7870888710021973 0.0" quat="1.0 0.0 0.0 0.0">
+                  <joint type="hinge" name="rx_Bone.007" axis="1 0 0" range="-9.99999970909292 9.99999970909292"/>
+                  <joint type="hinge" name="ry_Bone.007" axis="0 1 0" range="-9.99999970909292 9.99999970909292"/>
+                  <joint type="hinge" name="rz_Bone.007" axis="0 0 1" range="-9.99999970909292 9.99999970909292"/>
+                  <geom type="capsule" name="Bone.007_geom" size="0.05" fromto="0 0 0 0.0 0.7870888710021973 0.0"/>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+<asset>
+<texture name="grid" type="2d" builtin="checker" width="512" height="512" rgb1=".1 .2 .3" rgb2=".2 .3 .4"/>
+<material name="grid" texture="grid" texrepeat="1 1" texuniform="true" reflectance=".2"/>
+  </asset></mujoco>

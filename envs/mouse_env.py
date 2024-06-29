@@ -11,7 +11,7 @@ from gymnasium import Space
 from gymnasium.envs.mujoco.mujoco_env import DEFAULT_SIZE
 
 
-MODEL_PATH = "envs/mouse.xml"
+MODEL_PATH = "assets/mujoco/mouse.xml"
 FRAME_SKIP = 25
 
 def lin_decay(x: float | np.ndarray, min_zero: float, min_clip: float, max_clip: float, max_zero: float) -> float:
@@ -52,14 +52,18 @@ class MouseEnv(MujocoEnv, utils.EzPickle):
         self.observation_space = Box(
             low=-np.inf, high=np.inf, shape=(obs_size,), dtype=np.float64
         )
+        self.body_names = [self.model.body(i).name for i in range(self.model.nbody)]
+
+        self.height_bodies = filter(lambda x: "Head" in self.body_names[x] or "Back" in self.body_names[x], range(len(self.body_names)))
+        self.head_id = list(filter(lambda x: "Head" in self.body_names[x], range(len(self.body_names))))[0]
 
     
     def step(self, action):
-        x_before = self.data.qpos[0].copy()
-        z_before = self.data.qpos[2].copy()
+        x_before = self.data.xpos[self.head_id][0].copy()
+        z_before = self.data.xpos[self.head_id][2].copy()
         self.do_simulation(action, self.frame_skip)
-        x_after = self.data.qpos[0].copy()
-        z_after = self.data.qpos[2].copy()
+        x_after = self.data.xpos[self.head_id][0].copy()
+        z_after = self.data.xpos[self.head_id][2].copy()
 
         x_vel = (x_after - x_before) / self.dt
         z_vel = (z_after - z_before) / self.dt
@@ -91,7 +95,10 @@ class MouseEnv(MujocoEnv, utils.EzPickle):
         return np.arctan(raw_contact_forces / 100)
     
     def height_reward(self) -> float:
-        return lin_decay(self.data.qpos[2], 0.9, 2, 3, 4)
+        ret = 0
+        for b in self.height_bodies:
+            ret += lin_decay(self.data.qpos[b], 0, 2, 3.5, 5)
+        return ret
     
     def ctrl_reward(self, action: np.ndarray) -> float:
         return np.linalg.norm(action)
@@ -99,8 +106,8 @@ class MouseEnv(MujocoEnv, utils.EzPickle):
     def _get_rew(self, vel: float, action: np.ndarray):
         vel_reward = vel
         health = self.height_reward()
-        ctrl_rew = -0.0125 * self.ctrl_reward(action)
-        return vel_reward * health + ctrl_rew
+        ctrl_rew = -abs(0.0005 * self.ctrl_reward(action))
+        return health + ctrl_rew
 
     def reset_model(self):
         lol = np.zeros_like(self.init_qpos)
