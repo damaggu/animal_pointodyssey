@@ -7,7 +7,7 @@ if __name__ == '__main__':
     parser.add_argument('--output_dir', type=str, default='../results/animal')
     parser.add_argument('--partnet_root', type=str, metavar='PATH', default='./data/partnet/')
     parser.add_argument('--gso_root', type=str, metavar='PATH', default='./data/GSO/')
-    parser.add_argument('--background_hdr_path', type=str, default='./data/hdri/')
+    parser.add_argument('--background_hdr_path', type=str, default='./assets/hdri/')
     parser.add_argument('--animal_root', type=str, default='./data/deformingthings4d')
     parser.add_argument('--camera_root', type=str, metavar='PATH',
                         default='./data/camera_trajectory/MannequinChallenge')

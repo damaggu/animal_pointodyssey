@@ -9,12 +9,6 @@ import mathutils
 from mathutils import Matrix, Vector, Quaternion
 import itertools
 
-armature = bpy.context.object
-posebones = armature.pose.bones
-
-bones = armature.data.bones
-
-traj = np.load('/home/justin/repos/animal-pointodyssey/trajectories.npz')
 
 
 def reset_quat(pb):
@@ -74,24 +68,32 @@ def old_set_pose(pb, t):
     old_set_pos(pb, t)
 
 
-frames_per_key = 16
-speedup = 8
+if __name__ == "__main__":
+    armature = bpy.context.object
+    posebones = armature.pose.bones
+    
+    bones = armature.data.bones
 
-bpy.ops.anim.keyframe_clear_v3d()
+    traj = np.load('/home/justin/repos/animal-pointodyssey/trajectories.npz')
 
-root_bone = None
-for b in bones:
+    frames_per_key = 16
+    speedup = 8
 
-    if b.parent == None:
-        root_bone = b.name
+    bpy.ops.anim.keyframe_clear_v3d()
 
-# set_pose(posebones[root_bone], 200)
+    root_bone = None
+    for b in bones:
 
-for i in range(0, len(traj[root_bone]), frames_per_key):
-    set_pose(posebones[root_bone], i)
-    frame_n = i // speedup
-    for pb in posebones:
-        pb.keyframe_insert("rotation_quaternion", frame=frame_n)
-        armature.keyframe_insert("location", frame=frame_n)
-bpy.context.scene.frame_end = len(traj[root_bone]) // speedup
+        if b.parent == None:
+            root_bone = b.name
+
+    # set_pose(posebones[root_bone], 200)
+
+    for i in range(0, len(traj[root_bone]), frames_per_key):
+        set_pose(posebones[root_bone], i)
+        frame_n = i // speedup
+        for pb in posebones:
+            pb.keyframe_insert("rotation_quaternion", frame=frame_n)
+            armature.keyframe_insert("location", frame=frame_n)
+    bpy.context.scene.frame_end = len(traj[root_bone]) // speedup
 

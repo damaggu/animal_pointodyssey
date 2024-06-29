@@ -1,7 +1,7 @@
 _test*
 *logs/
 *.code-workspace
-
+ttemp*
 
 # From Github
 # Byte-compiled / optimized / DLL files
