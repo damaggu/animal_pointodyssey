@@ -13,6 +13,7 @@ Supported environments can be found in `train.py` under `REGISTERED_ENV_NAMES`. 
 Note on environments:
 - specific dm-control environments may error with "... shape 0 ..." This is caused because some dm-control environment observations return NumPy arrays of shape `(0,)`, which causes Stable Baselines 3 to bug out. To resolve, I have included the environment wrapper `RemoveZeroShapeObs`, which is used by simply doing `env = RemoveZeroShapeObs(env)`.
 - if using both vector and image inputs, lines instantiating the policy type must be changed from "MlpPolicy" to "MultiInputPolicy".
+- Otherwise, if error `AttributeError: 'Box' object has no attribute 'spaces'` is returned then "MlpPolicy" must be used instead.
 - custom environments can be supplied under the `envs` folder. Include your environment code similar to `envs/dog_env.py` or `envs/mouse_env.py` (which can be refactored), and then edit accordingly in `envs/__init__.py`.
 
 To use different algorithms, there is no handy command-line argument for that yet. Instead, the code can be changed pretty straightforwardly on lines with `model = ...`
