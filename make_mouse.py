@@ -112,5 +112,4 @@ for g in geoms:
     g.density = "100"
 
 
-
 mjcf.export_with_assets(model, OUT_DIR, OUT_MODEL)
