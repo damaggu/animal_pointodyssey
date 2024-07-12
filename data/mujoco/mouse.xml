@@ -1,0 +1,309 @@
+<mujoco model="unnamed_model">
+  <compiler angle="degree"/>
+  <option timestep="0.001" integrator="implicitfast"/>
+  <default>
+    <default class="/">
+      <tendon range="-1 1"/>
+      <general ctrllimited="true" forcelimited="false" ctrlrange="-1 1" gainprm="10"/>
+    </default>
+  </default>
+  <asset>
+    <texture name="grid" type="2d" builtin="checker" rgb1="0.10000000000000001 0.20000000000000001 0.29999999999999999" rgb2="0.20000000000000001 0.29999999999999999 0.40000000000000002" width="512" height="512"/>
+    <material name="grid" class="/" texture="grid" texrepeat="1 1" texuniform="true" reflectance="0.20000000000000001"/>
+  </asset>
+  <worldbody>
+    <geom name="floor" class="/" type="plane" condim="3" size="0 0 0.050000000000000003" material="grid" density="100"/>
+    <body name="Back_1" pos="-0.03638419508934021 0.32031768560409546 0.75876384973526001">
+      <joint name="//unnamed_joint_0" class="/" type="free"/>
+      <geom name="Back_1_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 -0.071091830730438232 -0.092527091503143311"/>
+      <body name="Back_2" pos="0 -0.071091830730438232 -0.092527091503143311">
+        <joint name="rx_Back_2" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
+        <joint name="ry_Back_2" class="/" type="hinge" axis="0 1 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+        <joint name="rz_Back_2" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-9.9999997090929202 6.0000001669652114" damping="0.01"/>
+        <geom name="Back_2_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 -0.2740018367767334 0.095168530941009521"/>
+        <body name="Back_3" pos="0 -0.2740018367767334 0.095168530941009521">
+          <joint name="rx_Back_3" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
+          <joint name="ry_Back_3" class="/" type="hinge" axis="0 1 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+          <joint name="rz_Back_3" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-9.9999997090929202 6.0000001669652114" damping="0.01"/>
+          <geom name="Back_3_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 -0.2097725123167038 0.021728336811065674"/>
+          <body name="Back_4" pos="0 -0.2097725123167038 0.021728336811065674">
+            <joint name="rx_Back_4" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
+            <joint name="ry_Back_4" class="/" type="hinge" axis="0 1 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+            <joint name="rz_Back_4" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-9.9999997090929202 6.0000001669652114" damping="0.01"/>
+            <geom name="Back_4_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 -0.25589346885681152 -0.0089598298072814941"/>
+            <body name="Back_5" pos="0 -0.25589346885681152 -0.0089598298072814941">
+              <joint name="rx_Back_5" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
+              <joint name="ry_Back_5" class="/" type="hinge" axis="0 1 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+              <joint name="rz_Back_5" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-9.9999997090929202 6.0000001669652114" damping="0.01"/>
+              <geom name="Back_5_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 -0.23085629940032959 -0.082915425300598145"/>
+              <body name="Back_6" pos="0 -0.23085629940032959 -0.082915425300598145">
+                <joint name="rx_Back_6" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
+                <joint name="ry_Back_6" class="/" type="hinge" axis="0 1 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                <joint name="rz_Back_6" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-9.9999997090929202 6.0000001669652114" damping="0.01"/>
+                <geom name="Back_6_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 -0.23470097780227661 -0.07146763801574707"/>
+                <body name="Neck" pos="0 -0.23470097780227661 -0.07146763801574707">
+                  <geom name="Neck_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 -0.18661510944366455 0.033073067665100098"/>
+                  <body name="Head" pos="0 -0.18661510944366455 0.033073067665100098">
+                    <geom name="Head_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 -0.003004610538482666 -0.18622291088104248 -0.011018574237823486"/>
+                    <body name="L_Ear_1" pos="-0.003004610538482666 -0.18622291088104248 -0.011018574237823486">
+                      <geom name="L_Ear_1_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0.098775967955589294 0.10522949695587158 0.025567770004272461"/>
+                      <body name="L_Ear_2" pos="0.098775967955589294 0.10522949695587158 0.025567770004272461">
+                        <geom name="L_Ear_2_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0.1209293007850647 0.067456483840942383 0.010155320167541504"/>
+                        <body name="L_Ear_3" pos="0.1209293007850647 0.067456483840942383 0.010155320167541504">
+                          <geom name="L_Ear_3_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0.045888260006904602 0.02377474308013916 0.026908338069915771"/>
+                        </body>
+                      </body>
+                    </body>
+                    <body name="Jaw_1" pos="-0.003004610538482666 -0.18622291088104248 -0.011018574237823486">
+                      <geom name="Jaw_1_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0.003004610538482666 -0.12477743625640869 -0.27392768859863281"/>
+                      <body name="Jaw_2" pos="0.003004610538482666 -0.12477743625640869 -0.27392768859863281">
+                        <geom name="Jaw_2_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0.002912815660238266 -0.13363265991210938 -0.018688827753067017"/>
+                      </body>
+                    </body>
+                    <body name="R_Ear_1" pos="-0.003004610538482666 -0.18622291088104248 -0.011018574237823486">
+                      <geom name="R_Ear_1_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 -0.092766717076301575 0.10522949695587158 0.025567770004272461"/>
+                      <body name="R_Ear_2" pos="-0.092766717076301575 0.10522949695587158 0.025567770004272461">
+                        <geom name="R_Ear_2_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 -0.12092931568622589 0.067456483840942383 0.010155320167541504"/>
+                        <body name="R_Ear_3" pos="-0.12092931568622589 0.067456483840942383 0.010155320167541504">
+                          <geom name="R_Ear_3_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 -0.045888215303421021 0.02377474308013916 0.026908338069915771"/>
+                        </body>
+                      </body>
+                    </body>
+                    <body name="Nose" pos="-0.003004610538482666 -0.18622291088104248 -0.011018574237823486">
+                      <geom name="Nose_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 7.4505805969238281e-09 -0.33017373085021973 -0.12187623977661133"/>
+                    </body>
+                    <site name="Head" class="/" type="box" size="0.002 0.002 0.002"/>
+                  </body>
+                </body>
+                <body name="L_F_Paw_1" pos="0 -0.23470097780227661 -0.07146763801574707">
+                  <joint name="rx_L_F_Paw_1" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-30.000000834826057 30.000000834826057" damping="0.01"/>
+                  <joint name="ry_L_F_Paw_1" class="/" type="hinge" axis="0 1 0" stiffness="0.01" range="-19.99999941818584 19.99999941818584" damping="0.01"/>
+                  <joint name="rz_L_F_Paw_1" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-30.000000834826057 30.000000834826057" damping="0.01"/>
+                  <geom name="L_F_Paw_1_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0.17953817546367645 0.16833937168121338 -0.060213387012481689"/>
+                  <body name="L_F_Paw_2" pos="0.17953817546367645 0.16833937168121338 -0.060213387012481689">
+                    <joint name="rx_L_F_Paw_2" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
+                    <joint name="rz_L_F_Paw_2" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-45.00000125223908 45.00000125223908" damping="0.01"/>
+                    <geom name="L_F_Paw_2_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 -0.014132246375083923 -0.039042651653289795 -0.34415319561958313"/>
+                    <body name="L_F_Paw_3" pos="-0.014132246375083923 -0.039042651653289795 -0.34415319561958313">
+                      <geom name="L_F_Paw_3_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 -0.021816067397594452 -0.098170757293701172 -0.17515115439891815"/>
+                    </body>
+                  </body>
+                </body>
+                <body name="R_F_Paw_1" pos="0 -0.23470097780227661 -0.07146763801574707">
+                  <joint name="rx_R_F_Paw_1" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-30.000000834826057 30.000000834826057" damping="0.01"/>
+                  <joint name="ry_R_F_Paw_1" class="/" type="hinge" axis="0 1 0" stiffness="0.01" range="-19.99999941818584 19.99999941818584" damping="0.01"/>
+                  <joint name="rz_R_F_Paw_1" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-30.000000834826057 30.000000834826057" damping="0.01"/>
+                  <geom name="R_F_Paw_1_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 -0.17953811585903168 0.16833937168121338 -0.060213387012481689"/>
+                  <body name="R_F_Paw_2" pos="-0.17953811585903168 0.16833937168121338 -0.060213387012481689">
+                    <joint name="rx_R_F_Paw_2" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-9.9999997090929202 9.9999997090929202" damping="0.01"/>
+                    <joint name="rz_R_F_Paw_2" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-45.00000125223908 45.00000125223908" damping="0.01"/>
+                    <geom name="R_F_Paw_2_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0.014132246375083923 -0.039042651653289795 -0.34415331482887268"/>
+                    <body name="R_F_Paw_3" pos="0.014132246375083923 -0.039042651653289795 -0.34415331482887268">
+                      <geom name="R_F_Paw_3_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0.021816074848175049 -0.098170638084411621 -0.17515107989311218"/>
+                    </body>
+                  </body>
+                </body>
+              </body>
+              <body name="R_Rib_5" pos="0 -0.23085629940032959 -0.082915425300598145">
+                <geom name="R_Rib_5_geom" class="/" type="capsule" size="0.02" density="100" fromto="0 0 0 -0.1704041063785553 0.087897837162017822 -0.23081496357917786"/>
+              </body>
+              <body name="L_Rib_5" pos="0 -0.23085629940032959 -0.082915425300598145">
+                <geom name="L_Rib_5_geom" class="/" type="capsule" size="0.02" density="100" fromto="0 0 0 0.170278400182724 0.087897896766662598 -0.23081511259078979"/>
+              </body>
+            </body>
+            <body name="R_Rib_4" pos="0 -0.25589346885681152 -0.0089598298072814941">
+              <geom name="R_Rib_4_geom" class="/" type="capsule" size="0.02" density="100" fromto="0 0 0 -0.15984874963760376 0.048999011516571045 -0.29354548454284668"/>
+            </body>
+            <body name="L_Rib_4" pos="0 -0.25589346885681152 -0.0089598298072814941">
+              <geom name="L_Rib_4_geom" class="/" type="capsule" size="0.02" density="100" fromto="0 0 0 0.15972281992435455 0.048998981714248657 -0.29354524612426758"/>
+            </body>
+          </body>
+          <body name="R_Rib_3" pos="0 -0.2097725123167038 0.021728336811065674">
+            <geom name="R_Rib_3_geom" class="/" type="capsule" size="0.02" density="100" fromto="0 0 0 -0.15795756876468658 0.0098536759614944458 -0.28945979475975037"/>
+          </body>
+          <body name="L_Rib_3" pos="0 -0.2097725123167038 0.021728336811065674">
+            <geom name="L_Rib_3_geom" class="/" type="capsule" size="0.02" density="100" fromto="0 0 0 0.15783175826072693 0.0098536759614944458 -0.28945967555046082"/>
+          </body>
+        </body>
+      </body>
+      <body name="Tail_1" pos="0 -0.071091830730438232 -0.092527091503143311">
+        <joint name="rx_Tail_1" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+        <joint name="rz_Tail_1" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+        <geom name="Tail_1_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 0.19382226467132568 -0.14527785778045654"/>
+        <body name="Tail_2" pos="0 0.19382226467132568 -0.14527785778045654">
+          <joint name="rx_Tail_2" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+          <joint name="rz_Tail_2" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+          <geom name="Tail_2_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 0.11086165904998779 -0.08177107572555542"/>
+          <body name="Tail_3" pos="0 0.11086165904998779 -0.08177107572555542">
+            <joint name="rx_Tail_3" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+            <joint name="rz_Tail_3" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+            <geom name="Tail_3_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 0.11859244108200073 -0.052198827266693115"/>
+            <body name="Tail_4" pos="0 0.11859244108200073 -0.052198827266693115">
+              <joint name="rx_Tail_4" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+              <joint name="rz_Tail_4" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+              <geom name="Tail_4_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 0.12198221683502197 -0.054768264293670654"/>
+              <body name="Tail_5" pos="0 0.12198221683502197 -0.054768264293670654">
+                <joint name="rx_Tail_5" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                <joint name="rz_Tail_5" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                <geom name="Tail_5_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 0.11853504180908203 -0.038582384586334229"/>
+                <body name="Tail_6" pos="0 0.11853504180908203 -0.038582384586334229">
+                  <joint name="rx_Tail_6" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                  <joint name="rz_Tail_6" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                  <geom name="Tail_6_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 0.12328189611434937 -0.029072761535644531"/>
+                  <body name="Tail_7" pos="0 0.12328189611434937 -0.029072761535644531">
+                    <joint name="rx_Tail_7" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                    <joint name="rz_Tail_7" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                    <geom name="Tail_7_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 0.12698960304260254 -0.021487578749656677"/>
+                    <body name="Tail_8" pos="0 0.12698960304260254 -0.021487578749656677">
+                      <joint name="rx_Tail_8" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                      <joint name="rz_Tail_8" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                      <geom name="Tail_8_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 0.12981581687927246 -0.01584780216217041"/>
+                      <body name="Tail_9" pos="0 0.12981581687927246 -0.01584780216217041">
+                        <joint name="rx_Tail_9" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                        <joint name="rz_Tail_9" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                        <geom name="Tail_9_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 0.13128519058227539 -0.013129889965057373"/>
+                        <body name="Tail_10" pos="0 0.13128519058227539 -0.013129889965057373">
+                          <joint name="rx_Tail_10" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                          <joint name="rz_Tail_10" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                          <geom name="Tail_10_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 0.13169467449188232 -0.011130914092063904"/>
+                          <body name="Tail_11" pos="0 0.13169467449188232 -0.011130914092063904">
+                            <joint name="rx_Tail_11" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                            <joint name="rz_Tail_11" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                            <geom name="Tail_11_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0 0.13223564624786377 -0.0094667375087738037"/>
+                            <body name="Tail_12" pos="0 0.13223564624786377 -0.0094667375087738037">
+                              <joint name="rx_Tail_12" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                              <joint name="rz_Tail_12" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-4.9999998545464601 4.9999998545464601" damping="0.01"/>
+                              <geom name="Tail_12_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0.0029128193855285645 0.1335829496383667 -0.0088426172733306885"/>
+                            </body>
+                          </body>
+                        </body>
+                      </body>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="R_B_Paw_1" pos="0 -0.071091830730438232 -0.092527091503143311">
+        <joint name="rx_R_B_Paw_1" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-39.999998836371681 39.999998836371681" damping="0.01"/>
+        <joint name="ry_R_B_Paw_1" class="/" type="hinge" axis="0 1 0" stiffness="0.01" range="-9.9999997090929202 19.99999941818584" damping="0.01"/>
+        <joint name="rz_R_B_Paw_1" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-9.9999997090929202 19.99999941818584" damping="0.01"/>
+        <geom name="R_B_Paw_1_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 -0.12856116890907288 -0.060687735676765442 -0.1629948616027832"/>
+        <body name="R_B_Paw_2" pos="-0.12856116890907288 -0.060687735676765442 -0.1629948616027832">
+          <joint name="rx_R_B_Paw_2" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-45.00000125223908 50.000000253011898" damping="0.01"/>
+          <joint name="rz_R_B_Paw_2" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-25.999999585151052 19.99999941818584" damping="0.01"/>
+          <geom name="R_B_Paw_2_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 -0.1057131290435791 -0.26967060565948486 -0.16305962204933167"/>
+          <body name="R_B_Paw_3" pos="-0.1057131290435791 -0.26967060565948486 -0.16305962204933167">
+            <geom name="R_B_Paw_3_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0.007300645112991333 0.27059853076934814 -0.14332710206508636"/>
+            <body name="R_B_Paw_4" pos="0.007300645112991333 0.27059853076934814 -0.14332710206508636">
+              <geom name="R_B_Paw_4_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0.006926417350769043 -0.073839575052261353 -0.13510023057460785"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="L_B_Paw_1" pos="0 -0.071091830730438232 -0.092527091503143311">
+        <joint name="rx_L_B_Paw_1" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-39.999998836371681 39.999998836371681" damping="0.01"/>
+        <joint name="ry_L_B_Paw_1" class="/" type="hinge" axis="0 1 0" stiffness="0.01" range="-9.9999997090929202 19.99999941818584" damping="0.01"/>
+        <joint name="rz_L_B_Paw_1" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-19.99999941818584 9.9999997090929202" damping="0.01"/>
+        <geom name="L_B_Paw_1_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0.12856115400791168 -0.060687720775604248 -0.1629948616027832"/>
+        <body name="L_B_Paw_2" pos="0.12856115400791168 -0.060687720775604248 -0.1629948616027832">
+          <joint name="rx_L_B_Paw_2" class="/" type="hinge" axis="1 0 0" stiffness="0.01" range="-45.00000125223908 50.000000253011898" damping="0.01"/>
+          <joint name="rz_L_B_Paw_2" class="/" type="hinge" axis="0 0 1" stiffness="0.01" range="-19.99999941818584 25.999999585151052" damping="0.01"/>
+          <geom name="L_B_Paw_2_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 0.10558734834194183 -0.26967060565948486 -0.16305959224700928"/>
+          <body name="L_B_Paw_3" pos="0.10558734834194183 -0.26967060565948486 -0.16305959224700928">
+            <geom name="L_B_Paw_3_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 -0.0073006749153137207 0.27059853076934814 -0.14332720637321472"/>
+            <body name="L_B_Paw_4" pos="-0.0073006749153137207 0.27059853076934814 -0.14332720637321472">
+              <geom name="L_B_Paw_4_geom" class="/" type="capsule" size="0.040000000000000001" density="100" fromto="0 0 0 -0.0068006217479705811 -0.073839545249938965 -0.13510014116764069"/>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+    <camera name="cam0" class="/" mode="trackcom" pos="5 -17 7" xyaxes="1 0.25 0 0 0.29999999999999999 1"/>
+  </worldbody>
+  <tendon>
+    <fixed name="back_x" class="/">
+      <joint joint="rx_Back_2" coef="1"/>
+      <joint joint="rx_Back_3" coef="1"/>
+      <joint joint="rx_Back_4" coef="1"/>
+      <joint joint="rx_Back_5" coef="1"/>
+      <joint joint="rx_Back_6" coef="1"/>
+    </fixed>
+    <fixed name="back_y" class="/">
+      <joint joint="ry_Back_2" coef="1"/>
+      <joint joint="ry_Back_3" coef="1"/>
+      <joint joint="ry_Back_4" coef="1"/>
+      <joint joint="ry_Back_5" coef="1"/>
+      <joint joint="ry_Back_6" coef="1"/>
+    </fixed>
+    <fixed name="back_z" class="/">
+      <joint joint="rz_Back_2" coef="1"/>
+      <joint joint="rz_Back_3" coef="1"/>
+      <joint joint="rz_Back_4" coef="1"/>
+      <joint joint="rz_Back_5" coef="1"/>
+      <joint joint="rz_Back_6" coef="1"/>
+    </fixed>
+    <fixed name="tail_x" class="/">
+      <joint joint="rx_Tail_1" coef="1"/>
+      <joint joint="rx_Tail_2" coef="1"/>
+      <joint joint="rx_Tail_3" coef="1"/>
+      <joint joint="rx_Tail_4" coef="1"/>
+      <joint joint="rx_Tail_5" coef="1"/>
+      <joint joint="rx_Tail_6" coef="1"/>
+      <joint joint="rx_Tail_7" coef="1"/>
+      <joint joint="rx_Tail_8" coef="1"/>
+      <joint joint="rx_Tail_9" coef="1"/>
+      <joint joint="rx_Tail_10" coef="1"/>
+      <joint joint="rx_Tail_11" coef="1"/>
+      <joint joint="rx_Tail_12" coef="1"/>
+    </fixed>
+    <fixed name="tail_z" class="/">
+      <joint joint="rz_Tail_1" coef="1"/>
+      <joint joint="rz_Tail_2" coef="1"/>
+      <joint joint="rz_Tail_3" coef="1"/>
+      <joint joint="rz_Tail_4" coef="1"/>
+      <joint joint="rz_Tail_5" coef="1"/>
+      <joint joint="rz_Tail_6" coef="1"/>
+      <joint joint="rz_Tail_7" coef="1"/>
+      <joint joint="rz_Tail_8" coef="1"/>
+      <joint joint="rz_Tail_9" coef="1"/>
+      <joint joint="rz_Tail_10" coef="1"/>
+      <joint joint="rz_Tail_11" coef="1"/>
+      <joint joint="rz_Tail_12" coef="1"/>
+    </fixed>
+  </tendon>
+  <actuator>
+    <motor name="rx_L_F_Paw_1_motor" class="/" gear="30" joint="rx_L_F_Paw_1"/>
+    <motor name="ry_L_F_Paw_1_motor" class="/" gear="30" joint="ry_L_F_Paw_1"/>
+    <motor name="rz_L_F_Paw_1_motor" class="/" gear="30" joint="rz_L_F_Paw_1"/>
+    <motor name="rx_L_F_Paw_2_motor" class="/" gear="30" joint="rx_L_F_Paw_2"/>
+    <motor name="rz_L_F_Paw_2_motor" class="/" gear="30" joint="rz_L_F_Paw_2"/>
+    <motor name="rx_R_F_Paw_1_motor" class="/" gear="30" joint="rx_R_F_Paw_1"/>
+    <motor name="ry_R_F_Paw_1_motor" class="/" gear="30" joint="ry_R_F_Paw_1"/>
+    <motor name="rz_R_F_Paw_1_motor" class="/" gear="30" joint="rz_R_F_Paw_1"/>
+    <motor name="rx_R_F_Paw_2_motor" class="/" gear="30" joint="rx_R_F_Paw_2"/>
+    <motor name="rz_R_F_Paw_2_motor" class="/" gear="30" joint="rz_R_F_Paw_2"/>
+    <motor name="rx_R_B_Paw_1_motor" class="/" gear="30" joint="rx_R_B_Paw_1"/>
+    <motor name="ry_R_B_Paw_1_motor" class="/" gear="30" joint="ry_R_B_Paw_1"/>
+    <motor name="rz_R_B_Paw_1_motor" class="/" gear="30" joint="rz_R_B_Paw_1"/>
+    <motor name="rx_R_B_Paw_2_motor" class="/" gear="30" joint="rx_R_B_Paw_2"/>
+    <motor name="rz_R_B_Paw_2_motor" class="/" gear="30" joint="rz_R_B_Paw_2"/>
+    <motor name="rx_L_B_Paw_1_motor" class="/" gear="30" joint="rx_L_B_Paw_1"/>
+    <motor name="ry_L_B_Paw_1_motor" class="/" gear="30" joint="ry_L_B_Paw_1"/>
+    <motor name="rz_L_B_Paw_1_motor" class="/" gear="30" joint="rz_L_B_Paw_1"/>
+    <motor name="rx_L_B_Paw_2_motor" class="/" gear="30" joint="rx_L_B_Paw_2"/>
+    <motor name="rz_L_B_Paw_2_motor" class="/" gear="30" joint="rz_L_B_Paw_2"/>
+    <general name="back_x_motor" class="/" tendon="back_x" gainprm="10"/>
+    <general name="back_z_motor" class="/" tendon="back_z" gainprm="10"/>
+    <general name="tail_x_motor" class="/" tendon="tail_x" gainprm="10"/>
+    <general name="tail_z_motor" class="/" tendon="tail_z" gainprm="10"/>
+    <general name="back_y_motor" class="/" tendon="back_y" gainprm="10"/>
+  </actuator>
+  <sensor>
+    <accelerometer name="accelerometer" site="Head"/>
+    <velocimeter name="velocimeter" site="Head"/>
+    <gyro name="gyro" site="Head"/>
+  </sensor>
+</mujoco>

@@ -2,7 +2,7 @@ import mujoco
 import mujoco_viewer
 import numpy as np
 import os
-model = mujoco.MjModel.from_xml_path('./envs/mouse.xml')
+model = mujoco.MjModel.from_xml_path('./data/mujoco/mouse.xml')
 body_names = [model.body(i).name for i in range(model.nbody)]
 print(body_names)
 data = mujoco.MjData(model)

@@ -45,6 +45,7 @@ REGISTERED_ENV_NAMES = {
     "custom-mouse": "mouse-v0",
     "rodent-escape-bowl": "dm_control/RodentEscapeBowl-v0",
     "rodent-run-gaps": "dm_control/RodentRunGaps-v0",
+    "rodent-forage": "dm_control/RodentMazeForage-v0",
 }
 ENV_NAMES = list(REGISTERED_ENV_NAMES.keys()) + ["rodent-bowl-escape-all",]
 
@@ -216,7 +217,7 @@ class VecTrajRecorder(VecEnvWrapper):
     def __del__(self):
         self.close_traj_recorder()
 def make_env(name: str, render_mode: str = None, **kwargs) -> gym.Env:
-    if name == "rodent-bowl-escape-all" or name == "rodent-run-gaps":
+    if "rodent" in name:
         return RemoveZeroShapeObs(gym.make(REGISTERED_ENV_NAMES[args.env], render_mode=render_mode))
 
     if name in REGISTERED_ENV_NAMES:
@@ -266,7 +267,7 @@ def main(args: argparse.Namespace):
     if args.checkpoint is not None:
         model = stable_baselines3.DDPG.load(args.checkpoint, env=env)
     else:
-        policy_kwargs = {"net_arch": {"pi": [300, 200], "qf": [400, 300]}}
+        policy_kwargs = dict(net_arch = [128, dict(qf = [128], pi= [128])])
         model = stable_baselines3.DDPG(
             "MultiInputPolicy",
             env,

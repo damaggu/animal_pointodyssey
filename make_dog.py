@@ -10,10 +10,10 @@ from lxml import etree
 import numpy as np
 
 
-ASSET_RELPATH = 'assets/'
+ASSET_RELPATH = 'data/'
 ASSET_DIR = os.path.dirname(__file__) + '/' + ASSET_RELPATH
 BASE_MODEL = 'dog_test.xml'
-DEFAULT_MODEL = 'dog_defaults.xml'
+DEFAULT_MODEL = 'defaults.xml'
 OUT_MODEL = "dog.xml"
 DEFAULT_GEAR = 100
 DEFAULT_GAINPRM = 5
@@ -48,4 +48,4 @@ model.actuator.add("general", name = "back_x_motor", tendon = "back_x", gainprm 
 model.actuator.add("general", name = "back_z_motor", tendon = "back_z", gainprm = str(DEFAULT_GAINPRM))
 
 
-mjcf.export_with_assets(model, "assets/mujoco/dog_model", OUT_MODEL)
+mjcf.export_with_assets(model, "data/mujoco/dog_model", OUT_MODEL)

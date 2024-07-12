@@ -10,11 +10,11 @@ from lxml import etree
 import numpy as np
 
 
-ASSET_RELPATH = 'assets/mujoco/'
+ASSET_RELPATH = 'export/'
 ASSET_DIR = os.path.dirname(__file__) + '/' + ASSET_RELPATH
 BASE_MODEL = 'mouse_export.xml'
 DEFAULT_MODEL = 'mouse_defaults.xml'
-OUT_DIR = "assets/mujoco/"
+OUT_DIR = "data/mujoco/"
 OUT_MODEL = "mouse.xml"
 DEFAULT_GEAR = 30
 DEFAULT_GAINPRM = 10
@@ -75,7 +75,7 @@ model.actuator.add("general", name = "back_y_motor", tendon = "back_y", gainprm 
 touch_sites = ["L_B_Finger_3_3", "R_B_Finger_3_3", "L_F_Finger_3_3", "R_F_Finger_3_3"]
 
 bodies = model.find_all('body')
-parts_to_remove = ["Finger", "Ear", "Rib", "Jaw"]
+parts_to_remove = ["Finger"]
 to_remove = []
 for b in bodies:
     for p in parts_to_remove:
@@ -105,11 +105,11 @@ for g in geoms:
 
     if "Back" in g.name:
         g.size = "0.04"
-    elif "Finger" in g.name:
+    elif "Finger" in g.name or "Rib" in g.name:
         g.size= "0.02"
     elif "floor" not in g.name:
         g.size = "0.04"
-        g.density = "100"
+    g.density = "100"
 
 
 
