@@ -3,6 +3,7 @@ _test*
 *.code-workspace
 ttemp*
 *.blend1
+*.blend
 results/
 # From Github
 # Byte-compiled / optimized / DLL files
