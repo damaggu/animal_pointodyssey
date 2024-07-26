@@ -8,13 +8,15 @@ from typing import Any, Dict, Optional, Sequence, Union
 import random
 
 import bpy
-import mathutils
+from mathutils import Vector
 from import_motion import *
 from import_mapped import *
+
 class BlenderScene():
     def __init__(self,
                  scratch_dir=None,
-                 base=None):
+                 base=None,
+                 render_args = {}):
         self.scratch_dir = scratch_dir
         self.blender_scene = bpy.context.scene
         if base is None:
@@ -22,6 +24,12 @@ class BlenderScene():
         else:
             print("Loading scene from '%s'" % base)
             bpy.ops.wm.open_mainfile(filepath=base)
+        default_args = {"resolution_x": 512, "resolution_y": 512, "fps": 12, "use_motion_blur": True}
+        self.render_args = render_args.copy()
+        for arg in default_args.keys():
+            if arg not in self.render_args.keys():
+                self.render_args[arg] = default_args[arg]
+        self.set_render_args(self.render_args)
 
     def save_scene(self, filename = 'scene.blend'):
         absolute_path = os.path.abspath(self.scratch_dir)
@@ -30,9 +38,10 @@ class BlenderScene():
         except:
             print('error saving blend file, skipping')
 
-    def add_character(self, character_path, traj_path = None, data_file = None, t0 = 0, tf = 1000, frames_per_key = 10, speedup = 1):
+    def add_character(self, character_path, traj_path = None, data_file = None, origin = (0, 0, 0), t0 = 0, tf = 1000, frames_per_key = 10, speedup = 1):
         if traj_path is not None and data_file is not None:
             return
+        origin = Vector(origin)
         names = []
         with bpy.data.libraries.load(character_path) as (data_from, data_to):
             names = [name for name in data_from.collections]
@@ -49,9 +58,63 @@ class BlenderScene():
             trajectory = np.load(traj_path)
             map_traj(armature, trajectory, frames_per_key, speedup)
         if data_file is not None:
-            map_file_onto_armature(armature, data_file, t0, tf, speedup = speedup, frames_per_key = frames_per_key)
+            map_file_onto_armature(armature, data_file, origin, t0, tf, speedup = speedup, frames_per_key = frames_per_key)
+        return armature
+
+    def randomize_materials(self, armature, mat_path):
+        names = ["Fur", "Skin"]
+        mesh = armature.children[0]
+        for name in names:
+            bpy.ops.wm.append(
+                filepath=os.path.join(mat_path, 'Collection', name),
+                directory=os.path.join(mat_path, 'Collection'),
+                filename=name
+            )
+            cube = bpy.context.selected_objects[0]
+            cube.hide_render = True
+            cube.hide_viewport = True
+            m = np.random.choice(cube.material_slots.keys())
+            mesh.data.materials.append(bpy.data.materials[m])
+            if name == "Skin":
+                mesh.data.materials[0] = bpy.data.materials[m]
+            if name == "Fur":
+                mesh.particle_systems[0].settings.material = mesh.data.materials.keys().index(m) + 1
+
+    def target_cam(self, pos, target = None, track = False):
+        cam = bpy.context.scene.camera
+        cam.location = Vector(pos)
+        direction = cam.location - target.location
+        rot_quat = direction.to_track_quat()
+        cam.rotation_euler = rot_quat.to_euler()
+        if track:
+            constraint = cam.constraints.new(type='TRACK_TO')
+            constraint.target = target
 
 
+    def set_cam(self, pos, dir = (0, 0, 0)):
+        cam = bpy.context.scene.camera
+        cam.location = Vector(pos)
+        cam.rotation_euler = Vector(dir)
+
+    def set_brightness(self, brightness):
+        world = bpy.context.scene.world
+        world.node_tree.nodes['Background'].inputs[1].default_value = brightness
+
+    def set_background(self, bg_path):
+        world = bpy.context.scene.world
+        node_env = world.node_tree.nodes['Environment Texture']
+        node_env.image = bpy.data.images.load(os.path.abspath(bg_path))
+
+    def set_render_args(self, render_args):
+        for arg in render_args.keys():
+            setattr(bpy.data.scenes["Scene"].render, arg, render_args[arg])
+
+    def shake_cam(self, intensity = 1):
+        cam = bpy.context.scene.camera
+        for i in range(0, bpy.data.scenes["Scene"].frame_end, 10):
+            cam.location += Vector(np.random.normal(0, intensity, 3))
+            cam.keyframe_insert("location", frame = i)
+            cam.keyframe_insert("rotation_euler", frame=i)
 
 
 

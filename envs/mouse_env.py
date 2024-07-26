@@ -11,11 +11,7 @@ from gymnasium import Space
 from gymnasium.envs.mujoco.mujoco_env import DEFAULT_SIZE
 
 
-<<<<<<< HEAD
 MODEL_PATH = "data/mujoco/mouse.xml"
-=======
-MODEL_PATH = "assets/mujoco/mouse.xml"
->>>>>>> refs/remotes/origin/main
 FRAME_SKIP = 25
 
 def lin_decay(x: float | np.ndarray, min_zero: float, min_clip: float, max_clip: float, max_zero: float) -> float:

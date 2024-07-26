@@ -148,15 +148,15 @@ def tracking(cp_root: str, data_root: str, sampling_scene_num=100000, sampling_c
 
     obj_mesh = trimesh.load(os.path.join(obj_root, 'character_0001.obj'))
     _, obj_samples = trimesh.proximity.ProximityQuery(obj_mesh).vertex(trimesh.sample.sample_surface(obj_mesh, sampling_character_num, seed=10)[0])
-    print(obj_samples)
-    print(len(obj_mesh.vertices))
+
     if sampling_character_num > 0:
         c_obj, _ = read_obj_file(os.path.join(obj_root, 'character_0001.obj'))
-        print(len(c_obj))
         sampling_idx = np.random.choice(len(c_obj), sampling_character_num, replace=False if len(c_obj) > sampling_character_num else True)
     else:
         sampling_idx = None
     sampling_idx = np.unique(obj_samples)
+    print(len(obj_samples))
+    print(len(sampling_idx))
     for i in tqdm(range(0, len(frames) - 1)):
         K = np.loadtxt(os.path.join(cam_root, 'K_{}.txt'.format(str(i + 1).zfill(4))))
         RT = np.loadtxt(os.path.join(cam_root, 'RT_{}.txt'.format(str(i + 1).zfill(4))))

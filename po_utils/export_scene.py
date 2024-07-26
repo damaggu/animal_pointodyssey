@@ -62,7 +62,7 @@ if args.export_character:
     character_set = []
     for character in scene_info['character']:
         for obj in bpy.data.collections[character].objects:
-            if not obj.type == 'MESH' or obj.hide_render:
+            if not obj.type == 'MESH' or obj.hide_render or "Plane" in obj.name:
                 continue
             obj.hide_viewport = False
             obj.select_set(True)

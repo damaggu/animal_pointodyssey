@@ -1,40 +1,38 @@
 import numpy as np
 import cv2
 import time
-
+from colour import Color
 def main(file_path):
-    traj_length = 30
-    init_color = (240, 100, 50)
-    col_diff = np.uint8(np.array((-8, -3, 5)))
-    final_color = col_diff * traj_length + init_color
-    final_color = np.uint8(np.where(final_color<=0, 0, final_color))
+    traj_length = 5
+    init_color = Color("yellow")
+    end_color = Color("blue")
+    color_range = list(init_color.range_to(end_color, traj_length))
     frame_n = 0
     height = 540
     width = 960
-    display_num = 0.02
+    display_num = 50
     annotations = np.load(file_path + "annotations.npz")
 
     trajs = annotations["trajs_2d"]
-    frame = np.zeros((height,width,3), np.uint8)
     output = cv2.VideoWriter(
         "output.mp4", cv2.VideoWriter_fourcc(*'mp4v'),
-        50, (width, height))
+        12, (width, height))
     i = 0
-    print(final_color)
+    n_points = annotations["trajs_2d"].shape[1]
+    idxs = np.random.choice(n_points, display_num, replace=False)
     while i < len(trajs):
 
-        frame = frame
-        frame = np.where(frame<=0, 0, frame + col_diff)
-        frame = np.where(np.repeat((np.sum(frame, axis = 2) == sum(final_color))[:, :, np.newaxis], 3, axis=2), 0, frame )
-        cur_pos = trajs[i]
-        for pos in cur_pos[::int(1/display_num)]:
-            cv2.circle(frame, pos.astype(int), 0, init_color, 3)
+        frame = cv2.imread(file_path + "images/frame_{:04}.png".format(i))
+
+
+        for idx in idxs:
+            for j in range(max(0, i - traj_length), i):
+
+                cv2.line(frame, trajs[j, idx, :].astype(int), trajs[j+1, idx, :].astype(int), [c*256 for c in color_range[i-j-1].rgb][::-1], 2)
 
         # writing the new frame in output
-        image = cv2.imread(file_path + "images/frame_{:04}.png".format(i))
-        final_frame = np.where(np.repeat((np.sum(frame, axis = 2) == 0)[:, :, np.newaxis], 3, axis=2), image, frame )
-        output.write(final_frame)
-        cv2.imshow("output", final_frame)
+        output.write(frame)
+        cv2.imshow("output", frame)
         if cv2.waitKey(1) & 0xFF == ord('s'):
             break
         i += 1
@@ -45,4 +43,4 @@ def main(file_path):
 
 
 if __name__ == "__main__":
-    main("./results/mouse_vertical/")
+    main("/home/justin/repos/animal-pointodyssey/results/mouse_07-25T15:29:25/0000/")

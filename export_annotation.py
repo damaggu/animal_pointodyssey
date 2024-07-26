@@ -39,12 +39,10 @@ if __name__ == '__main__':
 
 
     current_path = os.path.dirname(os.path.realpath(__file__))
-    if args.timestamp:
-        args.save_dir = f"{args.save_dir}_{datetime.datetime.now().strftime('%m-%dT%H:%M:%S')}"
-        print(args.save_dir)
+
     if args.rendering:
         rendering_script = 'blender --background --python {}/render_single.py \
-        -- --output_dir {} --scene {} --render_engine CYCLES --start_frame {} --end_frame {} --samples_per_pixel {} --background_hdr_path {}'.format(
+        -- --output_dir {} --scene {} --render_engine CYCLES --start_frame {} --end_frame {} --samples_per_pixel {}'.format(
             current_path, args.save_dir, args.scene_dir, args.start_frame, args.end_frame, args.samples_per_pixel, args.background_hdr_path)
         if args.use_gpu:
             rendering_script += ' --use_gpu'
