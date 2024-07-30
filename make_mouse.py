@@ -16,8 +16,8 @@ BASE_MODEL = 'mouse_export.xml'
 DEFAULT_MODEL = 'mouse_defaults.xml'
 OUT_DIR = "data/mujoco/"
 OUT_MODEL = "mouse.xml"
-DEFAULT_GEAR = 30
-DEFAULT_GAINPRM = 10
+DEFAULT_GEAR = 15
+DEFAULT_GAINPRM = 5
 
 
 with open(os.path.join(ASSET_DIR, BASE_MODEL), 'r') as f:
@@ -27,7 +27,7 @@ model = mjcf.from_xml_string(etree.tostring(basetree, pretty_print=True),
                                  model_dir=ASSET_DIR)
 
 model.option.timestep = "0.001"
-model.option.integrator = "implicitfast"
+model.option.integrator = "RK4"
 model.compiler.angle = "degree"
 
 model.default.general.ctrllimited="true"
@@ -35,6 +35,7 @@ model.default.general.ctrlrange="-1 1"
 model.default.general.forcelimited="false"
 model.default.general.gainprm = str(DEFAULT_GAINPRM)
 model.default.tendon.range = "-1 1"
+model.default.motor.gear = str(DEFAULT_GEAR)
 
 model.worldbody.add("camera", name="cam0", pos="5 -17 7", xyaxes="1 0.25 0 0 0.3 1", mode="trackcom")
 
@@ -109,7 +110,7 @@ for g in geoms:
         g.size= "0.02"
     elif "floor" not in g.name:
         g.size = "0.04"
-    g.density = "100"
+    g.density = "1000"
 
 
 mjcf.export_with_assets(model, OUT_DIR, OUT_MODEL)

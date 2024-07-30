@@ -268,9 +268,9 @@ def main(args: argparse.Namespace):
     if args.checkpoint is not None:
         model = stable_baselines3.DDPG.load(args.checkpoint, env=env)
     else:
-        policy_kwargs = {"net_arch": {"pi": [300, 200], "qf": [400, 300]}}
+        policy_kwargs = {"net_arch": {"pi": [64, 64], "qf": [400, 300]}}
         model = stable_baselines3.DDPG(
-            "MultiInputPolicy",
+            "MlpPolicy",
             env,
             learning_rate=args.lr,
             policy_kwargs=policy_kwargs,

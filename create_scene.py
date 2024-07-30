@@ -114,7 +114,8 @@ class BlenderScene():
         for i in range(0, bpy.data.scenes["Scene"].frame_end, 10):
             cam.location += Vector(np.random.normal(0, intensity, 3))
             cam.keyframe_insert("location", frame = i)
-            cam.keyframe_insert("rotation_euler", frame=i)
+
+
 
 
 

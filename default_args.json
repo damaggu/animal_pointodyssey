@@ -3,9 +3,9 @@
     "vid_length": 24,
     "speedup": 5,
     "origin_range": 5,
-    "track_prop": 0.6,
-    "fog_prop": 0.2,
-    "shake_prop": 0.6,
+    "track_prop": 0,
+    "fog_prop": 0.1,
+    "shake_prop": 0.4,
     "blur_prop": 0.6,
     "file": "/home/justin/Downloads/2020_12_24_2.h5",
     "scratch_dir": "./results/animal/",
@@ -13,6 +13,7 @@
     "character": "data/harvard_motion/mapped_mouse.blend",
     "material_path": "data/blender_assets/materials.blend",
     "background_folder": "data/hdri/",
-    "num_characters": 3,
+    "min_characters": 1,
+    "max_characters": 5,
     "render_args": {"resolution_x": 512, "resolution_y": 512, "fps": 12, "use_motion_blur": true}
 }

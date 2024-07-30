@@ -54,6 +54,7 @@ if __name__ == '__main__':
         run_info["render_args"]["use_motion_blur"] = np.random.rand() < run_info["blur_prop"]
         run_info["brightness"] = np.random.uniform(0.3, 1.1)
         run_info["background"] = np.random.choice(os.listdir(run_info["background_folder"]))
+        run_info["num_characters"] = np.random.randint(run_info["min_characters"], run_info["max_characters"]+1)
         print(run_info["background"])
         save_dir = f'./results/mouse_{run_info["start"]}/{str(i).zfill(4)}/'
         center_origin = np.random.uniform(-run_info["origin_range"], run_info["origin_range"], [2])
@@ -86,7 +87,7 @@ if __name__ == '__main__':
             scene.set_cam(pos=cam_pos, dir=(0, 0, 0))
 
         if run_info["shake"]:
-            scene.shake_cam(intensity = 2)
+            scene.shake_cam(intensity = 1)
 
         scene.set_brightness(run_info["brightness"])
         scene.set_background(os.path.join(run_info["background_folder"], run_info["background"]))
