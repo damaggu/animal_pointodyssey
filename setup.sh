@@ -1,4 +1,6 @@
 
+
+
 #OS setup
 apt-get update && apt-get install nano unzip ffmpeg libsm6 libxext6 unar vim htop unzip gcc curl g++ python3-distutils python3-apt pip -y
 

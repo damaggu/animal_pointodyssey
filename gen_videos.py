@@ -98,7 +98,7 @@ if __name__ == '__main__':
         json.dump(run_info, open(os.path.join(save_dir, 'run_info.json'), 'w'), indent=4)
         render_script = f"python export_annotation.py --scene_dir results/animal/scene.blend --save_dir {save_dir} --rendering --samples_per_pixel 48  \
                 --exr --export_obj \
-                --use_gpu --export_tracking --sampling_character_num 5000 --sampling_scene_num 2000 {'--add_fog' if run_info['fog'] else ''}"
+                --use_gpu --export_tracking --sampling_character_num 5000 --sampling_scene_num 20000 {'--add_fog' if run_info['fog'] else ''}"
         os.system(render_script)
         convert_to_kubric(save_dir)
         video_script = f"ffmpeg -f image2 -r {run_info['render_args']['fps']} -pattern_type glob -i '{save_dir}/images/*.png' -vcodec libx264 -crf 22 '{save_dir}/video.mp4'"
