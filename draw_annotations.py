@@ -10,7 +10,7 @@ def main(file_path):
     frame_n = 0
     height = 540
     width = 960
-    display_num = 50
+    display_num = 3000
     annotations = np.load(file_path + "annotations.npz")
 
     trajs = annotations["trajs_2d"]
@@ -43,4 +43,4 @@ def main(file_path):
 
 
 if __name__ == "__main__":
-    main("/home/justin/repos/animal-pointodyssey/results/mouse_07-25T15:29:25/0000/")
+    main("/home/justin/repos/animal-pointodyssey/results/mouse_07-29T19:03:44/0026/")

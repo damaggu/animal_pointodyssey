@@ -6,6 +6,7 @@ ttemp*
 *.blend
 results/
 *.exr
+*.h5
 refs/remotes/origin/main
 # From Github
 # Byte-compiled / optimized / DLL files

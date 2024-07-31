@@ -132,11 +132,12 @@ def tracking(cp_root: str, data_root: str, sampling_scene_num=100000, sampling_c
     # filter out points that are invisible in the most of the frames
     print('filtering...')
     mask_s = np.zeros((scene_points.shape[0], 1), dtype=bool)
-    for i in tqdm(range(len(frames) // 50)):
-        K = np.loadtxt(os.path.join(cam_root, 'K_{}.txt'.format(str(i * 50 + 1).zfill(4))))
-        RT = np.loadtxt(os.path.join(cam_root, 'RT_{}.txt'.format(str(i * 50 + 1).zfill(4))))
+    print(frames)
+    for i in tqdm(range(len(frames))[::7]):
+        K = np.loadtxt(os.path.join(cam_root, 'K_{}.txt'.format(str(i+1).zfill(4))))
+        RT = np.loadtxt(os.path.join(cam_root, 'RT_{}.txt'.format(str(i+1).zfill(4))))
         RT = R3 @ R2 @ RT @ R1
-        depth = read_tiff(os.path.join(exr_root, 'depth_{}.tiff'.format(str(i * 50 + 1).zfill(5))))
+        depth = read_tiff(os.path.join(exr_root, 'depth_{}.tiff'.format(str(i+1).zfill(5))))
         h, w, _ = depth.shape
         uv, z = reprojection(scene_points, K, RT, h, w)
         visibility = check_visibility(uv, z, depth, h, w)
