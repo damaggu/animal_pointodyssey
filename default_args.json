@@ -7,7 +7,7 @@
     "fog_prop": 0.1,
     "shake_prop": 0.4,
     "blur_prop": 0.6,
-    "file": "/home/justin/Downloads/2020_12_24_2.h5",
+    "file": "data/harvard_motion/2020_12_24_2.h5",
     "scratch_dir": "./results/animal/",
     "base": "data/blender_assets/hdri.blend",
     "character": "data/harvard_motion/mapped_mouse.blend",
