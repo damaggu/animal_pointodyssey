@@ -10,7 +10,7 @@ def main(file_path):
     frame_n = 0
     height = 540
     width = 960
-    display_num = 3000
+    display_num = 2048
     annotations = np.load(file_path + "annotations.npz")
 
     trajs = annotations["trajs_2d"]
