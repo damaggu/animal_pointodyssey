@@ -15,5 +15,7 @@
     "background_folder": "data/hdri/",
     "min_characters": 1,
     "max_characters": 5,
-    "render_args": {"resolution_x": 512, "resolution_y": 512, "fps": 12, "use_motion_blur": true}
+    "render_args": {"resolution_x": 512, "resolution_y": 512, "fps": 12, "use_motion_blur": true},
+    "character_samples": 5000,
+    "scene_samples": 30000
 }
