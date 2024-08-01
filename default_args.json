@@ -3,7 +3,7 @@
     "vid_length": 24,
     "speedup": 5,
     "origin_range": 5,
-    "track_prop": 0,
+    "track_prop": 0.5,
     "fog_prop": 0.1,
     "shake_prop": 0.4,
     "blur_prop": 0.6,

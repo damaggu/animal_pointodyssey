@@ -16,8 +16,8 @@ BASE_MODEL = 'mouse_export.xml'
 DEFAULT_MODEL = 'mouse_defaults.xml'
 OUT_DIR = "data/mujoco/"
 OUT_MODEL = "mouse.xml"
-DEFAULT_GEAR = 40
-DEFAULT_GAINPRM = 10
+DEFAULT_GEAR = 20
+DEFAULT_GAINPRM = 0.01
 
 
 with open(os.path.join(ASSET_DIR, BASE_MODEL), 'r') as f:

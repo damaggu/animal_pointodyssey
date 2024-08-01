@@ -18,8 +18,7 @@ def get_active_start(keypoints, timesteps, threshold = 5):
     return None
 
 def convert_to_kubric(file_path):
-
-    annotations = np.load(file_path + "annotations.npz")
+    annotations = np.load(os.path.join(file_path, "annotations.npz"))
 
     kubric = {}
     n_points = annotations["trajs_2d"].shape[1]
@@ -97,7 +96,7 @@ if __name__ == '__main__':
         os.makedirs(save_dir, exist_ok=True)
         json.dump(run_info, open(os.path.join(save_dir, 'run_info.json'), 'w'), indent=4)
         render_script = f"python export_annotation.py --scene_dir results/animal/scene.blend --save_dir {save_dir} --rendering --samples_per_pixel 48  \
-                --exr --export_obj \
+                --export_obj \
                 --use_gpu --export_tracking --sampling_character_num {run_info['character_samples']} --sampling_scene_num {run_info['scene_samples']} {'--add_fog' if run_info['fog'] else ''}"
         os.system(render_script)
         convert_to_kubric(save_dir)

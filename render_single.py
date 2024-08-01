@@ -77,8 +77,6 @@ class Blender_render():
 
 
     def set_render_engine(self):
-        bpy.context.scene.render.resolution_x = 960
-        bpy.context.scene.render.resolution_y = 540
         bpy.context.scene.render.resolution_percentage = 100
         bpy.context.scene.render.engine = self.render_engine
         print("Using render engine: {}".format(self.render_engine))

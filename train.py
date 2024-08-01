@@ -34,6 +34,7 @@ from utils import log_to_dir
 FPS = 40
 
 REGISTERED_ENV_NAMES = {
+    "cartpole-balance": "dm_control/cartpole-balance-v0",
     "acrobot-swingup": "dm_control/acrobot-swingup-v0",
     "dog-stand": "dm_control/dog-stand-v0",
     "dog-trot": "dm_control/dog-trot-v0",
@@ -257,7 +258,7 @@ def get_video(model: BaseAlgorithm, video_name: str, vid_length: int) -> None:
 
 def main(args: argparse.Namespace):
     env = make_env(args.env, render_mode="rgb_array")
-    # env = FlattenObservation(env)
+    env = FlattenObservation(env)
     env.metadata["render_fps"] = FPS
 
     curr_dir = os.path.join(args.log_directory, args.save_directory)
@@ -268,7 +269,7 @@ def main(args: argparse.Namespace):
     if args.checkpoint is not None:
         model = stable_baselines3.DDPG.load(args.checkpoint, env=env)
     else:
-        policy_kwargs = {"net_arch": {"pi": [64, 64], "qf": [400, 300]}}
+        policy_kwargs = {"net_arch": {"pi": [200, 300], "qf": [400, 300]}}
         model = stable_baselines3.DDPG(
             "MlpPolicy",
             env,

@@ -4,8 +4,8 @@
   <default>
     <default class="/">
       <tendon range="-1 1"/>
-      <general ctrllimited="true" forcelimited="false" ctrlrange="-1 1" gainprm="10"/>
-      <motor gear="40"/>
+      <general ctrllimited="true" forcelimited="false" ctrlrange="-1 1" gainprm="0.01"/>
+      <motor gear="20"/>
     </default>
   </default>
   <asset>
@@ -276,31 +276,31 @@
     </fixed>
   </tendon>
   <actuator>
-    <motor name="rx_L_F_Paw_1_motor" class="/" gear="40" joint="rx_L_F_Paw_1"/>
-    <motor name="ry_L_F_Paw_1_motor" class="/" gear="40" joint="ry_L_F_Paw_1"/>
-    <motor name="rz_L_F_Paw_1_motor" class="/" gear="40" joint="rz_L_F_Paw_1"/>
-    <motor name="rx_L_F_Paw_2_motor" class="/" gear="40" joint="rx_L_F_Paw_2"/>
-    <motor name="rz_L_F_Paw_2_motor" class="/" gear="40" joint="rz_L_F_Paw_2"/>
-    <motor name="rx_R_F_Paw_1_motor" class="/" gear="40" joint="rx_R_F_Paw_1"/>
-    <motor name="ry_R_F_Paw_1_motor" class="/" gear="40" joint="ry_R_F_Paw_1"/>
-    <motor name="rz_R_F_Paw_1_motor" class="/" gear="40" joint="rz_R_F_Paw_1"/>
-    <motor name="rx_R_F_Paw_2_motor" class="/" gear="40" joint="rx_R_F_Paw_2"/>
-    <motor name="rz_R_F_Paw_2_motor" class="/" gear="40" joint="rz_R_F_Paw_2"/>
-    <motor name="rx_R_B_Paw_1_motor" class="/" gear="40" joint="rx_R_B_Paw_1"/>
-    <motor name="ry_R_B_Paw_1_motor" class="/" gear="40" joint="ry_R_B_Paw_1"/>
-    <motor name="rz_R_B_Paw_1_motor" class="/" gear="40" joint="rz_R_B_Paw_1"/>
-    <motor name="rx_R_B_Paw_2_motor" class="/" gear="40" joint="rx_R_B_Paw_2"/>
-    <motor name="rz_R_B_Paw_2_motor" class="/" gear="40" joint="rz_R_B_Paw_2"/>
-    <motor name="rx_L_B_Paw_1_motor" class="/" gear="40" joint="rx_L_B_Paw_1"/>
-    <motor name="ry_L_B_Paw_1_motor" class="/" gear="40" joint="ry_L_B_Paw_1"/>
-    <motor name="rz_L_B_Paw_1_motor" class="/" gear="40" joint="rz_L_B_Paw_1"/>
-    <motor name="rx_L_B_Paw_2_motor" class="/" gear="40" joint="rx_L_B_Paw_2"/>
-    <motor name="rz_L_B_Paw_2_motor" class="/" gear="40" joint="rz_L_B_Paw_2"/>
-    <general name="back_x_motor" class="/" tendon="back_x" gainprm="10"/>
-    <general name="back_z_motor" class="/" tendon="back_z" gainprm="10"/>
-    <general name="tail_x_motor" class="/" tendon="tail_x" gainprm="10"/>
-    <general name="tail_z_motor" class="/" tendon="tail_z" gainprm="10"/>
-    <general name="back_y_motor" class="/" tendon="back_y" gainprm="10"/>
+    <motor name="rx_L_F_Paw_1_motor" class="/" gear="20" joint="rx_L_F_Paw_1"/>
+    <motor name="ry_L_F_Paw_1_motor" class="/" gear="20" joint="ry_L_F_Paw_1"/>
+    <motor name="rz_L_F_Paw_1_motor" class="/" gear="20" joint="rz_L_F_Paw_1"/>
+    <motor name="rx_L_F_Paw_2_motor" class="/" gear="20" joint="rx_L_F_Paw_2"/>
+    <motor name="rz_L_F_Paw_2_motor" class="/" gear="20" joint="rz_L_F_Paw_2"/>
+    <motor name="rx_R_F_Paw_1_motor" class="/" gear="20" joint="rx_R_F_Paw_1"/>
+    <motor name="ry_R_F_Paw_1_motor" class="/" gear="20" joint="ry_R_F_Paw_1"/>
+    <motor name="rz_R_F_Paw_1_motor" class="/" gear="20" joint="rz_R_F_Paw_1"/>
+    <motor name="rx_R_F_Paw_2_motor" class="/" gear="20" joint="rx_R_F_Paw_2"/>
+    <motor name="rz_R_F_Paw_2_motor" class="/" gear="20" joint="rz_R_F_Paw_2"/>
+    <motor name="rx_R_B_Paw_1_motor" class="/" gear="20" joint="rx_R_B_Paw_1"/>
+    <motor name="ry_R_B_Paw_1_motor" class="/" gear="20" joint="ry_R_B_Paw_1"/>
+    <motor name="rz_R_B_Paw_1_motor" class="/" gear="20" joint="rz_R_B_Paw_1"/>
+    <motor name="rx_R_B_Paw_2_motor" class="/" gear="20" joint="rx_R_B_Paw_2"/>
+    <motor name="rz_R_B_Paw_2_motor" class="/" gear="20" joint="rz_R_B_Paw_2"/>
+    <motor name="rx_L_B_Paw_1_motor" class="/" gear="20" joint="rx_L_B_Paw_1"/>
+    <motor name="ry_L_B_Paw_1_motor" class="/" gear="20" joint="ry_L_B_Paw_1"/>
+    <motor name="rz_L_B_Paw_1_motor" class="/" gear="20" joint="rz_L_B_Paw_1"/>
+    <motor name="rx_L_B_Paw_2_motor" class="/" gear="20" joint="rx_L_B_Paw_2"/>
+    <motor name="rz_L_B_Paw_2_motor" class="/" gear="20" joint="rz_L_B_Paw_2"/>
+    <general name="back_x_motor" class="/" tendon="back_x" gainprm="0.01"/>
+    <general name="back_z_motor" class="/" tendon="back_z" gainprm="0.01"/>
+    <general name="tail_x_motor" class="/" tendon="tail_x" gainprm="0.01"/>
+    <general name="tail_z_motor" class="/" tendon="tail_z" gainprm="0.01"/>
+    <general name="back_y_motor" class="/" tendon="back_y" gainprm="0.01"/>
   </actuator>
   <sensor>
     <accelerometer name="accelerometer" site="Head"/>
