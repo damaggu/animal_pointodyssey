@@ -158,12 +158,12 @@ def tracking(cp_root: str, data_root: str, sampling_scene_num=100000, sampling_c
     sampling_idx = np.unique(obj_samples)
     print(len(obj_samples))
     print(len(sampling_idx))
-    for i in tqdm(range(0, len(frames) - 1)):
-        K = np.loadtxt(os.path.join(cam_root, 'K_{}.txt'.format(str(i + 1).zfill(4))))
-        RT = np.loadtxt(os.path.join(cam_root, 'RT_{}.txt'.format(str(i + 1).zfill(4))))
+    for i in tqdm(range(0, len(frames))):
+        K = np.loadtxt(os.path.join(cam_root, 'K_{}.txt'.format(str(i).zfill(4))))
+        RT = np.loadtxt(os.path.join(cam_root, 'RT_{}.txt'.format(str(i).zfill(4))))
         RT = R3 @ R2 @ RT @ R1
-        depth = read_tiff(os.path.join(exr_root, 'depth_{}.tiff'.format(str(i + 1).zfill(5))))
-        img = cv2.imread(os.path.join(exr_root, 'rgb_{}.png'.format(str(i + 1).zfill(5))))
+        depth = read_tiff(os.path.join(exr_root, 'depth_{}.tiff'.format(str(i).zfill(5))))
+        img = cv2.imread(os.path.join(exr_root, 'rgb_{}.png'.format(str(i).zfill(5))))
         h, w, _ = img.shape
 
         # convert img to jpg
@@ -184,11 +184,11 @@ def tracking(cp_root: str, data_root: str, sampling_scene_num=100000, sampling_c
         # cp normals and masks
         save_normal_path = os.path.join(save_normals_root, 'normal_{}.jpg'.format(str(i).zfill(5)))
         save_mask_path = os.path.join(save_masks_root, 'mask_{}.png'.format(str(i).zfill(5)))
-        save_normal = cv2.imread(os.path.join(exr_root, 'normal_{}.png'.format(str(i + 1).zfill(5))))
+        save_normal = cv2.imread(os.path.join(exr_root, 'normal_{}.png'.format(str(i).zfill(5))))
         cv2.imwrite(save_normal_path, save_normal)
 
-        if os.path.exists(os.path.join(exr_root, 'segmentation_{}.png'.format(str(i + 1).zfill(5)))):
-            shutil.copy(os.path.join(exr_root, 'segmentation_{}.png'.format(str(i + 1).zfill(5))), save_mask_path)
+        if os.path.exists(os.path.join(exr_root, 'segmentation_{}.png'.format(str(i).zfill(5)))):
+            shutil.copy(os.path.join(exr_root, 'segmentation_{}.png'.format(str(i).zfill(5))), save_mask_path)
 
         uv, z = reprojection(scene_points, K, RT, h, w)
         visibility = check_visibility(uv, z, depth, h, w)
@@ -196,7 +196,7 @@ def tracking(cp_root: str, data_root: str, sampling_scene_num=100000, sampling_c
         if sampling_character_num > 0:
             # c_obj, _ = read_obj_file(os.path.join(obj_root, 'character_{}.obj'.format(str(i + 1).zfill(4))))
             # c_obj = np.array(c_obj)[sampling_idx]
-            c_obj_mesh = trimesh.load(os.path.join(obj_root, 'character_{}.obj'.format(str(i + 1).zfill(4))))
+            c_obj_mesh = trimesh.load(os.path.join(obj_root, 'character_{}.obj'.format(str(i).zfill(4))))
             c_obj = np.array(c_obj_mesh.vertices)[sampling_idx]
             # print(c_obj)
             uv_, z_ = reprojection(c_obj, K, RT, h, w)
@@ -228,7 +228,7 @@ def tracking(cp_root: str, data_root: str, sampling_scene_num=100000, sampling_c
              visibilities=tracking_results[:, :, 2],
              intrinsics=K_data,
              extrinsics=RT_data)
-
+    print(tracking_results[:, :, :2].shape)
     return tracking_results
 
 

@@ -164,12 +164,16 @@ class StandingMouseEnv(MujocoEnv, utils.EzPickle):
 
         self.height_bodies = filter(lambda x: "Head" in self.body_names[x], range(len(self.body_names)))
         self.head_id = list(filter(lambda x: "Head" in self.body_names[x], range(len(self.body_names))))[0]
-        self.reset_model()
+
         self.init_quat = self.data.xquat.copy()
         self.init_pos = self.data.xpos.copy()
+        self.target_pos = self.init_pos.copy()
         self.it = 0
 
+        self.reset_model()
+
     def step(self, action):
+        #self.target_pos[0] += 0.002
         self.do_simulation(action, self.frame_skip)
         obs = self._get_obs()
         reward = self._get_rew(action)
@@ -212,12 +216,13 @@ class StandingMouseEnv(MujocoEnv, utils.EzPickle):
             dq += quat_diff(q1, q2)
 
         dq = -dq * 0.2
-        dp = -np.linalg.norm(self.init_pos - self.data.xpos)**2
+        dp = -np.linalg.norm(self.target_pos - self.data.xpos)**2
         vels = np.array(self.data.qvel)
-        vel_reward = - np.sum(vels**2)/10
+        vel_reward = - np.sum(vels**2)/50
         ctrl_rew = -abs(0.0005 * self.ctrl_reward(action))
         self.it += 1
-        return diff + vel_reward + ctrl_rew + dp
+        height_rew = self.data.subtree_com[1][2] * 100
+        return ctrl_rew + dp + height_rew
 
     def reset_model(self):
         lol = np.zeros_like(self.init_qpos)
@@ -228,6 +233,7 @@ class StandingMouseEnv(MujocoEnv, utils.EzPickle):
         qpos = self.init_qpos + self.np_random.uniform(-RANGE, RANGE, size=self.model.nq) + lol
         qvel = self.init_qvel + self.np_random.uniform(-RANGE, RANGE, size=self.model.nv) + lolv * 0.5
         self.set_state(qpos, qvel)
+        self.target_pos = self.init_pos.copy()
         return self._get_obs()
 
     def render(self):

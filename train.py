@@ -35,6 +35,7 @@ FPS = 40
 
 REGISTERED_ENV_NAMES = {
     "cartpole-balance": "dm_control/cartpole-balance-v0",
+    "walker-run": "dm_control/walker-run-v0",
     "acrobot-swingup": "dm_control/acrobot-swingup-v0",
     "dog-stand": "dm_control/dog-stand-v0",
     "dog-trot": "dm_control/dog-trot-v0",
@@ -42,6 +43,7 @@ REGISTERED_ENV_NAMES = {
     "humanoid-walk": "dm_control/humanoid-walk-v0",
     "humanoid-run": "dm_control/humanoid-run-v0",
     "humanoid": "Humanoid-v4",
+    "ant": "Ant-v4",
     "custom-dog": "dog-v0",
     "custom-mouse": "mouse-v0",
     "mouse-stand": "mouse-stand-v0",
@@ -229,6 +231,13 @@ def make_env(name: str, render_mode: str = None, **kwargs) -> gym.Env:
 
 
 def parse_args(argparser: argparse.ArgumentParser) -> None:
+    argparser.add_argument(
+        "--algorithm",
+        type=str,
+        default="TD3",
+        choices=["DDPG", "SAC", "PPO", "TD3"],
+        help="what dataset to use for training",
+    )
     argparser.add_argument("--log-directory", type=str, default="logs")
     argparser.add_argument("--save-directory", type=str)
     argparser.add_argument("--model-directory", type=str, default="models")
@@ -241,6 +250,7 @@ def parse_args(argparser: argparse.ArgumentParser) -> None:
     argparser.add_argument("--checkpoint", type=str, default=None)
     argparser.add_argument("--num-timesteps", type=int, default=100_000)
     argparser.add_argument("--eval-freq", type=int, default=100_000)
+    argparser.add_argument("--batch-size", type=int, default=256)
     argparser.add_argument("--lr", type=float, default=0.0003)
 
 
@@ -270,16 +280,44 @@ def main(args: argparse.Namespace):
         model = stable_baselines3.DDPG.load(args.checkpoint, env=env)
     else:
         policy_kwargs = {"net_arch": {"pi": [200, 300], "qf": [400, 300]}}
-        model = stable_baselines3.DDPG(
-            "MlpPolicy",
-            env,
-            learning_rate=args.lr,
-            policy_kwargs=policy_kwargs,
-            buffer_size=int(3.5e5),
-            batch_size=64,
-            tau=1e-3,
-        )
-
+        if args.algorithm == "TD3":
+            model = stable_baselines3.TD3(
+                "MlpPolicy",
+                env,
+                learning_rate=args.lr,
+                policy_kwargs=policy_kwargs,
+                buffer_size=int(5e5),
+                batch_size=args.batch_size,
+                tau=5e-3,
+            )
+        elif args.algorithm == "DDPG":
+            model = stable_baselines3.DDPG(
+                "MlpPolicy",
+                env,
+                learning_rate=args.lr,
+                policy_kwargs=policy_kwargs,
+                buffer_size=int(5e5),
+                batch_size=args.batch_size,
+                tau=5e-3,
+            )
+        elif args.algorithm == "SAC":
+            model = stable_baselines3.SAC(
+                "MlpPolicy",
+                env,
+                learning_rate=args.lr,
+                policy_kwargs=policy_kwargs,
+                buffer_size=int(5e5),
+                batch_size=args.batch_size,
+                tau=5e-3,
+            )
+        elif args.algorithm == "PPO":
+            model = stable_baselines3.PPO(
+                "MlpPolicy",
+                env,
+                learning_rate=args.lr,
+                policy_kwargs=policy_kwargs,
+                batch_size=args.batch_size,
+            )
     model.set_logger(sb3_logger)
     video_env = VecVideoRecorder(
         model.get_env(),

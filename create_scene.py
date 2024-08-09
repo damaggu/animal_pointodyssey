@@ -31,6 +31,7 @@ class BlenderScene():
                 self.render_args[arg] = default_args[arg]
         self.set_render_args(self.render_args)
 
+
     def save_scene(self, filename = 'scene.blend'):
         absolute_path = os.path.abspath(self.scratch_dir)
         try:

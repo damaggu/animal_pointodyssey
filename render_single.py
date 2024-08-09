@@ -183,8 +183,8 @@ class Blender_render():
 
         # add keyframes of the noise texture
         mapping = fog_material.node_tree.nodes["Mapping"]
-        for i in range(0, bpy.context.scene.frame_end // 200):
-            bpy.context.scene.frame_set(i * 200)
+        for i in range(0, bpy.context.scene.frame_end, 20):
+            bpy.context.scene.frame_set(i)
             mapping.inputs[1].default_value[0] = np.random.uniform(-3, 3)
             mapping.inputs[1].default_value[1] = np.random.uniform(-3, 3)
             mapping.inputs[1].default_value[2] = np.random.uniform(-3, 3)
@@ -193,8 +193,8 @@ class Blender_render():
             mapping.inputs[2].default_value[2] = np.random.uniform(-np.pi, np.pi)
 
             # add keyframes of the mapping
-            mapping.inputs[1].keyframe_insert(data_path="default_value", frame=i * 200)
-            mapping.inputs[2].keyframe_insert(data_path="default_value", frame=i * 200)
+            mapping.inputs[1].keyframe_insert(data_path="default_value", frame=i)
+            mapping.inputs[2].keyframe_insert(data_path="default_value", frame=i)
 
 
         print("Loading fog done")

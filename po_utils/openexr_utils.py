@@ -208,6 +208,7 @@ def postprocess(
     data_stack = collections.defaultdict(list)
 
     exr_frames = sorted((from_dir / "exr").glob("*.exr"))[frame_idx:]
+    print(len(exr_frames))
     png_frames = [from_dir / "images" / (exr_filename.stem + ".png")
                   for exr_filename in exr_frames]
     scene_info = json.load(open(from_dir / 'scene_info.json', 'r'))

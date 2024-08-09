@@ -28,7 +28,7 @@ def convert_to_kubric(file_path):
     kubric["visibility"] = annotations["visibilities"][:, idx] == 1.
     kubric["visibility"] = np.swapaxes(kubric["visibility"], 0, 1)
     print(kubric["visibility"])
-    with open(file_path + "kubric.npy", "wb") as f:
+    with open(os.path.join(file_path, "kubric.npy"), "wb") as f:
         np.save(f, kubric)
 
 
@@ -59,7 +59,7 @@ if __name__ == '__main__':
         center_origin = np.random.uniform(-run_info["origin_range"], run_info["origin_range"], [2])
         character = None
         for j in range(run_info["num_characters"]):
-            start = get_active_start(keypoints, timesteps, threshold=4)
+            start = get_active_start(keypoints, timesteps, threshold=8)
             origin = np.random.uniform(-1, 1, [3]) * 2
             origin[:2] += center_origin
             origin[2] = 0
@@ -96,7 +96,7 @@ if __name__ == '__main__':
         os.makedirs(save_dir, exist_ok=True)
         json.dump(run_info, open(os.path.join(save_dir, 'run_info.json'), 'w'), indent=4)
         render_script = f"python export_annotation.py --scene_dir results/animal/scene.blend --save_dir {save_dir} --rendering --samples_per_pixel 48  \
-                --export_obj \
+                --exr --export_obj \
                 --use_gpu --export_tracking --sampling_character_num {run_info['character_samples']} --sampling_scene_num {run_info['scene_samples']} {'--add_fog' if run_info['fog'] else ''}"
         os.system(render_script)
         convert_to_kubric(save_dir)

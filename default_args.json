@@ -4,7 +4,7 @@
     "speedup": 5,
     "origin_range": 5,
     "track_prop": 0.5,
-    "fog_prop": 0.1,
+    "fog_prop": 0.05,
     "shake_prop": 0.4,
     "blur_prop": 0.6,
     "file": "data/harvard_motion/2020_12_24_2.h5",
@@ -15,7 +15,14 @@
     "background_folder": "data/hdri/",
     "min_characters": 1,
     "max_characters": 5,
-    "render_args": {"resolution_x": 512, "resolution_y": 512, "fps": 12, "use_motion_blur": true},
+    "render_args": {
+        "resolution_x": 512,
+        "resolution_y": 512,
+        "fps": 12,
+        "use_motion_blur": true,
+        "threads_mode": "FIXED",
+        "threads":  8
+    },
     "character_samples": 5000,
-    "scene_samples": 30000
+    "scene_samples": 100000
 }

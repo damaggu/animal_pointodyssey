@@ -25,7 +25,7 @@ if __name__ == '__main__':
     # exr settings
     parser.add_argument('--exr',  default=False, action='store_true')
     parser.add_argument('--batch_size', type=int, default=64)
-    parser.add_argument('--frame_idx', type=int, default=1)
+    parser.add_argument('--frame_idx', type=int, default=0)
 
     # export obj settings
     parser.add_argument('--export_obj',  default=False, action='store_true')
