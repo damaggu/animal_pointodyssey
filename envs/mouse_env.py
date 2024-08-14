@@ -209,7 +209,7 @@ class StandingMouseEnv(MujocoEnv, utils.EzPickle):
 
 
     def ctrl_reward(self, action: np.ndarray) -> float:
-        return np.linalg.norm(action)
+        return np.linalg.norm(action)**2
 
 
     def _get_rew(self, action: np.ndarray, vel = 0):
