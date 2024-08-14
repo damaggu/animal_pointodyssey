@@ -27,8 +27,7 @@ def fix_annotations(file_path, num_characters = 3):
     convert_to_kubric(file_path)
 
 # Get the list of all files and directories
-def add_videos(path, fix = True):
-    output_folder = "./results/datasets/aug_11"
+def add_videos(path, output_folder = "./results/aug14", fix = True):
     os.makedirs(output_folder, exist_ok=True)
     dir_list = [x for x in os.listdir(path) if os.path.isdir(os.path.join(path, x))]
     dir_list.sort()
@@ -63,9 +62,9 @@ def add_videos(path, fix = True):
             shutil.copy(os.path.join(full_path, "kubric.npy"), os.path.join(output_path, str(cur).zfill(4) + ".npy"))
         cur += 1
 
+base_path = "results/run_aug14"
+paths = [os.path.join(base_path, p) for p in os.listdir(base_path)]
 
-paths = [
-    "/home/justin/repos/animal-pointodyssey/results/mouse_08-10T00:38:15",
-]
+
 for p in paths:
-    add_videos(p, fix = False)
+    add_videos(p, output_folder="./results/aug14", fix = True)
