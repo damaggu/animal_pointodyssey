@@ -228,8 +228,6 @@ def make_env(name: str, render_mode: str = None, **kwargs) -> gym.Env:
         return gym.make(REGISTERED_ENV_NAMES[args.env], render_mode=render_mode)
     
     raise NotImplementedError(f"{name} not a implemented env.")
-
-
 def parse_args(argparser: argparse.ArgumentParser) -> None:
     argparser.add_argument(
         "--algorithm",
@@ -269,6 +267,7 @@ def get_video(model: BaseAlgorithm, video_name: str, vid_length: int) -> None:
 def main(args: argparse.Namespace):
     env = make_env(args.env, render_mode="rgb_array")
     env = FlattenObservation(env)
+    policy = "MlpPolicy"
     env.metadata["render_fps"] = FPS
 
     curr_dir = os.path.join(args.log_directory, args.save_directory)
@@ -282,7 +281,7 @@ def main(args: argparse.Namespace):
         policy_kwargs = {"net_arch": {"pi": [200, 300], "qf": [400, 300]}}
         if args.algorithm == "TD3":
             model = stable_baselines3.TD3(
-                "MlpPolicy",
+                policy,
                 env,
                 learning_rate=args.lr,
                 policy_kwargs=policy_kwargs,
@@ -292,7 +291,7 @@ def main(args: argparse.Namespace):
             )
         elif args.algorithm == "DDPG":
             model = stable_baselines3.DDPG(
-                "MlpPolicy",
+                policy,
                 env,
                 learning_rate=args.lr,
                 policy_kwargs=policy_kwargs,
@@ -302,7 +301,7 @@ def main(args: argparse.Namespace):
             )
         elif args.algorithm == "SAC":
             model = stable_baselines3.SAC(
-                "MlpPolicy",
+                policy,
                 env,
                 learning_rate=args.lr,
                 policy_kwargs=policy_kwargs,
@@ -312,7 +311,7 @@ def main(args: argparse.Namespace):
             )
         elif args.algorithm == "PPO":
             model = stable_baselines3.PPO(
-                "MlpPolicy",
+                policy,
                 env,
                 learning_rate=args.lr,
                 policy_kwargs=policy_kwargs,

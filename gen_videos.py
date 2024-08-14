@@ -54,6 +54,7 @@ if __name__ == '__main__':
         run_info["brightness"] = np.random.uniform(0.3, 1.1)
         run_info["background"] = np.random.choice(os.listdir(run_info["background_folder"]))
         run_info["num_characters"] = np.random.randint(run_info["min_characters"], run_info["max_characters"]+1)
+        run_info["character_samples"] = 1000 * run_info["num_characters"]
         print(run_info["background"])
         save_dir = f'./results/mouse_{run_info["start"]}/{str(i).zfill(4)}/'
         center_origin = np.random.uniform(-run_info["origin_range"], run_info["origin_range"], [2])
