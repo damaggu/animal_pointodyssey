@@ -6,7 +6,7 @@ import random
 from create_scene import BlenderScene
 import matplotlib.pyplot as plt
 import json
-
+import argparse
 def get_active_start(keypoints, timesteps, threshold = 5):
     for i in range(1000):
         start = np.random.randint(0, len(keypoints) - timesteps)
@@ -33,6 +33,10 @@ def convert_to_kubric(file_path):
 
 
 if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--render_only',  default=False, action='store_true')
+    args = parser.parse_args()
     run_info = json.load(open('default_args.json', 'r'))
     timesteps = run_info["vid_length"] * run_info["speedup"]
     f = h5py.File(run_info["file"], 'r')
@@ -54,6 +58,7 @@ if __name__ == '__main__':
         run_info["brightness"] = np.random.uniform(0.3, 1.1)
         run_info["background"] = np.random.choice(os.listdir(run_info["background_folder"]))
         run_info["num_characters"] = np.random.randint(run_info["min_characters"], run_info["max_characters"]+1)
+        run_info["character_samples"] = 1000 * run_info["num_characters"] 
         print(run_info["background"])
         save_dir = f'./results/mouse_{run_info["start"]}/{str(i).zfill(4)}/'
         center_origin = np.random.uniform(-run_info["origin_range"], run_info["origin_range"], [2])
@@ -95,11 +100,15 @@ if __name__ == '__main__':
         scene.save_scene()
         os.makedirs(save_dir, exist_ok=True)
         json.dump(run_info, open(os.path.join(save_dir, 'run_info.json'), 'w'), indent=4)
-        render_script = f"python export_annotation.py --scene_dir results/animal/scene.blend --save_dir {save_dir} --rendering --samples_per_pixel 48  \
+        if args.render_only:
+            render_script = f"python export_annotation.py --scene_dir results/animal/scene.blend --save_dir {save_dir} --rendering --samples_per_pixel 48 --use_gpu {'--add_fog' if run_info['fog'] else ''}"
+            os.system(render_script)
+        else:
+            render_script = f"python export_annotation.py --scene_dir results/animal/scene.blend --save_dir {save_dir} --rendering --samples_per_pixel 48  \
                 --exr --export_obj \
                 --use_gpu --export_tracking --sampling_character_num {run_info['character_samples']} --sampling_scene_num {run_info['scene_samples']} {'--add_fog' if run_info['fog'] else ''}"
-        os.system(render_script)
-        convert_to_kubric(save_dir)
+            os.system(render_script)
+            convert_to_kubric(save_dir)
         video_script = f"ffmpeg -f image2 -r {run_info['render_args']['fps']} -pattern_type glob -i '{save_dir}/images/*.png' -vcodec libx264 -crf 22 '{save_dir}/video.mp4'"
         os.system(video_script)
 
