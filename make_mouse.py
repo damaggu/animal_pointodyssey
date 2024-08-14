@@ -16,9 +16,9 @@ BASE_MODEL = 'mouse_export.xml'
 DEFAULT_MODEL = 'mouse_defaults.xml'
 OUT_DIR = "data/mujoco/"
 OUT_MODEL = "mouse.xml"
-DEFAULT_GEAR = 50
+DEFAULT_GEAR = 80
 DEFAULT_GAINPRM = 5
-DEFAULT_COEF = 1
+DEFAULT_COEF = 0.1
 
 with open(os.path.join(ASSET_DIR, BASE_MODEL), 'r') as f:
     basetree = etree.XML(f.read(), etree.XMLParser(remove_blank_text=True))
@@ -34,7 +34,7 @@ model.default.general.ctrllimited="true"
 model.default.general.ctrlrange="-1 1"
 model.default.general.forcelimited="false"
 model.default.general.gainprm = str(DEFAULT_GAINPRM)
-#model.default.tendon.range = "-1 1"
+model.default.tendon.range = "-1 1"
 model.default.motor.gear = str(DEFAULT_GEAR)
 
 model.worldbody.add("camera", name="cam0", pos="5 -17 7", xyaxes="1 0.25 0 0 0.3 1", mode="trackcom")
@@ -57,8 +57,11 @@ for j in joints:
         continue
     j.stiffness = "5"
     j.damping = "0.4"
-    r = j.range/2
-    j.range = str(r[0]) + " " + str(r[1])
+    #r = j.range/2
+    #j.range = str(r[0]) + " " + str(r[1])
+    if "Back" in j.name:
+        j.stiffness = "20"
+        j.damping = "0.5"
     if "rx_Back" in j.name:
         model.tendon.fixed["back_x"].add("joint", joint=j.name, coef=str(DEFAULT_COEF))
     elif "ry_Back" in j.name:

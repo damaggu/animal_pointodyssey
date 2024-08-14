@@ -2,6 +2,7 @@
 import os
 import numpy as np
 import shutil
+import json
 
 def convert_to_kubric(file_path):
 
@@ -18,16 +19,16 @@ def convert_to_kubric(file_path):
     with open(os.path.join(file_path, "kubric.npy"), "wb") as f:
         np.save(f, kubric)
 
-def fix_annotations(file_path):
+def fix_annotations(file_path, num_characters = 3):
     fix_depth = f"python -m po_utils.openexr_utils --data_dir {file_path} --output_dir {os.path.join(file_path, 'exr_img')} --batch_size 64 --frame_idx 0"
     os.system(fix_depth)
-    fix_script = f"python -m po_utils.gen_tracking_indoor --data_root {file_path}  --cp_root {file_path} --sampling_scene_num 100000 --sampling_character_num 5000"
+    fix_script = f"python -m po_utils.gen_tracking_indoor --data_root {file_path}  --cp_root {file_path} --sampling_scene_num 100000 --sampling_character_num {num_characters * 1000}"
     os.system(fix_script)
     convert_to_kubric(file_path)
 
 # Get the list of all files and directories
-def add_videos(path):
-    output_folder = "./results/dataset/"
+def add_videos(path, fix = True):
+    output_folder = "./results/datasets/aug_11"
     os.makedirs(output_folder, exist_ok=True)
     dir_list = [x for x in os.listdir(path) if os.path.isdir(os.path.join(path, x))]
     dir_list.sort()
@@ -41,11 +42,16 @@ def add_videos(path):
 
     for d in dir_list:
         full_path = os.path.join(path, d)
-        try:
-            fix_annotations(full_path)
-        except:
-            print(d, "failed")
-            continue
+        run_info = json.load(open(os.path.join(full_path, "run_info.json"), 'r'))
+        if fix:
+            try:
+                if "num_characters" in run_info.keys():
+                    fix_annotations(full_path, run_info["num_characters"])
+                else:
+                    fix_annotations(full_path, 3)
+            except:
+                print(d, "failed")
+                continue
         if "kubric.npy" in os.listdir(full_path):
             output_path = os.path.join(output_folder, str(cur).zfill(4))
             images = os.path.join(full_path, "images")
@@ -59,11 +65,7 @@ def add_videos(path):
 
 
 paths = [
-    "/home/justin/repos/animal-pointodyssey/results/mouse_07-26T16:47:48",
-    "/home/justin/repos/animal-pointodyssey/results/mouse_07-28T18:08:01",
-    "/home/justin/repos/animal-pointodyssey/results/mouse_07-30T10:49:05",
-    "/home/justin/repos/animal-pointodyssey/results/mouse_07-30T22:30:35",
-    "/home/justin/repos/animal-pointodyssey/results/mouse_07-31T00:29:44",
+    "/home/justin/repos/animal-pointodyssey/results/mouse_08-10T00:38:15",
 ]
 for p in paths:
-    add_videos(p)
+    add_videos(p, fix = False)
