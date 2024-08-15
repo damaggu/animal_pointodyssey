@@ -5,7 +5,7 @@
     <default class="/">
       <tendon range="-1 1"/>
       <general ctrllimited="true" forcelimited="false" ctrlrange="-1 1" gainprm="5"/>
-      <motor gear="80"/>
+      <motor gear="120"/>
     </default>
   </default>
   <asset>
@@ -150,50 +150,50 @@
   </worldbody>
   <tendon>
     <fixed name="back_x" class="/">
-      <joint joint="rx_Back_2" coef="0.10000000000000001"/>
-      <joint joint="rx_Back_3" coef="0.10000000000000001"/>
-      <joint joint="rx_Back_4" coef="0.10000000000000001"/>
-      <joint joint="rx_Back_5" coef="0.10000000000000001"/>
-      <joint joint="rx_Back_6" coef="0.10000000000000001"/>
+      <joint joint="rx_Back_2" coef="0.01"/>
+      <joint joint="rx_Back_3" coef="0.01"/>
+      <joint joint="rx_Back_4" coef="0.01"/>
+      <joint joint="rx_Back_5" coef="0.01"/>
+      <joint joint="rx_Back_6" coef="0.01"/>
     </fixed>
     <fixed name="back_y" class="/">
-      <joint joint="ry_Back_2" coef="0.10000000000000001"/>
-      <joint joint="ry_Back_3" coef="0.10000000000000001"/>
-      <joint joint="ry_Back_4" coef="0.10000000000000001"/>
-      <joint joint="ry_Back_5" coef="0.10000000000000001"/>
-      <joint joint="ry_Back_6" coef="0.10000000000000001"/>
+      <joint joint="ry_Back_2" coef="0.01"/>
+      <joint joint="ry_Back_3" coef="0.01"/>
+      <joint joint="ry_Back_4" coef="0.01"/>
+      <joint joint="ry_Back_5" coef="0.01"/>
+      <joint joint="ry_Back_6" coef="0.01"/>
     </fixed>
     <fixed name="back_z" class="/">
-      <joint joint="rz_Back_2" coef="0.10000000000000001"/>
-      <joint joint="rz_Back_3" coef="0.10000000000000001"/>
-      <joint joint="rz_Back_4" coef="0.10000000000000001"/>
-      <joint joint="rz_Back_5" coef="0.10000000000000001"/>
-      <joint joint="rz_Back_6" coef="0.10000000000000001"/>
+      <joint joint="rz_Back_2" coef="0.01"/>
+      <joint joint="rz_Back_3" coef="0.01"/>
+      <joint joint="rz_Back_4" coef="0.01"/>
+      <joint joint="rz_Back_5" coef="0.01"/>
+      <joint joint="rz_Back_6" coef="0.01"/>
     </fixed>
   </tendon>
   <actuator>
-    <motor name="rx_L_F_Paw_1_motor" class="/" gear="80" joint="rx_L_F_Paw_1"/>
-    <motor name="ry_L_F_Paw_1_motor" class="/" gear="80" joint="ry_L_F_Paw_1"/>
-    <motor name="rz_L_F_Paw_1_motor" class="/" gear="80" joint="rz_L_F_Paw_1"/>
-    <motor name="rx_L_F_Paw_2_motor" class="/" gear="80" joint="rx_L_F_Paw_2"/>
-    <motor name="rz_L_F_Paw_2_motor" class="/" gear="80" joint="rz_L_F_Paw_2"/>
-    <motor name="rz_L_F_Paw_3_motor" class="/" gear="80" joint="rz_L_F_Paw_3"/>
-    <motor name="rx_R_F_Paw_1_motor" class="/" gear="80" joint="rx_R_F_Paw_1"/>
-    <motor name="ry_R_F_Paw_1_motor" class="/" gear="80" joint="ry_R_F_Paw_1"/>
-    <motor name="rz_R_F_Paw_1_motor" class="/" gear="80" joint="rz_R_F_Paw_1"/>
-    <motor name="rx_R_F_Paw_2_motor" class="/" gear="80" joint="rx_R_F_Paw_2"/>
-    <motor name="rz_R_F_Paw_2_motor" class="/" gear="80" joint="rz_R_F_Paw_2"/>
-    <motor name="rz_R_F_Paw_3_motor" class="/" gear="80" joint="rz_R_F_Paw_3"/>
-    <motor name="rx_R_B_Paw_1_motor" class="/" gear="80" joint="rx_R_B_Paw_1"/>
-    <motor name="rz_R_B_Paw_1_motor" class="/" gear="80" joint="rz_R_B_Paw_1"/>
-    <motor name="rx_R_B_Paw_2_motor" class="/" gear="80" joint="rx_R_B_Paw_2"/>
-    <motor name="rz_R_B_Paw_2_motor" class="/" gear="80" joint="rz_R_B_Paw_2"/>
-    <motor name="rz_R_B_Paw_4_motor" class="/" gear="80" joint="rz_R_B_Paw_4"/>
-    <motor name="rx_L_B_Paw_1_motor" class="/" gear="80" joint="rx_L_B_Paw_1"/>
-    <motor name="rz_L_B_Paw_1_motor" class="/" gear="80" joint="rz_L_B_Paw_1"/>
-    <motor name="rx_L_B_Paw_2_motor" class="/" gear="80" joint="rx_L_B_Paw_2"/>
-    <motor name="rz_L_B_Paw_2_motor" class="/" gear="80" joint="rz_L_B_Paw_2"/>
-    <motor name="rz_L_B_Paw_4_motor" class="/" gear="80" joint="rz_L_B_Paw_4"/>
+    <motor name="rx_L_F_Paw_1_motor" class="/" gear="120" joint="rx_L_F_Paw_1"/>
+    <motor name="ry_L_F_Paw_1_motor" class="/" gear="120" joint="ry_L_F_Paw_1"/>
+    <motor name="rz_L_F_Paw_1_motor" class="/" gear="120" joint="rz_L_F_Paw_1"/>
+    <motor name="rx_L_F_Paw_2_motor" class="/" gear="120" joint="rx_L_F_Paw_2"/>
+    <motor name="rz_L_F_Paw_2_motor" class="/" gear="120" joint="rz_L_F_Paw_2"/>
+    <motor name="rz_L_F_Paw_3_motor" class="/" gear="120" joint="rz_L_F_Paw_3"/>
+    <motor name="rx_R_F_Paw_1_motor" class="/" gear="120" joint="rx_R_F_Paw_1"/>
+    <motor name="ry_R_F_Paw_1_motor" class="/" gear="120" joint="ry_R_F_Paw_1"/>
+    <motor name="rz_R_F_Paw_1_motor" class="/" gear="120" joint="rz_R_F_Paw_1"/>
+    <motor name="rx_R_F_Paw_2_motor" class="/" gear="120" joint="rx_R_F_Paw_2"/>
+    <motor name="rz_R_F_Paw_2_motor" class="/" gear="120" joint="rz_R_F_Paw_2"/>
+    <motor name="rz_R_F_Paw_3_motor" class="/" gear="120" joint="rz_R_F_Paw_3"/>
+    <motor name="rx_R_B_Paw_1_motor" class="/" gear="120" joint="rx_R_B_Paw_1"/>
+    <motor name="rz_R_B_Paw_1_motor" class="/" gear="120" joint="rz_R_B_Paw_1"/>
+    <motor name="rx_R_B_Paw_2_motor" class="/" gear="120" joint="rx_R_B_Paw_2"/>
+    <motor name="rz_R_B_Paw_2_motor" class="/" gear="120" joint="rz_R_B_Paw_2"/>
+    <motor name="rz_R_B_Paw_4_motor" class="/" gear="120" joint="rz_R_B_Paw_4"/>
+    <motor name="rx_L_B_Paw_1_motor" class="/" gear="120" joint="rx_L_B_Paw_1"/>
+    <motor name="rz_L_B_Paw_1_motor" class="/" gear="120" joint="rz_L_B_Paw_1"/>
+    <motor name="rx_L_B_Paw_2_motor" class="/" gear="120" joint="rx_L_B_Paw_2"/>
+    <motor name="rz_L_B_Paw_2_motor" class="/" gear="120" joint="rz_L_B_Paw_2"/>
+    <motor name="rz_L_B_Paw_4_motor" class="/" gear="120" joint="rz_L_B_Paw_4"/>
     <general name="back_x_motor" class="/" tendon="back_x" gainprm="5"/>
     <general name="back_y_motor" class="/" tendon="back_y" gainprm="5"/>
     <general name="back_z_motor" class="/" tendon="back_z" gainprm="5"/>

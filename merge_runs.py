@@ -19,11 +19,17 @@ def convert_to_kubric(file_path):
     with open(os.path.join(file_path, "kubric.npy"), "wb") as f:
         np.save(f, kubric)
 
-def fix_annotations(file_path, num_characters = 3):
-    fix_depth = f"python -m po_utils.openexr_utils --data_dir {file_path} --output_dir {os.path.join(file_path, 'exr_img')} --batch_size 64 --frame_idx 0"
-    os.system(fix_depth)
-    fix_script = f"python -m po_utils.gen_tracking_indoor --data_root {file_path}  --cp_root {file_path} --sampling_scene_num 100000 --sampling_character_num {num_characters * 1000}"
-    os.system(fix_script)
+def fix_annotations(file_path, depth = True, obj = True, tracking = True, num_characters = 3):
+    if depth:
+        fix_depth = f"python -m po_utils.openexr_utils --data_dir {file_path} --output_dir {os.path.join(file_path, 'exr_img')} --batch_size 64 --frame_idx 0"
+        os.system(fix_depth)
+    if obj:
+        obj_script = f'blender --background --python ./po_utils/export_scene.py \
+         -- --scene_root {os.path.join(file_path, "scene.blend")} --output_dir {file_path} --export_character True'
+        os.system(obj_script)
+    if tracking:
+        fix_script = f"python -m po_utils.gen_tracking_indoor --data_root {file_path}  --cp_root {file_path} --sampling_scene_num 100000 --sampling_character_num {num_characters * 1000}"
+        os.system(fix_script)
     convert_to_kubric(file_path)
 
 # Get the list of all files and directories

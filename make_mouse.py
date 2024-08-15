@@ -16,9 +16,9 @@ BASE_MODEL = 'mouse_export.xml'
 DEFAULT_MODEL = 'mouse_defaults.xml'
 OUT_DIR = "data/mujoco/"
 OUT_MODEL = "mouse.xml"
-DEFAULT_GEAR = 80
+DEFAULT_GEAR = 120
 DEFAULT_GAINPRM = 5
-DEFAULT_COEF = 0.1
+DEFAULT_COEF = 0.01
 
 with open(os.path.join(ASSET_DIR, BASE_MODEL), 'r') as f:
     basetree = etree.XML(f.read(), etree.XMLParser(remove_blank_text=True))
