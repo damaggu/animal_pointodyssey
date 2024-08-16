@@ -19,7 +19,7 @@ def convert_to_kubric(file_path):
     with open(os.path.join(file_path, "kubric.npy"), "wb") as f:
         np.save(f, kubric)
 
-def fix_annotations(file_path, depth = False, obj = False, tracking = False, num_characters = 3):
+def fix_annotations(file_path, depth = True, obj = True, tracking = True, num_characters = 3):
     if depth:
         fix_depth = f"python -m po_utils.openexr_utils --data_dir {file_path} --output_dir {os.path.join(file_path, 'exr_img')} --batch_size 64 --frame_idx 0"
         os.system(fix_depth)
@@ -33,8 +33,7 @@ def fix_annotations(file_path, depth = False, obj = False, tracking = False, num
     convert_to_kubric(file_path)
 
 # Get the list of all files and directories
-def add_videos(path, fix = True):
-    output_folder = "./results/datasets/aug_11"
+def add_videos(path, output_folder = "./results/aug14", fix = True):
     os.makedirs(output_folder, exist_ok=True)
     dir_list = [x for x in os.listdir(path) if os.path.isdir(os.path.join(path, x))]
     dir_list.sort()
@@ -72,9 +71,9 @@ def add_videos(path, fix = True):
             shutil.copy(os.path.join(full_path, "kubric.npy"), os.path.join(output_path, str(cur).zfill(4) + ".npy"))
         cur += 1
 
+base_path = "results/run_aug14"
+paths = [os.path.join(base_path, p) for p in os.listdir(base_path)]
 
-paths = [
-    "/home/justin/repos/animal-pointodyssey/results/mouse_08-10T00:38:15",
-]
+
 for p in paths:
-    add_videos(p)
+    add_videos(p, output_folder="./results/aug14", fix = True)
