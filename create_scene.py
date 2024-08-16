@@ -34,6 +34,7 @@ class BlenderScene():
 
     def save_scene(self, filename = 'scene.blend'):
         absolute_path = os.path.abspath(self.scratch_dir)
+        os.makedirs(absolute_path, exist_ok=True)
         try:
             bpy.ops.wm.save_as_mainfile(filepath=os.path.join(absolute_path, filename))
         except:

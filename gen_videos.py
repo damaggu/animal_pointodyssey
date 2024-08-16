@@ -88,7 +88,7 @@ if __name__ == '__main__':
         if run_info["track"]:
             scene.target_cam(cam_pos, character, track = True)
         else:
-            scene.set_cam(pos=cam_pos, dir=np.random.uniform(-1, 1, [3]))
+            scene.set_cam(pos=cam_pos, dir=np.random.uniform(-1, 1, [3])*0.2)
 
         if run_info["shake"]:
             scene.shake_cam(intensity = 1, min_height=run_info["min_cam_height"])
