@@ -24,6 +24,7 @@ from dm_control.suite.wrappers import pixels
 import mediapy as media
 import numpy as np
 
+import shutil
 import os
 import argparse
 import datetime
@@ -271,6 +272,9 @@ def main(args: argparse.Namespace):
     env.metadata["render_fps"] = FPS
 
     curr_dir = os.path.join(args.log_directory, args.save_directory)
+    os.makedirs(curr_dir, exist_ok=True)
+    shutil.copytree("/home/justin/repos/animal-pointodyssey/envs", os.path.join(curr_dir, "exp_details/envs"))
+    shutil.copytree("/home/justin/repos/animal-pointodyssey/data/mujoco", os.path.join(curr_dir, "exp_details/mujoco"))
     media.set_show_save_dir(os.path.join(curr_dir, args.video_directory))
 
     sb3_logger = configure(curr_dir, ["stdout", "json", "csv"])
@@ -278,7 +282,7 @@ def main(args: argparse.Namespace):
     if args.checkpoint is not None:
         model = stable_baselines3.DDPG.load(args.checkpoint, env=env)
     else:
-        policy_kwargs = {"net_arch": {"pi": [200, 300], "qf": [400, 300]}}
+        policy_kwargs = {"net_arch": {"pi": [256, 256], "qf": [256, 256]}}
         if args.algorithm == "TD3":
             model = stable_baselines3.TD3(
                 policy,

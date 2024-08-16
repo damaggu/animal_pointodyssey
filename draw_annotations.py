@@ -58,6 +58,6 @@ def main(image_path, annotation_path, style = "dot"):
 
 
 if __name__ == "__main__":
-    image_path = "/home/justin/repos/animal-pointodyssey/results/datasets/aug_9_processed/1226/frames"
-    annotation_path = "/home/justin/repos/animal-pointodyssey/results/datasets/aug_9_processed/1226/1226.npy"
+    image_path = "/home/justin/repos/animal-pointodyssey/results/datasets/aug_9_processed/1026/frames"
+    annotation_path = "/home/justin/repos/animal-pointodyssey/results/datasets/aug_9_processed/1026/1026.npy"
     main(image_path, annotation_path, style = "dot")

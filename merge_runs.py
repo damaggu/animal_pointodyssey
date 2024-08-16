@@ -58,9 +58,12 @@ def add_videos(path, fix = True):
             except:
                 print(d, "failed")
                 continue
+
         if "kubric.npy" in os.listdir(full_path):
             output_path = os.path.join(output_folder, str(cur).zfill(4))
             images = os.path.join(full_path, "images")
+            if len(images) < run_info["vid_length"]:
+                continue
             frame_dir = os.path.join(output_path, "frames")
             os.makedirs(frame_dir, exist_ok=True)
             for im in os.listdir(images):

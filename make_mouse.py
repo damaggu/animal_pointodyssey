@@ -84,7 +84,7 @@ model.actuator.add("general", name = "back_z_motor", tendon = "back_z", gainprm 
 touch_sites = ["L_B_Finger_3_3", "R_B_Finger_3_3", "L_F_Finger_3_3", "R_F_Finger_3_3"]
 
 bodies = model.find_all('body')
-parts_to_remove = ["Finger", "Tail", "Rib"]
+parts_to_remove = ["Finger", "Tail", "Rib", "Jaw"]
 to_remove = []
 for b in bodies:
     for p in parts_to_remove:

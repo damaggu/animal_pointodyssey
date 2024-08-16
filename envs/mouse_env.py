@@ -155,7 +155,7 @@ class StandingMouseEnv(MujocoEnv, utils.EzPickle):
         utils.EzPickle.__init__(self, model_path, **kwargs)
         MujocoEnv.__init__(self, model_path, FRAME_SKIP, observation_space=None, render_mode=render_mode, camera_id=0,
                            **kwargs)
-        obs_size = self.data.qpos.size - 1 + self.data.qvel.size + self.data.cfrc_ext[1:].size
+        obs_size = self.data.xpos[1:].flatten().size + self.data.qvel.size + self.data.cfrc_ext[1:].size
         self.observation_space = Box(
             low=-np.inf, high=np.inf, shape=(obs_size,), dtype=np.float64
         )
@@ -169,7 +169,8 @@ class StandingMouseEnv(MujocoEnv, utils.EzPickle):
         self.init_pos = self.data.xpos.copy()
         self.target_pos = self.init_pos.copy()
         self.it = 0
-
+        self.terminated = False
+        self.min_height = 0.3
         self.reset_model()
 
     def step(self, action):
@@ -177,11 +178,12 @@ class StandingMouseEnv(MujocoEnv, utils.EzPickle):
         x_before = self.data.xpos[self.head_id][1].copy()
         z_before = self.data.xpos[self.head_id][2].copy()
         self.do_simulation(action, self.frame_skip)
+        self.it += 1
         x_after = self.data.xpos[self.head_id][1].copy()
         z_after = self.data.xpos[self.head_id][2].copy()
         x_vel = (x_after - x_before) / self.dt
         obs = self._get_obs()
-        reward = self._get_rew(action, -x_vel)
+        reward, healthy = self._get_rew(action, -x_vel)
 
         if self.render_mode == "human":
             self.render()
@@ -190,14 +192,18 @@ class StandingMouseEnv(MujocoEnv, utils.EzPickle):
             "x_pos": self.data.qpos[0],
             "y_pos": self.data.qpos[1]
         }
+
+        if not healthy:
+            self.terminated = True
+
         # print(self.data.geom("leg1_l geom"))
         # if random.random() <= 0.001:
         # print(self.data.qpos[2], "bruh", )
 
-        return obs, reward, False, False, info
+        return obs, reward, self.terminated, False, info
 
     def _get_obs(self) -> np.ndarray:
-        positions = self.data.qpos[1:].flatten()
+        positions = self.data.xpos[1:].flatten()
         velocities = self.data.qvel
         contact = self.contact_forces().flatten()
         obs = np.concatenate([positions, velocities, contact])
@@ -212,32 +218,40 @@ class StandingMouseEnv(MujocoEnv, utils.EzPickle):
         return np.linalg.norm(action)**2
 
 
-    def _get_rew(self, action: np.ndarray, vel = 0):
+    def _get_rew(self, action: np.ndarray, xvel = 0):
         init_pose = np.array(self.model.qpos0)
         cur_pose = np.array(self.data.qpos)
         diff = -np.sum((init_pose - cur_pose)**2)
-        dq = 0
-        for q1, q2 in zip(self.data.xquat, self.init_quat):
-            dq += quat_diff(q1, q2)
-
-        dq = -dq * 0.2
-        dp = -np.linalg.norm(self.target_pos - self.data.xpos)**2
-        ctrl_rew = -abs(0.0005 * self.ctrl_reward(action))
+        # dq = 0
+        # for q1, q2 in zip(self.data.xquat, self.init_quat):
+        #     dq += quat_diff(q1, q2)
+        max_vel = 2.5
+        vel_penalty = np.sum((np.clip(self.data.qvel ** 2, max_vel, None) - max_vel)**0.5)
+        # dq = -dq * 0.2
+        # dp = -np.linalg.norm(self.target_pos - self.data.xpos)**2
+        ctrl_rew = -abs(0.01 * self.ctrl_reward(action))
         self.it += 1
-        height_rew = self.data.subtree_com[1][2]
+        height_rew = self.data.subtree_com[1][2] - self.min_height - self.it/10000
         #print(vel, height_rew, ctrl_rew)
-        return ctrl_rew + (0.1 + height_rew) * (0.5 + vel)
+        #print(vel)
+        healthy = height_rew > 0
+        rew = ctrl_rew -vel_penalty*0.001 + max(0, 0.1 + height_rew) * (0.5 + xvel) + 1
+        rew *= 1 + self.it/1000
+        #print(ctrl_rew, -vel_penalty*0.01, max(0, 0.1 + height_rew) * (0.5 + xvel))
+        return rew, healthy
 
     def reset_model(self):
         lol = np.zeros_like(self.init_qpos)
         lolv = np.zeros_like(self.init_qvel)
-        #lol[2] = 0.5
+        lol[2] = 0.04
         # lolv[1] = 7
-        RANGE = 0
+        RANGE = 0.01
         qpos = self.init_qpos + self.np_random.uniform(-RANGE, RANGE, size=self.model.nq) + lol
         qvel = self.init_qvel + self.np_random.uniform(-RANGE, RANGE, size=self.model.nv) + lolv * 0.5
         self.set_state(qpos, qvel)
         self.target_pos = self.init_pos.copy()
+        self.terminated = False
+        self.it = 0
         return self._get_obs()
 
     def render(self):

@@ -58,7 +58,7 @@ if __name__ == '__main__':
         run_info["brightness"] = np.random.uniform(0.3, 1.1)
         run_info["background"] = np.random.choice(os.listdir(run_info["background_folder"]))
         run_info["num_characters"] = np.random.randint(run_info["min_characters"], run_info["max_characters"]+1)
-        run_info["character_samples"] = 1000 * run_info["num_characters"]
+        run_info["character_samples"] = run_info["samples_per_character"] * run_info["num_characters"]
         print(run_info["background"])
         save_dir = f'./results/mouse_{run_info["start"]}/{str(i).zfill(4)}/'
         center_origin = np.random.uniform(-run_info["origin_range"], run_info["origin_range"], [2])
@@ -83,15 +83,15 @@ if __name__ == '__main__':
             avg = np.average(data, axis=(0, 2))/100
             cam_pos[:2] += avg + center_origin
         cam_pos = cam_pos/len(starts)
-        cam_pos[2] = 8 + np.random.uniform(-2, 2)
+        cam_pos[2] = 5 + np.random.uniform(-2, 2)
 
         if run_info["track"]:
             scene.target_cam(cam_pos, character, track = True)
         else:
-            scene.set_cam(pos=cam_pos, dir=(0, 0, 0))
+            scene.set_cam(pos=cam_pos, dir=np.random.uniform(-1, 1, [3]))
 
         if run_info["shake"]:
-            scene.shake_cam(intensity = 1)
+            scene.shake_cam(intensity = 1, min_height=run_info["min_cam_height"])
 
         scene.set_brightness(run_info["brightness"])
         scene.set_background(os.path.join(run_info["background_folder"], run_info["background"]))

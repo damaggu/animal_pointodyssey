@@ -110,10 +110,11 @@ class BlenderScene():
         for arg in render_args.keys():
             setattr(bpy.data.scenes["Scene"].render, arg, render_args[arg])
 
-    def shake_cam(self, intensity = 1):
+    def shake_cam(self, intensity = 1, min_height = 4):
         cam = bpy.context.scene.camera
         for i in range(0, bpy.data.scenes["Scene"].frame_end, 10):
             cam.location += Vector(np.random.normal(0, intensity, 3))
+            cam.location.z = max(min_height, cam.location.z)
             cam.keyframe_insert("location", frame = i)
 
 
