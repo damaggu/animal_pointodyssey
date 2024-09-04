@@ -51,8 +51,8 @@ def postprocess(path, name, output_path = "./results/animal_pod/", monochrome = 
 
 
 if __name__ == "__main__":
-    pre_paths = ["./results/datasets/aug14", "./results/datasets/aug_9", "./results/datasets/aug_11"]
-    output_path = "./results/datasets/aug_14_processed"
+    pre_paths = ["./results/datasets/aug14", "./results/datasets/aug_9", "./results/datasets/aug_11", "./results/datasets/aug19"]
+    output_path = "./results/datasets/animal_pod_aug19"
     os.makedirs(output_path, exist_ok=True)
 
     existing = [x for x in os.listdir(output_path) if os.path.isdir(os.path.join(output_path, x))]
@@ -73,12 +73,15 @@ if __name__ == "__main__":
         videos.sort()
         for video in videos:
             cur_path = os.path.join(pre_path, video)
+            image_path = os.path.join(cur_path, "frames")
+            if len(os.listdir(image_path)) < 20:
+                continue
             print(cur_path)
-            postprocess(path=cur_path, output_path=output_path, name = str(n).zfill(4), monochrome = False, overexpose = False)
-            n += 1
-            postprocess(path=cur_path, output_path=output_path, name=str(n).zfill(4), monochrome=True, overexpose=False)
-            n += 1
-            # postprocess(path=cur_path, output_path=output_path, name=str(n).zfill(4), monochrome=False, overexpose=True)
+            # postprocess(path=cur_path, output_path=output_path, name = str(n).zfill(4), monochrome = False, overexpose = False)
             # n += 1
-            # postprocess(path=cur_path, output_path=output_path, name=str(n).zfill(4), monochrome=True, overexpose=True)
+            # postprocess(path=cur_path, output_path=output_path, name=str(n).zfill(4), monochrome=True, overexpose=False)
             # n += 1
+            postprocess(path=cur_path, output_path=output_path, name=str(n).zfill(4), monochrome=False, overexpose=True)
+            n += 1
+            postprocess(path=cur_path, output_path=output_path, name=str(n).zfill(4), monochrome=True, overexpose=True)
+            n += 1

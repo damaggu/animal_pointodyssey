@@ -6,29 +6,29 @@
     <joint type="free"/>
     <geom type="capsule" name="Back_1_geom" size="0.05" fromto="0 0 0 0.0 -0.07109183073043823 -0.09252709150314331"/>
       <body name="Back_2" pos="0.0 -0.07109183073043823 -0.09252709150314331">
-      <joint type="hinge" name="rx_Back_2" axis="1 0 0" range="-9.99999970909292 9.99999970909292"/>
-      <joint type="hinge" name="ry_Back_2" axis="0 1 0" range="-4.99999985454646 4.99999985454646"/>
-      <joint type="hinge" name="rz_Back_2" axis="0 0 1" range="-9.99999970909292 6.000000166965211"/>
+      <joint type="hinge" name="rx_Back_2" axis="1 0 0" range="-15.000000417413029 15.000000417413029"/>
+      <joint type="hinge" name="ry_Back_2" axis="0 1 0" range="-9.99999970909292 9.99999970909292"/>
+      <joint type="hinge" name="rz_Back_2" axis="0 0 1" range="-15.000000417413029 15.000000417413029"/>
       <geom type="capsule" name="Back_2_geom" size="0.05" fromto="0 0 0 0.0 -0.2740018367767334 0.09516853094100952"/>
         <body name="Back_3" pos="0.0 -0.2740018367767334 0.09516853094100952">
-        <joint type="hinge" name="rx_Back_3" axis="1 0 0" range="-9.99999970909292 9.99999970909292"/>
-        <joint type="hinge" name="ry_Back_3" axis="0 1 0" range="-4.99999985454646 4.99999985454646"/>
-        <joint type="hinge" name="rz_Back_3" axis="0 0 1" range="-9.99999970909292 6.000000166965211"/>
+        <joint type="hinge" name="rx_Back_3" axis="1 0 0" range="-15.000000417413029 15.000000417413029"/>
+        <joint type="hinge" name="ry_Back_3" axis="0 1 0" range="-9.99999970909292 9.99999970909292"/>
+        <joint type="hinge" name="rz_Back_3" axis="0 0 1" range="-15.000000417413029 15.000000417413029"/>
         <geom type="capsule" name="Back_3_geom" size="0.05" fromto="0 0 0 0.0 -0.2097725123167038 0.021728336811065674"/>
           <body name="Back_4" pos="0.0 -0.2097725123167038 0.021728336811065674">
-          <joint type="hinge" name="rx_Back_4" axis="1 0 0" range="-9.99999970909292 9.99999970909292"/>
-          <joint type="hinge" name="ry_Back_4" axis="0 1 0" range="-4.99999985454646 4.99999985454646"/>
-          <joint type="hinge" name="rz_Back_4" axis="0 0 1" range="-9.99999970909292 6.000000166965211"/>
+          <joint type="hinge" name="rx_Back_4" axis="1 0 0" range="-15.000000417413029 15.000000417413029"/>
+          <joint type="hinge" name="ry_Back_4" axis="0 1 0" range="-9.99999970909292 9.99999970909292"/>
+          <joint type="hinge" name="rz_Back_4" axis="0 0 1" range="-15.000000417413029 15.000000417413029"/>
           <geom type="capsule" name="Back_4_geom" size="0.05" fromto="0 0 0 0.0 -0.2558934688568115 -0.008959829807281494"/>
             <body name="Back_5" pos="0.0 -0.2558934688568115 -0.008959829807281494">
-            <joint type="hinge" name="rx_Back_5" axis="1 0 0" range="-9.99999970909292 9.99999970909292"/>
-            <joint type="hinge" name="ry_Back_5" axis="0 1 0" range="-4.99999985454646 4.99999985454646"/>
-            <joint type="hinge" name="rz_Back_5" axis="0 0 1" range="-9.99999970909292 6.000000166965211"/>
+            <joint type="hinge" name="rx_Back_5" axis="1 0 0" range="-15.000000417413029 15.000000417413029"/>
+            <joint type="hinge" name="ry_Back_5" axis="0 1 0" range="-9.99999970909292 9.99999970909292"/>
+            <joint type="hinge" name="rz_Back_5" axis="0 0 1" range="-15.000000417413029 15.000000417413029"/>
             <geom type="capsule" name="Back_5_geom" size="0.05" fromto="0 0 0 0.0 -0.2308562994003296 -0.08291542530059814"/>
               <body name="Back_6" pos="0.0 -0.2308562994003296 -0.08291542530059814">
-              <joint type="hinge" name="rx_Back_6" axis="1 0 0" range="-9.99999970909292 9.99999970909292"/>
-              <joint type="hinge" name="ry_Back_6" axis="0 1 0" range="-4.99999985454646 4.99999985454646"/>
-              <joint type="hinge" name="rz_Back_6" axis="0 0 1" range="-9.99999970909292 6.000000166965211"/>
+              <joint type="hinge" name="rx_Back_6" axis="1 0 0" range="-15.000000417413029 15.000000417413029"/>
+              <joint type="hinge" name="ry_Back_6" axis="0 1 0" range="-9.99999970909292 9.99999970909292"/>
+              <joint type="hinge" name="rz_Back_6" axis="0 0 1" range="-15.000000417413029 15.000000417413029"/>
               <geom type="capsule" name="Back_6_geom" size="0.05" fromto="0 0 0 0.0 -0.2347009778022766 -0.07146763801574707"/>
                 <body name="Neck" pos="0.0 -0.2347009778022766 -0.07146763801574707">
                 <geom type="capsule" name="Neck_geom" size="0.05" fromto="0 0 0 0.0 -0.18661510944366455 0.0330730676651001"/>
@@ -64,12 +64,10 @@
                   </body>
                 </body>
                 <body name="L_F_Paw_1" pos="0.0 -0.2347009778022766 -0.07146763801574707">
-                <joint type="hinge" name="rx_L_F_Paw_1" axis="1 0 0" range="-30.000000834826057 30.000000834826057"/>
-                <joint type="hinge" name="ry_L_F_Paw_1" axis="0 1 0" range="-19.99999941818584 19.99999941818584"/>
-                <joint type="hinge" name="rz_L_F_Paw_1" axis="0 0 1" range="-30.000000834826057 30.000000834826057"/>
                 <geom type="capsule" name="L_F_Paw_1_geom" size="0.05" fromto="0 0 0 0.17953817546367645 0.16833937168121338 -0.06021338701248169"/>
                   <body name="L_F_Paw_2" pos="0.17953817546367645 0.16833937168121338 -0.06021338701248169">
-                  <joint type="hinge" name="rx_L_F_Paw_2" axis="1 0 0" range="-9.99999970909292 9.99999970909292"/>
+                  <joint type="hinge" name="rx_L_F_Paw_2" axis="1 0 0" range="-19.99999941818584 9.99999970909292"/>
+                  <joint type="hinge" name="ry_L_F_Paw_2" axis="0 1 0" range="-19.99999941818584 19.99999941818584"/>
                   <joint type="hinge" name="rz_L_F_Paw_2" axis="0 0 1" range="-45.00000125223908 45.00000125223908"/>
                   <geom type="capsule" name="L_F_Paw_2_geom" size="0.05" fromto="0 0 0 -0.014132246375083923 -0.039042651653289795 -0.34415319561958313"/>
                     <body name="L_F_Paw_3" pos="-0.014132246375083923 -0.039042651653289795 -0.34415319561958313">
@@ -115,12 +113,10 @@
                   </body>
                 </body>
                 <body name="R_F_Paw_1" pos="0.0 -0.2347009778022766 -0.07146763801574707">
-                <joint type="hinge" name="rx_R_F_Paw_1" axis="1 0 0" range="-30.000000834826057 30.000000834826057"/>
-                <joint type="hinge" name="ry_R_F_Paw_1" axis="0 1 0" range="-19.99999941818584 19.99999941818584"/>
-                <joint type="hinge" name="rz_R_F_Paw_1" axis="0 0 1" range="-30.000000834826057 30.000000834826057"/>
                 <geom type="capsule" name="R_F_Paw_1_geom" size="0.05" fromto="0 0 0 -0.17953811585903168 0.16833937168121338 -0.06021338701248169"/>
                   <body name="R_F_Paw_2" pos="-0.17953811585903168 0.16833937168121338 -0.06021338701248169">
-                  <joint type="hinge" name="rx_R_F_Paw_2" axis="1 0 0" range="-9.99999970909292 9.99999970909292"/>
+                  <joint type="hinge" name="rx_R_F_Paw_2" axis="1 0 0" range="-19.99999941818584 9.99999970909292"/>
+                  <joint type="hinge" name="ry_R_F_Paw_2" axis="0 1 0" range="-19.99999941818584 19.99999941818584"/>
                   <joint type="hinge" name="rz_R_F_Paw_2" axis="0 0 1" range="-45.00000125223908 45.00000125223908"/>
                   <geom type="capsule" name="R_F_Paw_2_geom" size="0.05" fromto="0 0 0 0.014132246375083923 -0.039042651653289795 -0.3441533148288727"/>
                     <body name="R_F_Paw_3" pos="0.014132246375083923 -0.039042651653289795 -0.3441533148288727">
@@ -250,11 +246,11 @@
       </body>
       <body name="R_B_Paw_1" pos="0.0 -0.07109183073043823 -0.09252709150314331">
       <joint type="hinge" name="rx_R_B_Paw_1" axis="1 0 0" range="-39.99999883637168 39.99999883637168"/>
-      <joint type="hinge" name="rz_R_B_Paw_1" axis="0 0 1" range="-9.99999970909292 19.99999941818584"/>
       <geom type="capsule" name="R_B_Paw_1_geom" size="0.05" fromto="0 0 0 -0.12856116890907288 -0.06068773567676544 -0.1629948616027832"/>
         <body name="R_B_Paw_2" pos="-0.12856116890907288 -0.06068773567676544 -0.1629948616027832">
-        <joint type="hinge" name="rx_R_B_Paw_2" axis="1 0 0" range="-25.00000012650595 25.00000012650595"/>
-        <joint type="hinge" name="rz_R_B_Paw_2" axis="0 0 1" range="-30.000000834826057 30.000000834826057"/>
+        <joint type="hinge" name="rx_R_B_Paw_2" axis="1 0 0" range="-25.00000012650595 31.999999752116263"/>
+        <joint type="hinge" name="ry_R_B_Paw_2" axis="0 1 0" range="-19.99999941818584 19.99999941818584"/>
+        <joint type="hinge" name="rz_R_B_Paw_2" axis="0 0 1" range="-30.000000834826057 39.99999883637168"/>
         <geom type="capsule" name="R_B_Paw_2_geom" size="0.05" fromto="0 0 0 -0.1057131290435791 -0.26967060565948486 -0.16305962204933167"/>
           <body name="R_B_Paw_3" pos="-0.1057131290435791 -0.26967060565948486 -0.16305962204933167">
           <joint type="hinge" name="rz_R_B_Paw_3" axis="0 0 1" range="-39.99999883637168 15.000000417413029"/>
@@ -313,11 +309,11 @@
       </body>
       <body name="L_B_Paw_1" pos="0.0 -0.07109183073043823 -0.09252709150314331">
       <joint type="hinge" name="rx_L_B_Paw_1" axis="1 0 0" range="-39.99999883637168 39.99999883637168"/>
-      <joint type="hinge" name="rz_L_B_Paw_1" axis="0 0 1" range="-19.99999941818584 9.99999970909292"/>
       <geom type="capsule" name="L_B_Paw_1_geom" size="0.05" fromto="0 0 0 0.12856115400791168 -0.06068772077560425 -0.1629948616027832"/>
         <body name="L_B_Paw_2" pos="0.12856115400791168 -0.06068772077560425 -0.1629948616027832">
-        <joint type="hinge" name="rx_L_B_Paw_2" axis="1 0 0" range="-25.00000012650595 25.00000012650595"/>
-        <joint type="hinge" name="rz_L_B_Paw_2" axis="0 0 1" range="-30.000000834826057 30.000000834826057"/>
+        <joint type="hinge" name="rx_L_B_Paw_2" axis="1 0 0" range="-25.00000012650595 31.999999752116263"/>
+        <joint type="hinge" name="ry_L_B_Paw_2" axis="0 1 0" range="-19.99999941818584 19.99999941818584"/>
+        <joint type="hinge" name="rz_L_B_Paw_2" axis="0 0 1" range="-39.99999883637168 30.000000834826057"/>
         <geom type="capsule" name="L_B_Paw_2_geom" size="0.05" fromto="0 0 0 0.10558731853961945 -0.2696705758571625 -0.16305959224700928"/>
           <body name="L_B_Paw_3" pos="0.10558731853961945 -0.2696705758571625 -0.16305959224700928">
           <joint type="hinge" name="rz_L_B_Paw_3" axis="0 0 1" range="-15.000000417413029 39.99999883637168"/>

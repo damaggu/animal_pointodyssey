@@ -1,5 +1,5 @@
 import gymnasium as gym
-
+from gymnasium.envs.registration import register
 from gymnasium.wrappers import FlattenObservation, NormalizeObservation
 import stable_baselines3
 import sb3_contrib
@@ -260,6 +260,7 @@ def parse_args():
     argparser.add_argument(
         "--env", type=str, default=list(REGISTERED_ENV_NAMES.keys())[0], choices=ENV_NAMES
     )
+    argparser.add_argument("--resume-path", type=str, default=None)
     argparser.add_argument("--checkpoint", type=str, default=None)
     argparser.add_argument("--replay-buffer", type=str, default=None)
     argparser.add_argument("--num-timesteps", type=int, default=100_000)
@@ -302,6 +303,8 @@ def get_video(model: BaseAlgorithm, video_name: str, vid_length: int) -> None:
 
 
 def main(args: argparse.Namespace):
+
+    policy = "MlpPolicy"
 
     curr_dir = os.path.join(args.log_directory, args.save_directory)
     os.makedirs(curr_dir, exist_ok=True)
