@@ -1,3 +1,7 @@
+# Mac stuff
+.DS_Store
+.idea
+
 _test*
 *logs/
 *.code-workspace

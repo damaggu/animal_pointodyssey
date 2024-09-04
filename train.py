@@ -7,11 +7,13 @@ from stable_baselines3.common.base_class import BaseAlgorithm
 from stable_baselines3.common.vec_env import VecVideoRecorder, SubprocVecEnv
 from stable_baselines3.common.logger import configure
 from stable_baselines3.common.callbacks import CheckpointCallback, EvalCallback
+from stable_baselines3.common.noise import OrnsteinUhlenbeckActionNoise
 
 
 from gymnasium.wrappers.monitoring import video_recorder
 from stable_baselines3.common.vec_env.base_vec_env import VecEnv, VecEnvObs, VecEnvStepReturn, VecEnvWrapper
 from stable_baselines3.common.vec_env.dummy_vec_env import DummyVecEnv
+from stable_baselines3.common.monitor import Monitor
 
 from gymnasium.spaces.dict import Dict
 from gymnasium import spaces
@@ -32,6 +34,8 @@ from typing import Callable
 import envs
 from utils import log_to_dir
 
+from models import MyDDPG
+
 FPS = 40
 
 REGISTERED_ENV_NAMES = {
@@ -43,6 +47,7 @@ REGISTERED_ENV_NAMES = {
     "dog-walk": "dm_control/dog-walk-v0",
     "humanoid-walk": "dm_control/humanoid-walk-v0",
     "humanoid-run": "dm_control/humanoid-run-v0",
+    "humanoid-stand": "dm_control/humanoid-stand-v0",
     "humanoid": "Humanoid-v4",
     "ant": "Ant-v4",
     "custom-dog": "dog-v0",
@@ -214,21 +219,26 @@ class VecTrajRecorder(VecEnvWrapper):
         self.quats = []
         self.posl = []
 
-
     def close(self) -> None:
         VecEnvWrapper.close(self)
         self.close_traj_recorder()
 
     def __del__(self):
         self.close_traj_recorder()
-def make_env(name: str, render_mode: str = None, **kwargs) -> gym.Env:
-    if "rodent" in name:
-        return RemoveZeroShapeObs(gym.make(REGISTERED_ENV_NAMES[args.env], render_mode=render_mode))
 
+def make_env(name: str, render_mode: str = None, **kwargs) -> gym.Env:
     if name in REGISTERED_ENV_NAMES:
-        return gym.make(REGISTERED_ENV_NAMES[args.env], render_mode=render_mode)
-    
-    raise NotImplementedError(f"{name} not a implemented env.")
+        env = gym.make(REGISTERED_ENV_NAMES[args.env],
+                       render_mode=render_mode,
+                       **kwargs)
+        if "rodent" in name:
+            env = RemoveZeroShapeObs(env)
+        env = FlattenObservation(env)
+        env.metadata["render_fps"] = FPS
+        return env
+    else:
+        raise NotImplementedError(f"{name} not a implemented env.")
+
 def parse_args(argparser: argparse.ArgumentParser) -> None:
     argparser.add_argument(
         "--algorithm",
@@ -248,11 +258,26 @@ def parse_args(argparser: argparse.ArgumentParser) -> None:
     )
     argparser.add_argument("--resume-path", type=str, default=None)
     argparser.add_argument("--checkpoint", type=str, default=None)
+    argparser.add_argument("--replay-buffer", type=str, default=None)
     argparser.add_argument("--num-timesteps", type=int, default=100_000)
     argparser.add_argument("--eval-freq", type=int, default=100_000)
     argparser.add_argument("--batch-size", type=int, default=256)
     argparser.add_argument("--lr", type=float, default=0.0003)
 
+    argparser.add_argument("--n-envs", type=int, default=1)
+    argparser.add_argument("--parallel", action=argparse.BooleanOptionalAction, default=False)
+    argparser.add_argument("--camera-id", type=int, default=None)
+
+    argparser.add_argument("--tau", type=float, default=5e-3, help="soft update coefficient")
+    argparser.add_argument("--gamma", type=float, default=0.99, help="discount factor")
+    argparser.add_argument("--buffer-size", type=int, default=int(5e5), help="replay buffer size")
+    argparser.add_argument("--net-arch-pi", type=int, nargs="+", default=[256, 256], help="policy network architecture")
+    argparser.add_argument("--net-arch-qf", type=int, nargs="+", default=[256, 256], help="Q function network architecture")
+    argparser.add_argument("--action-noise", type=str, default="none", choices=["ornstein-uhlenbeck", "none"])
+    argparser.add_argument("--sigma", type=float, default=0.3, help="sigma for ornstein-uhlenbeck action noise")
+    argparser.add_argument("--theta", type=float, default=0.15, help="theta for ornstein-uhlenbeck action noise")
+    argparser.add_argument("--actor-gradient-clip", type=float, default=None, help="clip gradients for actor")
+    argparser.add_argument("--critic-gradient-clip", type=float, default=None, help="clip gradients for critic")
 
 def get_video(model: BaseAlgorithm, video_name: str, vid_length: int) -> None:
     env = model.get_env()
@@ -267,38 +292,56 @@ def get_video(model: BaseAlgorithm, video_name: str, vid_length: int) -> None:
 
 
 def main(args: argparse.Namespace):
-    if args.resume_path is not None:
-        run_name = os.path.split(args.resume_path)[1]
-        args.checkpoint = os.path.join(args.resume_path, "models/best_model.zip")
-        if not os.path.isfile(args.checkpoint):
-            args.checkpoint = None
-        register(
-            id="resume",
-            entry_point=f"ttemplogs.{run_name}.exp_details.envs.mouse_env:StandingMouseEnv",
-            max_episode_steps=1000,
-        )
-        args.env = "resume"
-        env = gym.make(args.env, render_mode="rgb_array")
-        args.save_directory = f"{datetime.datetime.now().strftime('%m-%dT%H:%M:%S')}_{run_name}"
-    else:
 
-        env = make_env(args.env, render_mode="rgb_array")
-    env = FlattenObservation(env)
     policy = "MlpPolicy"
-    env.metadata["render_fps"] = FPS
 
     curr_dir = os.path.join(args.log_directory, args.save_directory)
     os.makedirs(curr_dir, exist_ok=True)
-    shutil.copytree("/home/justin/repos/animal-pointodyssey/envs", os.path.join(curr_dir, "exp_details/envs"))
-    shutil.copytree("/home/justin/repos/animal-pointodyssey/data/mujoco", os.path.join(curr_dir, "exp_details/mujoco"))
+    shutil.copytree("./envs", os.path.join(curr_dir, "exp_details/envs"))
+    shutil.copytree("./data/mujoco", os.path.join(curr_dir, "exp_details/mujoco"))
     media.set_show_save_dir(os.path.join(curr_dir, args.video_directory))
 
-    sb3_logger = configure(curr_dir, ["stdout", "json", "csv"])
+    sb3_logger = configure(curr_dir, ["stdout", "json", "csv", "tensorboard"])
+
+    kwargs = {}
+    if args.camera_id is not None:
+        kwargs['render_kwargs'] = {"camera_id": args.camera_id}
+    if args.n_envs > 1:
+        def make_env_fn():
+            env = make_env(args.env,
+                           render_mode='rgb_array',
+                           **kwargs)
+            env = Monitor(env)
+            return env
+
+        if args.parallel:
+            env = SubprocVecEnv([make_env_fn for _ in range(args.n_envs)])
+        else:
+            env = DummyVecEnv([make_env_fn for _ in range(args.n_envs)])
+        args.eval_freq = args.eval_freq // args.n_envs
+
+    else:
+        env = make_env(args.env, render_mode='rgb_array', **kwargs)
 
     if args.checkpoint is not None:
-        model = stable_baselines3.DDPG.load(args.checkpoint, env=env)
+        if args.algorithm == "PPO":
+            model = stable_baselines3.PPO.load(args.checkpoint, env=env)
+        elif args.algorithm == "SAC":
+            model = stable_baselines3.SAC.load(args.checkpoint, env=env)
+            model.load_replay_buffer(args.replay_buffer)
+        elif args.algorithm == "TD3":
+            model = stable_baselines3.TD3.load(args.checkpoint, env=env)
+            model.load_replay_buffer(args.replay_buffer)
+        elif args.algorithm == "DDPG":
+            model = MyDDPG.load(args.checkpoint, env=env)
+            model.load_replay_buffer(args.replay_buffer)
     else:
-        policy_kwargs = {"net_arch": {"pi": [128, 256], "qf": [256, 128]}}
+        policy_kwargs = {"net_arch": {"pi": args.net_arch_pi, "qf": args.net_arch_qf}}
+        action_noise = None
+        if args.action_noise == "ornstein-uhlenbeck":
+            action_noise = OrnsteinUhlenbeckActionNoise(mean=np.zeros(env.action_space.shape),
+                                                        sigma=args.sigma * np.ones(env.action_space.shape),
+                                                        theta=args.theta)
         if args.algorithm == "TD3":
             model = stable_baselines3.TD3(
                 policy,
@@ -310,14 +353,18 @@ def main(args: argparse.Namespace):
                 tau=5e-3,
             )
         elif args.algorithm == "DDPG":
-            model = stable_baselines3.DDPG(
+            model = MyDDPG(
                 policy,
                 env,
                 learning_rate=args.lr,
                 policy_kwargs=policy_kwargs,
-                buffer_size=int(5e5),
+                buffer_size=args.buffer_size,
                 batch_size=args.batch_size,
-                tau=5e-3,
+                tau=args.tau,
+                gamma=args.gamma,
+                action_noise=action_noise,
+                actor_gradient_clip=args.actor_gradient_clip,
+                critic_gradient_clip=args.critic_gradient_clip,
             )
         elif args.algorithm == "SAC":
             model = stable_baselines3.SAC(
@@ -337,6 +384,9 @@ def main(args: argparse.Namespace):
                 policy_kwargs=policy_kwargs,
                 batch_size=args.batch_size,
             )
+        else:
+            raise NotImplementedError(f"Algorithm {args.algorithm} not implemented.")
+
     model.set_logger(sb3_logger)
     video_env = VecVideoRecorder(
         model.get_env(),

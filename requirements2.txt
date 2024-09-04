@@ -1,0 +1,8 @@
+mediapy
+moviepy
+stable-baselines3[extra]
+sb3_contrib
+gymnasium[mujoco]
+Shimmy
+dm_control
+imageio
