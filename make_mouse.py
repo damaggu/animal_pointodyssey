@@ -16,9 +16,9 @@ BASE_MODEL = 'mouse_export.xml'
 DEFAULT_MODEL = 'mouse_defaults.xml'
 OUT_DIR = "data/mujoco/"
 OUT_MODEL = "mouse.xml"
-DEFAULT_GEAR = 120
-DEFAULT_GAINPRM = 5
-DEFAULT_COEF = 0.01
+DEFAULT_GEAR = 200
+DEFAULT_GAINPRM = 16
+DEFAULT_COEF = 0.002
 
 with open(os.path.join(ASSET_DIR, BASE_MODEL), 'r') as f:
     basetree = etree.XML(f.read(), etree.XMLParser(remove_blank_text=True))
@@ -28,13 +28,16 @@ model = mjcf.from_xml_string(etree.tostring(basetree, pretty_print=True),
 
 model.option.timestep = "0.001"
 model.option.integrator = "RK4"
+model.option.gravity = "0 0 -5"
 model.compiler.angle = "degree"
+
 
 model.default.general.ctrllimited="true"
 model.default.general.ctrlrange="-1 1"
 model.default.general.forcelimited="false"
 model.default.general.gainprm = str(DEFAULT_GAINPRM)
 model.default.tendon.range = "-1 1"
+model.default.geom.friction = "2 0.005 0.0001"
 model.default.motor.gear = str(DEFAULT_GEAR)
 
 model.worldbody.add("camera", name="cam0", pos="5 -17 7", xyaxes="1 0.25 0 0 0.3 1", mode="trackcom")
@@ -50,17 +53,20 @@ model.tendon.add("fixed", name = "back_z")
 joints = model.find_all('joint')
 
 for j in joints:
+    joint_gear = str(DEFAULT_GEAR)
     if j.name == None:
         continue
     if "Tail" in j.name:
         j.remove()
         continue
-    j.stiffness = "5"
+    j.stiffness = "10"
     j.damping = "0.4"
     #r = j.range/2
     #j.range = str(r[0]) + " " + str(r[1])
+    if "F_Paw" in j.name:
+        joint_gear = str(DEFAULT_GEAR * 1.5)
     if "Back" in j.name:
-        j.stiffness = "20"
+        j.stiffness = "25"
         j.damping = "0.5"
     if "rx_Back" in j.name:
         model.tendon.fixed["back_x"].add("joint", joint=j.name, coef=str(DEFAULT_COEF))
@@ -73,7 +79,7 @@ for j in joints:
     elif "rz_Tail" in j.name:
         model.tendon.fixed["tail_z"].add("joint", joint=j.name, coef=str(DEFAULT_COEF))
     else:
-        model.actuator.add("motor", name = j.name + "_motor", joint = j.name, gear = str(DEFAULT_GEAR))
+        model.actuator.add("motor", name = j.name + "_motor", joint = j.name, gear = joint_gear)
 
 model.actuator.add("general", name = "back_x_motor", tendon = "back_x", gainprm = str(DEFAULT_GAINPRM))
 model.actuator.add("general", name = "back_y_motor", tendon = "back_y", gainprm = str(DEFAULT_GAINPRM))
@@ -115,8 +121,8 @@ for g in geoms:
     if "Finger" in g.name or "Rib" in g.name:
         g.size= "0.02"
     elif "floor" not in g.name:
-        g.size = "0.06"
-    g.density = "1000"
+        g.size = "0.1"
+    g.density = "800"
 
 
 mjcf.export_with_assets(model, OUT_DIR, OUT_MODEL)

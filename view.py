@@ -13,9 +13,11 @@ viewer = mujoco_viewer.MujocoViewer(model, data)
 # simulate and render
 quats = []
 posl = []
+
 for _ in range(10000):
 
     if viewer.is_alive:
+
         mujoco.mj_step(model, data)
         try:
             quat, pos = viewer.render()

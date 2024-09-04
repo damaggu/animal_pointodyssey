@@ -155,7 +155,7 @@ class StandingMouseEnv(MujocoEnv, utils.EzPickle):
         utils.EzPickle.__init__(self, model_path, **kwargs)
         MujocoEnv.__init__(self, model_path, FRAME_SKIP, observation_space=None, render_mode=render_mode, camera_id=0,
                            **kwargs)
-        obs_size = self.data.xpos[1:].flatten().size + self.data.qvel.size + self.data.cfrc_ext[1:].size
+        obs_size = self.data.qpos[1:].flatten().size + self.data.qvel.size + self.data.cfrc_ext[1:].size
         self.observation_space = Box(
             low=-np.inf, high=np.inf, shape=(obs_size,), dtype=np.float64
         )
@@ -170,7 +170,7 @@ class StandingMouseEnv(MujocoEnv, utils.EzPickle):
         self.target_pos = self.init_pos.copy()
         self.it = 0
         self.terminated = False
-        self.min_height = 0.3
+        self.min_height = 0.4
         self.reset_model()
 
     def step(self, action):
@@ -203,7 +203,7 @@ class StandingMouseEnv(MujocoEnv, utils.EzPickle):
         return obs, reward, self.terminated, False, info
 
     def _get_obs(self) -> np.ndarray:
-        positions = self.data.xpos[1:].flatten()
+        positions = self.data.qpos[1:].flatten()
         velocities = self.data.qvel
         contact = self.contact_forces().flatten()
         obs = np.concatenate([positions, velocities, contact])
@@ -225,27 +225,29 @@ class StandingMouseEnv(MujocoEnv, utils.EzPickle):
         # dq = 0
         # for q1, q2 in zip(self.data.xquat, self.init_quat):
         #     dq += quat_diff(q1, q2)
-        max_vel = 2.5
+        max_vel = 2
         vel_penalty = np.sum((np.clip(self.data.qvel ** 2, max_vel, None) - max_vel)**0.5)
         # dq = -dq * 0.2
         # dp = -np.linalg.norm(self.target_pos - self.data.xpos)**2
         ctrl_rew = -abs(0.01 * self.ctrl_reward(action))
         self.it += 1
-        height_rew = self.data.subtree_com[1][2] - self.min_height - self.it/10000
+        height_rew = self.data.subtree_com[1][2] - self.min_height
         #print(vel, height_rew, ctrl_rew)
         #print(vel)
         healthy = height_rew > 0
-        rew = ctrl_rew -vel_penalty*0.001 + max(0, 0.1 + height_rew) * (0.5 + xvel) + 1
-        rew *= 1 + self.it/1000
+        rew = ctrl_rew -vel_penalty*0.01 + max(0, 0.05 + height_rew) * (0.3 + xvel*10)*2 + 2
+        #rew = ctrl_rew - vel_penalty * 0.001 + max(0, 0.05 + height_rew) + 1
+        rew *= 1 + self.it/500
         #print(ctrl_rew, -vel_penalty*0.01, max(0, 0.1 + height_rew) * (0.5 + xvel))
         return rew, healthy
 
     def reset_model(self):
         lol = np.zeros_like(self.init_qpos)
         lolv = np.zeros_like(self.init_qvel)
-        lol[2] = 0.04
+        lol[2] = 0.1
+        lol[6] = self.np_random.uniform(0, 10 * np.pi)
         # lolv[1] = 7
-        RANGE = 0.01
+        RANGE = 0
         qpos = self.init_qpos + self.np_random.uniform(-RANGE, RANGE, size=self.model.nq) + lol
         qvel = self.init_qvel + self.np_random.uniform(-RANGE, RANGE, size=self.model.nv) + lolv * 0.5
         self.set_state(qpos, qvel)

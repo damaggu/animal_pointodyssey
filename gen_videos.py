@@ -33,6 +33,7 @@ def convert_to_kubric(file_path):
 
 
 if __name__ == '__main__':
+    #convert_to_kubric("/home/justin/repos/animal-pointodyssey/results/demo")
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--render_only',  default=False, action='store_true')

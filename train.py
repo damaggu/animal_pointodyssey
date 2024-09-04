@@ -1,5 +1,5 @@
 import gymnasium as gym
-
+from gymnasium.envs.registration import register
 from gymnasium.wrappers import FlattenObservation, NormalizeObservation
 import stable_baselines3
 import sb3_contrib
@@ -246,6 +246,7 @@ def parse_args(argparser: argparse.ArgumentParser) -> None:
     argparser.add_argument(
         "--env", type=str, default=list(REGISTERED_ENV_NAMES.keys())[0], choices=ENV_NAMES
     )
+    argparser.add_argument("--resume-path", type=str, default=None)
     argparser.add_argument("--checkpoint", type=str, default=None)
     argparser.add_argument("--num-timesteps", type=int, default=100_000)
     argparser.add_argument("--eval-freq", type=int, default=100_000)
@@ -266,7 +267,22 @@ def get_video(model: BaseAlgorithm, video_name: str, vid_length: int) -> None:
 
 
 def main(args: argparse.Namespace):
-    env = make_env(args.env, render_mode="rgb_array")
+    if args.resume_path is not None:
+        run_name = os.path.split(args.resume_path)[1]
+        args.checkpoint = os.path.join(args.resume_path, "models/best_model.zip")
+        if not os.path.isfile(args.checkpoint):
+            args.checkpoint = None
+        register(
+            id="resume",
+            entry_point=f"ttemplogs.{run_name}.exp_details.envs.mouse_env:StandingMouseEnv",
+            max_episode_steps=1000,
+        )
+        args.env = "resume"
+        env = gym.make(args.env, render_mode="rgb_array")
+        args.save_directory = f"{datetime.datetime.now().strftime('%m-%dT%H:%M:%S')}_{run_name}"
+    else:
+
+        env = make_env(args.env, render_mode="rgb_array")
     env = FlattenObservation(env)
     policy = "MlpPolicy"
     env.metadata["render_fps"] = FPS
@@ -282,7 +298,7 @@ def main(args: argparse.Namespace):
     if args.checkpoint is not None:
         model = stable_baselines3.DDPG.load(args.checkpoint, env=env)
     else:
-        policy_kwargs = {"net_arch": {"pi": [256, 256], "qf": [256, 256]}}
+        policy_kwargs = {"net_arch": {"pi": [128, 256], "qf": [256, 128]}}
         if args.algorithm == "TD3":
             model = stable_baselines3.TD3(
                 policy,

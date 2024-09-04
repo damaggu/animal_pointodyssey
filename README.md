@@ -23,8 +23,8 @@ Other command-line arguments should be somewhat straightforward, as described un
 Here is an example run:
 
 ```sh
-python train.py --env mouse-stand --log-directory ttemplogs --num-timesteps 10000000 --lr 0.001
-```
+python train.py --env mouse-stand --log-directory ttemplogs --num-timesteps 10000000 --lr 0.001 --eval-freq 50000
+````
 
 ## SheepRL
 

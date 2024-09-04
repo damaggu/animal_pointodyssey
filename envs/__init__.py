@@ -16,3 +16,4 @@ register(
      entry_point="envs.mouse_env:StandingMouseEnv",
      max_episode_steps=1000,
 )
+
