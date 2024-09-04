@@ -34,7 +34,7 @@ from typing import Callable
 import envs
 from utils import log_to_dir
 
-from models import MyDDPG
+from models import MyDDPG, MyCombinedExtractor
 
 FPS = 40
 
@@ -56,6 +56,7 @@ REGISTERED_ENV_NAMES = {
     "rodent-escape-bowl": "dm_control/RodentEscapeBowl-v0",
     "rodent-run-gaps": "dm_control/RodentRunGaps-v0",
     "rodent-forage": "dm_control/RodentMazeForage-v0",
+    "rodent-two-touch": "dm_control/RodentTwoTouch-v0"
 }
 ENV_NAMES = list(REGISTERED_ENV_NAMES.keys()) + ["rodent-bowl-escape-all",]
 
@@ -226,20 +227,23 @@ class VecTrajRecorder(VecEnvWrapper):
     def __del__(self):
         self.close_traj_recorder()
 
-def make_env(name: str, render_mode: str = None, **kwargs) -> gym.Env:
+def make_env(name: str, render_mode: str = None, obs_wrapper: str = None, **kwargs) -> gym.Env:
     if name in REGISTERED_ENV_NAMES:
         env = gym.make(REGISTERED_ENV_NAMES[args.env],
                        render_mode=render_mode,
                        **kwargs)
         if "rodent" in name:
             env = RemoveZeroShapeObs(env)
-        env = FlattenObservation(env)
+        if obs_wrapper == "flat":
+            env = FlattenObservation(env)
         env.metadata["render_fps"] = FPS
         return env
     else:
         raise NotImplementedError(f"{name} not a implemented env.")
 
-def parse_args(argparser: argparse.ArgumentParser) -> None:
+def parse_args():
+    argparser = argparse.ArgumentParser()
+
     argparser.add_argument(
         "--algorithm",
         type=str,
@@ -260,11 +264,13 @@ def parse_args(argparser: argparse.ArgumentParser) -> None:
     argparser.add_argument("--replay-buffer", type=str, default=None)
     argparser.add_argument("--num-timesteps", type=int, default=100_000)
     argparser.add_argument("--eval-freq", type=int, default=100_000)
+    argparser.add_argument("--save-freq", type=int, default=100_000)
     argparser.add_argument("--batch-size", type=int, default=256)
     argparser.add_argument("--lr", type=float, default=0.0003)
 
     argparser.add_argument("--n-envs", type=int, default=1)
     argparser.add_argument("--parallel", action=argparse.BooleanOptionalAction, default=False)
+    argparser.add_argument("--freeze-resnet", action=argparse.BooleanOptionalAction, default=True)
     argparser.add_argument("--camera-id", type=int, default=None)
 
     argparser.add_argument("--tau", type=float, default=5e-3, help="soft update coefficient")
@@ -277,6 +283,11 @@ def parse_args(argparser: argparse.ArgumentParser) -> None:
     argparser.add_argument("--theta", type=float, default=0.15, help="theta for ornstein-uhlenbeck action noise")
     argparser.add_argument("--actor-gradient-clip", type=float, default=None, help="clip gradients for actor")
     argparser.add_argument("--critic-gradient-clip", type=float, default=None, help="clip gradients for critic")
+    argparser.add_argument("--obs-wrapper", type=str, default="flatten", choices=["flat", "none"])
+    argparser.add_argument("--feature-extractor", type=str, default="combined", choices=["combined", "none"])
+
+    args = argparser.parse_args()
+    return args
 
 def get_video(model: BaseAlgorithm, video_name: str, vid_length: int) -> None:
     env = model.get_env()
@@ -291,7 +302,6 @@ def get_video(model: BaseAlgorithm, video_name: str, vid_length: int) -> None:
 
 
 def main(args: argparse.Namespace):
-    policy = "MlpPolicy"
 
     curr_dir = os.path.join(args.log_directory, args.save_directory)
     os.makedirs(curr_dir, exist_ok=True)
@@ -304,10 +314,12 @@ def main(args: argparse.Namespace):
     kwargs = {}
     if args.camera_id is not None:
         kwargs['render_kwargs'] = {"camera_id": args.camera_id}
+
     if args.n_envs > 1:
         def make_env_fn():
             env = make_env(args.env,
                            render_mode='rgb_array',
+                           obs_wrapper=args.obs_wrapper,
                            **kwargs)
             env = Monitor(env)
             return env
@@ -316,7 +328,8 @@ def main(args: argparse.Namespace):
             env = SubprocVecEnv([make_env_fn for _ in range(args.n_envs)])
         else:
             env = DummyVecEnv([make_env_fn for _ in range(args.n_envs)])
-        args.eval_freq = args.eval_freq // args.n_envs
+        args.eval_freq = max(args.eval_freq // args.n_envs, 1)
+        args.save_freq = max(args.save_freq // args.n_envs, 1)
 
     else:
         env = make_env(args.env, render_mode='rgb_array', **kwargs)
@@ -334,7 +347,14 @@ def main(args: argparse.Namespace):
             model = MyDDPG.load(args.checkpoint, env=env)
             model.load_replay_buffer(args.replay_buffer)
     else:
+        policy = "MultiInputPolicy" if isinstance(env.observation_space, Dict) else "MlpPolicy"
         policy_kwargs = {"net_arch": {"pi": args.net_arch_pi, "qf": args.net_arch_qf}}
+        if args.feature_extractor == "combined":
+            policy_kwargs["features_extractor_class"] = MyCombinedExtractor
+            policy_kwargs["features_extractor_kwargs"] = {"freeze_resnet": args.freeze_resnet}
+            policy_kwargs["normalize_images"] = False
+
+
         action_noise = None
         if args.action_noise == "ornstein-uhlenbeck":
             action_noise = OrnsteinUhlenbeckActionNoise(mean=np.zeros(env.action_space.shape),
@@ -346,9 +366,11 @@ def main(args: argparse.Namespace):
                 env,
                 learning_rate=args.lr,
                 policy_kwargs=policy_kwargs,
-                buffer_size=int(5e5),
+                buffer_size=args.buffer_size,
                 batch_size=args.batch_size,
-                tau=5e-3,
+                tau=args.tau,
+                gamma=args.gamma,
+                action_noise=action_noise
             )
         elif args.algorithm == "DDPG":
             model = MyDDPG(
@@ -370,9 +392,9 @@ def main(args: argparse.Namespace):
                 env,
                 learning_rate=args.lr,
                 policy_kwargs=policy_kwargs,
-                buffer_size=int(5e5),
+                buffer_size=args.buffer_size,
                 batch_size=args.batch_size,
-                tau=5e-3,
+                tau=args.tau,
             )
         elif args.algorithm == "PPO":
             model = stable_baselines3.PPO(
@@ -408,8 +430,9 @@ def main(args: argparse.Namespace):
         eval_freq=args.eval_freq,
         deterministic=True,
     )
+
     checkpoint_callback = CheckpointCallback(
-        save_freq=200_000,
+        save_freq=args.save_freq,
         save_path=os.path.join(curr_dir, args.model_directory),
         name_prefix="model_",
         save_replay_buffer=True,
@@ -426,10 +449,9 @@ def main(args: argparse.Namespace):
 
 
 if __name__ == "__main__":
-    argparser = argparse.ArgumentParser()
-    parse_args(argparser)
-    args = argparser.parse_args()
+    args = parse_args()
 
     if args.save_directory is None:
         args.save_directory = f"{datetime.datetime.now().strftime('%m-%dT%H:%M:%S')}_{args.env}"
+
     main(args)
