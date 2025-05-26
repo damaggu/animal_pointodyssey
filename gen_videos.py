@@ -3,7 +3,7 @@ import os
 import h5py
 import numpy as np
 import random
-from create_scene import BlenderScene
+from animalpod_utils.create_scene import BlenderScene
 import matplotlib.pyplot as plt
 import json
 import argparse
